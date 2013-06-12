@@ -11,7 +11,7 @@ To enable the extension add the following statement to a file in your plugin dir
 ```
 require 'jekyll/timeago'
 ```
-You can copy this [file]() directly in your plugin directory (_plugins/) as well :)
+You can copy this [file](https://github.com/markets/jekyll-timeago/blob/master/lib/jekyll/timeago.rb) directly in your plugin directory (_plugins/) as well :)
 
 ## Usage
 ```
