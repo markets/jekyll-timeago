@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Jekyll::Timeago::VERSION
   spec.authors       = ["markets"]
   spec.email         = ["srmarc.ai@gmail.com"]
-  spec.description   = %q{Custom timeago for jekyll}
-  spec.summary       = %q{Custom timeago for jekyll}
+  spec.description   = %q{Custom timeago filter for Jekyll}
+  spec.summary       = %q{Custom timeago filter for Jekyll}
   spec.homepage      = ""
   spec.license       = "MIT"
 
