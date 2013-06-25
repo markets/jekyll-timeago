@@ -1,7 +1,16 @@
 require "jekyll/timeago/version"
+require "active_support/inflector"
 
 module Jekyll
   module Timeago
+
+    DAYS_IN = {
+      :days => 1,
+      :weeks => 7,
+      :months => 31,
+      :years => 365,
+    }
+
     def timeago(input)
       time_ago_to_now(input)
     end
@@ -11,19 +20,36 @@ module Jekyll
     def time_ago_to_now(date)
       days_passed = (Date.today - Date.parse(date.to_s)).to_i
 
-      case days_passed
+      case days_passed.abs
       when 0
         'today'
-      when 1
-        'yesterday'
-      when 2 .. 7
-        "#{days_passed} days ago"
+      when 1 .. 7
+        time_ago_to_s(days_passed, :days)
       when 8 .. 31
-        "#{days_passed/7} weeks ago"
+        time_ago_to_s(days_passed, :weeks)
       when 32 .. 365
-        "#{days_passed/31} months ago"
+        time_ago_to_s(days_passed, :months)
       else
-        "#{days_passed/365} years ago"
+        time_ago_to_s(days_passed, :years)
+      end
+    end
+
+    def time_ago_to_s(days_passed, grouped_by)
+      return "yesterday" if days_passed == 1
+      return "tomorrow" if days_passed == -1
+
+      future = days_passed < 0
+      computed_range = days_passed.abs / Jekyll::Timeago::DAYS_IN[grouped_by]
+      grouped_by = if computed_range == 1
+        ActiveSupport::Inflector.singularize(grouped_by.to_s)
+      else
+        grouped_by.to_s
+      end
+
+      if future
+        "in #{computed_range} #{grouped_by}"
+      else
+        "#{computed_range} #{grouped_by} ago"
       end
     end
   end

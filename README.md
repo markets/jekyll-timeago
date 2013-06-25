@@ -1,6 +1,6 @@
 Jekyll-Timeago
 ==============
-Custom and simple implementation of `timeago` date filter.
+Custom and simple implementation of `timeago` date filter. Futures supported.
 
 ## Installation
 Add this gem to your Gemfile and run bundle:
