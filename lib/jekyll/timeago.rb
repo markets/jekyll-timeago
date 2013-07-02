@@ -21,9 +21,7 @@ module Jekyll
       days_passed = (Date.today - Date.parse(date.to_s)).to_i
 
       case days_passed.abs
-      when 0
-        'today'
-      when 1 .. 7
+      when 0 .. 7
         time_ago_to_s(days_passed, :days)
       when 8 .. 31
         time_ago_to_s(days_passed, :weeks)
@@ -35,6 +33,7 @@ module Jekyll
     end
 
     def time_ago_to_s(days_passed, grouped_by)
+      return "today" if days_passed == 0
       return "yesterday" if days_passed == 1
       return "tomorrow" if days_passed == -1
 
