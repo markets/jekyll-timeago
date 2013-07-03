@@ -18,6 +18,10 @@ module Jekyll
     private
 
     def time_ago_to_now(date)
+      unless date.is_a?(Date) || date.is_a?(Time)
+        raise "Invalid input: #{date.inspect}"
+      end
+
       days_passed = (Date.today - Date.parse(date.to_s)).to_i
 
       case days_passed.abs
