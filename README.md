@@ -4,19 +4,25 @@ Custom and simple implementation of `timeago` date filter. Futures supported.
 
 In fact, `jekyll-timeago` is an extension of [Liquid](https://github.com/Shopify/liquid) filters, so you can use it in all your Liquid templates.
 
+
 ## Installation
-Add this gem to your Gemfile and run bundle:
+Add this gem to your `Gemfile` and run `bundle`:
+
 ```
 gem 'jekyll-timeago'
 ```
-To enable the extension add the following statement to a file in your plugin directory (_plugins/ext.rb):
-```
+
+To use this filter, just add the following to the top of another plugin (found under `_plugins/`):
+
+```ruby
 require 'jekyll/timeago'
 ```
-You can copy this [file](https://github.com/markets/jekyll-timeago/blob/master/lib/jekyll/timeago.rb) directly in your plugin directory (_plugins/) as well :)
+
+Alternatively, you can simply copy [this file](https://github.com/markets/jekyll-timeago/blob/master/lib/jekyll/timeago.rb) directly into your `_plugins/` directory! :)
+
 
 ## Usage
-```
+```html
 <span>{{ page.date | timeago }}</span>
 <h2>{{ page.title }}</h2>
 
@@ -25,8 +31,8 @@ You can copy this [file](https://github.com/markets/jekyll-timeago/blob/master/l
 </div>
 ```
 
-## Output samples
-```
+## Output Examples
+```ruby
 > timeago(Date.today)
 => "today"
 > timeago(Date.today - 1.day)
