@@ -1,5 +1,4 @@
 require "jekyll/timeago/version"
-require "active_support/inflector"
 
 module Jekyll
   module Timeago
@@ -44,7 +43,7 @@ module Jekyll
       future = days_passed < 0
       computed_range = days_passed.abs / Jekyll::Timeago::DAYS_IN[grouped_by]
       grouped_by = if computed_range == 1
-        ActiveSupport::Inflector.singularize(grouped_by.to_s)
+        singularize(grouped_by)
       else
         grouped_by.to_s
       end
@@ -54,6 +53,10 @@ module Jekyll
       else
         "#{computed_range} #{grouped_by} ago"
       end
+    end
+
+    def singularize(word)
+      word.to_s[0...-1]
     end
   end
 end
