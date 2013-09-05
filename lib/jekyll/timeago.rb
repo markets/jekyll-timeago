@@ -25,11 +25,11 @@ module Jekyll
       days_passed = (Date.today - Date.parse(date.to_s)).to_i
 
       case days_passed.abs
-      when 0 .. 7
+      when 0...7
         time_ago_to_s(days_passed, :days)
-      when 8 .. 31
+      when 7...31
         time_ago_to_s(days_passed, :weeks)
-      when 32 .. 365
+      when 31...365
         time_ago_to_s(days_passed, :months)
       else
         time_ago_to_s(days_passed, :years)
