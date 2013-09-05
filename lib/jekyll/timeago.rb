@@ -10,7 +10,7 @@ module Jekyll
       :years => 365,
     }
 
-    def timeago(input, options)
+    def timeago(input)
       unless input.is_a?(Date) || input.is_a?(Time)
         raise "Invalid input type: #{input.inspect}"
       end
@@ -54,7 +54,7 @@ module Jekyll
         if depth
           pending_days = days_passed - (num_elems*days)
           depth_slots  = build_time_ago_slots(pending_days, false)
-          slots << depth_slots if depth_slots.present?
+          slots << depth_slots if depth_slots.any?
         end
       end
     end
