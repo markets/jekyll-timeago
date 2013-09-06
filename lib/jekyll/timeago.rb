@@ -40,7 +40,7 @@ module Jekyll
       return "tomorrow"  if days_passed == -1
 
       future     = days_passed < 0
-      slots      = build_time_ago_slots(days_passed, depth)
+      slots      = build_time_ago_slots(days_passed.abs, depth)
 
       if future
         "in #{slots.join(' and ')}"
@@ -50,12 +50,15 @@ module Jekyll
     end
 
     # Builds time ranges: ['1 month', '5 days']
+    # - days_passed: integer in absolute
+    # - depth: level of detail
+    # - current_slots: slots built
     def build_time_ago_slots(days_passed, depth, current_slots = [])
       return current_slots if depth == 0 || days_passed == 0
 
       time_range = days_to_time_range(days_passed)
       days       = DAYS_PER[time_range]
-      num_elems  = days_passed.abs / days
+      num_elems  = days_passed / days
       range_type = if num_elems == 1
         time_range.to_s[0...-1] # singularize
       else

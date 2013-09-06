@@ -1,6 +1,6 @@
 Jekyll-Timeago
 ==============
-Custom and simple implementation of `timeago` date filter. Futures and personalization are also supported.
+Custom and simple implementation of `timeago` date filter. Futures and personalization (level of detail) supported.
 
 In fact, `jekyll-timeago` is an extension of [Liquid](https://github.com/Shopify/liquid) filters, so you can use it in all your Liquid templates.
 
@@ -54,6 +54,8 @@ Default behavior:
 => "tomorrow"
 > timeago(Date.today + 7.days)
 => "in 1 week"
+> timeago(Date.today + 1000.days)
+=> "in 2 years and 8 months"
 ```
 
 Change level of detail to get higher or lower granularity:
