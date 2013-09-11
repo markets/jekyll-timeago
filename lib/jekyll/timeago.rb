@@ -40,13 +40,14 @@ module Jekyll
       return "yesterday" if days_passed == 1
       return "tomorrow"  if days_passed == -1
 
-      future     = days_passed < 0
-      slots      = build_time_ago_slots(days_passed.abs, depth)
+      future   = days_passed < 0
+      slots    = build_time_ago_slots(days_passed.abs, depth)
+      sentence = to_sentence(slots)
 
       if future
-        "in #{slots.join(' and ')}"
+        "in #{sentence}"
       else
-        "#{slots.join(' and ')} ago"
+        "#{sentence} ago"
       end
     end
 
@@ -88,6 +89,15 @@ module Jekyll
     # Validate if allowed level of detail
     def depth_allowed?(depth)
       (1..MAX_DEPTH_LEVEL).include?(depth)
+    end
+
+    # Array to sentence: ['1 month', '1 week', '5 days'] => "1 month, 1 week and 5 days"
+    def to_sentence(slots)
+      if slots.length == 1
+        slots[0]
+      else
+        "#{slots[0...-1].join(', ')} and #{slots[-1]}"
+      end
     end
   end
 end

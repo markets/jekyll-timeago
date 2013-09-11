@@ -63,9 +63,9 @@ Change level of detail to get higher or lower granularity:
 > timeago(Date.today - 500.days) # default
 => "1 year ago and 4 months ago"
 > timeago(Date.today - 500.days, 3)
-=> "1 year and 4 months and 1 week ago"
+=> "1 year, 4 months and 1 week ago"
 > timeago(Date.today - 500.days, 4)
-=> "1 year and 4 months and 1 week and 4 days ago"
+=> "1 year, 4 months, 1 week and 4 days ago"
 > timeago(Date.today - 500.days, 1)
 => "1 year ago"
 ```
