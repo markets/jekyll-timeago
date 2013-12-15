@@ -6,8 +6,8 @@ module Jekyll
     DAYS_PER = {
       :days => 1,
       :weeks => 7,
-      :months => 31,
-      :years => 365,
+      :months => 30,
+      :years => 365
     }
 
     # Max level of detail
@@ -20,6 +20,15 @@ module Jekyll
     DEFAULT_DEPTH_LEVEL = 2
 
     def timeago(input, depth = DEFAULT_DEPTH_LEVEL)
+      validate!(input, depth)
+
+      time_ago_to_now(input, depth)
+    end
+
+    private
+
+    # Validates inputs
+    def validate!(input, depth)
       unless depth_allowed?(depth)
         raise "Invalid depth level: #{depth.inspect}"
       end
@@ -27,27 +36,55 @@ module Jekyll
       unless input.is_a?(Date) || input.is_a?(Time)
         raise "Invalid input type: #{input.inspect}"
       end
-
-      days_passed = (Date.today - Date.parse(input.to_s)).to_i
-      time_ago_to_now(days_passed, depth)
     end
 
-    private
+    # Get plugin configuration from site. Returns an empty hash if not provided.
+    def config
+      @config ||= Jekyll.configuration({}).fetch('jekyll_timeago', {})
+    end
+
+    def strings
+      {
+        :today         => config['day'] || 'today',
+        :yesterday     => config['yesterday'] || 'yesterday',
+        :tomorrow      => config['tomorrow'] || 'tomorrow',
+        :and           => config['and'] ||'and',
+        :suffix        => config['suffix'] || 'ago',
+        :prefix        => config['prefix'] || '',
+        :suffix_future => config['suffix_future'] || '',
+        :prefix_future => config['prefix_future'] || 'in',
+        :years         => config['years'] || 'years',
+        :year          => config['year'] || 'year',
+        :months        => config['months'] || 'months',
+        :month         => config['month'] || 'month',
+        :weeks         => config['weeks'] || 'weeks',
+        :week          => config['week'] || 'week',
+        :days          => config['days'] || 'days',
+        :day           => config['day'] || 'day'
+      }
+    end
+
+    def translate(key)
+      strings[key.to_sym]
+    end
+    alias_method :t, :translate
 
     # Days passed to time ago sentence
-    def time_ago_to_now(days_passed, depth)
-      return "today"     if days_passed == 0
-      return "yesterday" if days_passed == 1
-      return "tomorrow"  if days_passed == -1
+    def time_ago_to_now(input_date, depth)
+      days_passed = (Date.today - Date.parse(input_date.to_s)).to_i
+
+      return t(:today)     if days_passed == 0
+      return t(:yesterday) if days_passed == 1
+      return t(:tomorrow)  if days_passed == -1
 
       future   = days_passed < 0
       slots    = build_time_ago_slots(days_passed.abs, depth)
       sentence = to_sentence(slots)
 
       if future
-        "in #{sentence}"
+        "#{t(:prefix_future)} #{sentence} #{t(:suffix_future)}".strip
       else
-        "#{sentence} ago"
+        "#{t(:prefix)} #{sentence} #{t(:suffix)}".strip
       end
     end
 
@@ -62,9 +99,9 @@ module Jekyll
       days       = DAYS_PER[time_range]
       num_elems  = days_passed / days
       range_type = if num_elems == 1
-        time_range.to_s[0...-1] # singularize
+        t(time_range[0...-1]) # singularize key
       else
-        time_range.to_s
+        t(time_range)
       end
 
       current_slots << "#{num_elems} #{range_type}"
@@ -96,7 +133,7 @@ module Jekyll
       if slots.length == 1
         slots[0]
       else
-        "#{slots[0...-1].join(', ')} and #{slots[-1]}"
+        "#{slots[0...-1].join(', ')} #{t(:and)} #{slots[-1]}"
       end
     end
   end
