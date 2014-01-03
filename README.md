@@ -1,11 +1,29 @@
 Jekyll-Timeago
 ==============
-Custom and simple implementation of `timeago` date filter. Futures and personalization (level of detail) supported.
 
-In fact, `jekyll-timeago` is an extension of [Liquid](https://github.com/Shopify/liquid) filters, so you can use it in all your Liquid templates.
+Custom and simple implementation of `timeago` date filter. Main features:
+
+* Localization
+* Future time
+* Level of detail
+
+In fact, `jekyll-timeago` is an extension of [Liquid](https://github.com/Shopify/liquid) filters, so you can use it in all your Liquid templates (Octopress as well).
 
 
 ## Installation
+
+You have 3 options for installing the plugin:
+
+** Via Jekyll plugin system **
+
+In your `_config.yml` file, add a new array with the key gems and the values of the gem names of the plugins you’d like to use. In this case:
+
+```
+gems: [jekyll-timeago]
+```
+
+** Via Bundler **
+
 Add this gem to your `Gemfile` and run `bundle`:
 
 ```
@@ -18,10 +36,13 @@ To use this filter, just add the following to the top of another plugin (found u
 require 'jekyll/timeago'
 ```
 
+** Manual **
+
 Alternatively, you can simply copy [this file](https://github.com/markets/jekyll-timeago/blob/master/lib/jekyll/timeago.rb) directly into your `_plugins/` directory! :)
 
 
 ## Usage
+
 ```html
 <span>{{ page.date | timeago }}</span>
 <h2>{{ page.title }}</h2>
@@ -32,13 +53,41 @@ Alternatively, you can simply copy [this file](https://github.com/markets/jekyll
 ```
 
 ### Customization
+
 You can personalize the level of detail (from 1 up to 4, 2 by default) passing a parameter:
+
 ```html
 <span>{{ page.date | timeago: 4 }}</span>
 ```
 
+## Localization
+
+This plugin allows you to localize the strings needed to build the time ago sentences. For do this, you must add some extra keys to your `_config.yml`. You can simply copy them from [this example file](https://github.com/markets/jekyll-timeago/blob/master/_config.yml.example) and translate it to your site's language. Sample:
+
+```
+jekyll_timeago:
+  today: 'today'
+  yesterday: 'yesterday'
+  tomorrow: 'tomorrow'
+  and: 'and'
+  suffix: 'ago'
+  prefix: ''
+  suffix_future: 'in'
+  prefix_future: ''
+  years: 'years'
+  year: 'year'
+  months: 'months'
+  month: 'month'
+  weeks: 'weeks'
+  week: 'week'
+  days: 'days'
+  day: 'day'
+```
+
 ## Output Examples
+
 Default behavior:
+
 ```ruby
 > timeago(Date.today)
 => "today"
@@ -59,6 +108,7 @@ Default behavior:
 ```
 
 Change level of detail to get higher or lower granularity:
+
 ```ruby
 > timeago(Date.today - 500.days) # default
 => "1 year ago and 4 months ago"
@@ -71,4 +121,5 @@ Change level of detail to get higher or lower granularity:
 ```
 
 ## License
+
 Copyright (c) 2013 Marc Anguera. Unscoped Associations is released under the [MIT](http://opensource.org/licenses/MIT) License.

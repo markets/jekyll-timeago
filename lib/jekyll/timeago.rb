@@ -139,4 +139,4 @@ module Jekyll
   end
 end
 
-Liquid::Template.register_filter(Jekyll::Timeago)
+Liquid::Template.register_filter(Jekyll::Timeago) if defined?(Liquid)
