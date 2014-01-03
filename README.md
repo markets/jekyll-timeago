@@ -14,7 +14,7 @@ In fact, `jekyll-timeago` is an extension of [Liquid](https://github.com/Shopify
 
 You have 3 options for installing the plugin:
 
-** Via Jekyll plugin system **
+**Via Jekyll plugin system**
 
 In your `_config.yml` file, add a new array with the key gems and the values of the gem names of the plugins you’d like to use. In this case:
 
@@ -22,7 +22,7 @@ In your `_config.yml` file, add a new array with the key gems and the values of 
 gems: [jekyll-timeago]
 ```
 
-** Via Bundler **
+**Via Bundler**
 
 Add this gem to your `Gemfile` and run `bundle`:
 
@@ -36,7 +36,7 @@ To use this filter, just add the following to the top of another plugin (found u
 require 'jekyll/timeago'
 ```
 
-** Manual **
+**Manually**
 
 Alternatively, you can simply copy [this file](https://github.com/markets/jekyll-timeago/blob/master/lib/jekyll/timeago.rb) directly into your `_plugins/` directory! :)
 
