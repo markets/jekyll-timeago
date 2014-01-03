@@ -98,7 +98,7 @@ Default behavior:
 > timeago(Date.today - 100.days)
 => "3 months and 1 week ago"
 > timeago(Date.today - 500.days)
-=> "1 year ago and 4 months ago"
+=> "1 year and 4 months ago"
 > timeago(Date.today + 1.days)
 => "tomorrow"
 > timeago(Date.today + 7.days)
@@ -111,7 +111,7 @@ Change level of detail to get higher or lower granularity:
 
 ```ruby
 > timeago(Date.today - 500.days) # default
-=> "1 year ago and 4 months ago"
+=> "1 year and 4 months ago"
 > timeago(Date.today - 500.days, 3)
 => "1 year, 4 months and 1 week ago"
 > timeago(Date.today - 500.days, 4)
