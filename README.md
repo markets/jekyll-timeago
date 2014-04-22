@@ -130,4 +130,4 @@ Change level of detail to get higher or lower granularity:
 
 ## License
 
-Copyright (c) 2013 Marc Anguera. Jekyll-Timeago is released under the [MIT](http://opensource.org/licenses/MIT) License.
+Copyright (c) 2013-2014 Marc Anguera. Jekyll-Timeago is released under the [MIT](LICENSE) License.
