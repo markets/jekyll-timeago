@@ -1,4 +1,4 @@
-require "jekyll/timeago/version"
+begin; require "jekyll/timeago/version"; rescue LoadError; end
 
 module Jekyll
   module Timeago

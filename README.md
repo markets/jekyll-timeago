@@ -1,6 +1,8 @@
 Jekyll-Timeago
 ==============
 
+[![Gem Version](https://badge.fury.io/rb/jekyll-timeago.svg)](http://badge.fury.io/rb/jekyll-timeago)
+
 Custom and simple implementation of `timeago` date filter. Main features:
 
 * Localization
@@ -15,6 +17,12 @@ In fact, `jekyll-timeago` is an extension of [Liquid](https://github.com/Shopify
 You have 3 options for installing the plugin:
 
 **Via Jekyll plugin system**
+
+Install the `gem` to your system:
+
+```
+gem install jekyll-timeago
+```
 
 In your `_config.yml` file, add a new array with the key gems and the values of the gem names of the plugins you’d like to use. In this case:
 
