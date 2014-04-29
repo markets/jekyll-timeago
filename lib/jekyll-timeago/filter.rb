@@ -1,3 +1,5 @@
+require 'date'
+
 module Jekyll
   module Timeago
     module Filter
