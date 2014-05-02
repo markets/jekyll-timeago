@@ -14,7 +14,7 @@ In fact, `jekyll-timeago` is an extension of [Liquid](https://github.com/Shopify
 
 
 ## Installation
-You have 3 options to installing the plugin:
+You have 3 options to install the plugin:
 
 **Via Jekyll plugin system**
 
