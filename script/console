@@ -6,6 +6,8 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'jekyll-timeago/filter'
 include Jekyll::Timeago::Filter
 
+require 'active_support/core_ext'
+
 require 'irb'
 ARGV.clear
 IRB.start

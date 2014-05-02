@@ -1,4 +1,5 @@
 jekyll_timeago:
+  depth: 2 # Level of detail
   today: 'today'
   yesterday: 'yesterday'
   tomorrow: 'tomorrow'
