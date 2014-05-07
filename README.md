@@ -58,18 +58,13 @@ By default `timeago` computes distance of dates from passed date to current date
 **Filter example**:
 
 ```html
-<span>{{ page.date | timeago }}</span>
-<h2>{{ page.title }}</h2>
-
-<div class="post">
-  {{ content }}
-</div>
+<p>{{ page.date | timeago }}</p>
 ```
 
 Passing a parameter:
 
 ```html
-<span>{{ page.date | timeago: '2020-1-1' }}</span>
+<p>{{ page.date | timeago: '2020-1-1' }}</p>
 ```
 
 **Tag example**:
@@ -81,7 +76,7 @@ Passing a parameter:
 Passing a second parameter:
 
 ```html
-<p>{% timeago 2000-1-1 20010-1-1 %}</p>
+<p>{% timeago 2000-1-1 2010-1-1 %}</p>
 ```
 
 
