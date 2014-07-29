@@ -28,6 +28,10 @@ module Jekyll
         time_ago_to_now(from, to, depth)
       end
 
+      def options
+        @options ||= setup
+      end
+
       private
 
       def validate_date!(date)
@@ -39,30 +43,31 @@ module Jekyll
         depth
       end
 
-      # Get plugin configuration from site. Returns an empty hash if not provided.
-      def config
-        @config ||= Jekyll.configuration({}).fetch('jekyll_timeago', {}) rescue {}
+      # Load settings from Jekyll configuration
+      def jekyll_config
+        @jekyll_config ||= Jekyll.configuration({}).fetch('jekyll_timeago', {}) rescue {}
       end
 
-      def options
-        @options ||= {
-          :depth         => config['depth'] || DEFAULT_DEPTH_LEVEL,
-          :today         => config['day'] || 'today',
-          :yesterday     => config['yesterday'] || 'yesterday',
-          :tomorrow      => config['tomorrow'] || 'tomorrow',
-          :and           => config['and'] ||'and',
-          :suffix        => config['suffix'] || 'ago',
-          :prefix        => config['prefix'] || '',
-          :suffix_future => config['suffix_future'] || '',
-          :prefix_future => config['prefix_future'] || 'in',
-          :years         => config['years'] || 'years',
-          :year          => config['year'] || 'year',
-          :months        => config['months'] || 'months',
-          :month         => config['month'] || 'month',
-          :weeks         => config['weeks'] || 'weeks',
-          :week          => config['week'] || 'week',
-          :days          => config['days'] || 'days',
-          :day           => config['day'] || 'day'
+      # Configure plugin options with defaults
+      def setup
+        @options = {
+          :depth         => jekyll_config['depth'] || DEFAULT_DEPTH_LEVEL,
+          :today         => jekyll_config['day'] || 'today',
+          :yesterday     => jekyll_config['yesterday'] || 'yesterday',
+          :tomorrow      => jekyll_config['tomorrow'] || 'tomorrow',
+          :and           => jekyll_config['and'] ||'and',
+          :suffix        => jekyll_config['suffix'] || 'ago',
+          :prefix        => jekyll_config['prefix'] || '',
+          :suffix_future => jekyll_config['suffix_future'] || '',
+          :prefix_future => jekyll_config['prefix_future'] || 'in',
+          :years         => jekyll_config['years'] || 'years',
+          :year          => jekyll_config['year'] || 'year',
+          :months        => jekyll_config['months'] || 'months',
+          :month         => jekyll_config['month'] || 'month',
+          :weeks         => jekyll_config['weeks'] || 'weeks',
+          :week          => jekyll_config['week'] || 'week',
+          :days          => jekyll_config['days'] || 'days',
+          :day           => jekyll_config['day'] || 'day'
         }
       end
 

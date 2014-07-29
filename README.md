@@ -12,8 +12,8 @@ Custom and simple implementation of `timeago` date filter. Main features:
 
 In fact, `jekyll-timeago` is an extension of [Liquid](https://github.com/Shopify/liquid) Filters and Tags, so you can use it in other Liquid templates (like Octopress).
 
-
 ## Installation
+
 You have 3 options to install the plugin:
 
 **Via Jekyll plugin system**
@@ -51,8 +51,8 @@ Bundler.require(:default)
 
 Alternatively, you can simply copy [this file](lib/jekyll-timeago/filter.rb) and [this file](lib/jekyll-timeago/tag.rb) directly into your `_plugins/` directory!
 
-
 ## Usage
+
 By default `timeago` computes distance of dates from passed date to current date (using `Date.today`). But you are able to modify this range passing a second argument in order to compute the distance of these dates in words.
 
 **Filter example**:
@@ -79,8 +79,8 @@ Passing a second parameter:
 <p>{% timeago 2000-1-1 2010-1-1 %}</p>
 ```
 
-
 ## Localization
+
 The plugin allows you to localize the strings needed to build the time ago sentences. For do this, you must add some extra keys to your `_config.yml`. You can simply copy them from [this example file](_config.yml.example) and translate it to your site's language. Sample:
 
 ```
@@ -104,8 +104,8 @@ jekyll_timeago:
   day: 'day'
 ```
 
-
 ## Level of detail (Depth)
+
 You are able to change the level of detail (from 1 up to 4, 2 by default) to get higher or lower granularity. This option is setted via the `config` file (see sample in previous section). Examples:
 
 * Depht => 1 `1 year ago`
@@ -113,8 +113,8 @@ You are able to change the level of detail (from 1 up to 4, 2 by default) to get
 * Depht => 3 `1 year, 4 months and 1 week ago`
 * Depht => 4 `1 year, 4 months, 1 week and 4 days ago`
 
-
 ## Output Examples
+
 Run `script/console` to start a custom IRB session and play with `timeago` method:
 
 ```ruby
@@ -136,6 +136,15 @@ Run `script/console` to start a custom IRB session and play with `timeago` metho
 => "in 1 week"
 >> timeago(Date.today + 1000.days)
 => "in 2 years and 8 months"
+```
+
+Play with options:
+
+```ruby
+>> options[:yesterday] = "ayer"
+=> "ayer"
+>> timeago(Date.today - 1.day)
+=> "ayer"
 ```
 
 ## License
