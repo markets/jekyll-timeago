@@ -3,6 +3,7 @@ require 'date'
 module Jekyll
   module Timeago
     module Filter
+      extend self
 
       DAYS_PER = {
         :days => 1,
