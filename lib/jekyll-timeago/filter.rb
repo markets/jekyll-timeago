@@ -110,7 +110,8 @@ module Jekyll
 
         time_range = days_to_time_range(days_passed)
         days       = DAYS_PER[time_range]
-        num_elems  = days_passed / days
+        num_elems  = (days_passed / days).to_i
+
         range_type = if num_elems == 1
           t(time_range[0...-1]) # singularize key
         else
@@ -118,7 +119,7 @@ module Jekyll
         end
 
         current_slots << "#{num_elems} #{range_type}"
-        pending_days  = days_passed - (num_elems*days)
+        pending_days  = days_passed - (num_elems * days)
         build_time_ago_slots(pending_days, depth - 1, current_slots)
       end
 
