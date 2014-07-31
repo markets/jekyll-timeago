@@ -138,7 +138,7 @@ Run `script/console` to start a custom IRB session and play with `timeago` metho
 => "in 2 years and 8 months"
 ```
 
-Play with options:
+Play with `options`:
 
 ```ruby
 >> options[:yesterday] = "ayer"
@@ -148,4 +148,5 @@ Play with options:
 ```
 
 ## License
+
 Copyright (c) 2013-2014 Marc Anguera. Jekyll-Timeago is released under the [MIT](LICENSE) License.

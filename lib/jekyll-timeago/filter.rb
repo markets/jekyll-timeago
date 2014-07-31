@@ -33,6 +33,11 @@ module Jekyll
         @options ||= setup
       end
 
+      # Restore default configuration
+      def reset!
+        setup
+      end
+
       private
 
       def validate_date!(date)
@@ -120,11 +125,11 @@ module Jekyll
       # Number of days to minimum period time which can be grouped
       def days_to_time_range(days_passed)
         case days_passed.abs
-        when 0...7
+        when 1..6
           :days
-        when 7...31
+        when 7..30
           :weeks
-        when 31...365
+        when 31..365
           :months
         else
           :years

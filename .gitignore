@@ -1,5 +1,5 @@
 pkg
 .rvmrc
 Gemfile.lock
-spec/dest
+spec/_site
 .rpsec

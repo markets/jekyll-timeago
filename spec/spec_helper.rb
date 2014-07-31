@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'active_support/core_ext'
 require 'jekyll'
 require File.expand_path('lib/jekyll-timeago/filter')
 
@@ -8,7 +9,7 @@ RSpec.configure do |config|
   config.order = 'random'
 
   SOURCE_DIR = File.expand_path('../source', __FILE__)
-  DEST_DIR   = File.expand_path('../dest',   __FILE__)
+  DEST_DIR   = File.expand_path('../_site', __FILE__)
   FileUtils.rm_rf(DEST_DIR)
   FileUtils.mkdir_p(DEST_DIR)
 
@@ -29,5 +30,13 @@ RSpec.configure do |config|
       'source'      => source_dir,
       'destination' => dest_dir
     }))
+  end
+
+  def timeago(from, to = Date.today)
+    Jekyll::Timeago::Filter.timeago(from, to)
+  end
+
+  def options
+    @options ||= Jekyll::Timeago::Filter.options
   end
 end
