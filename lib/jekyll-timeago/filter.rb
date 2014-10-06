@@ -58,7 +58,7 @@ module Jekyll
       def setup
         @options = {
           :depth         => jekyll_config['depth'] || DEFAULT_DEPTH_LEVEL,
-          :today         => jekyll_config['day'] || 'today',
+          :today         => jekyll_config['today'] || 'today',
           :yesterday     => jekyll_config['yesterday'] || 'yesterday',
           :tomorrow      => jekyll_config['tomorrow'] || 'tomorrow',
           :and           => jekyll_config['and'] ||'and',
