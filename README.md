@@ -92,8 +92,8 @@ jekyll_timeago:
   and: 'and'
   suffix: 'ago'
   prefix: ''
-  suffix_future: 'in'
-  prefix_future: ''
+  suffix_future: ''
+  prefix_future: 'in'
   years: 'years'
   year: 'year'
   months: 'months'
@@ -103,6 +103,8 @@ jekyll_timeago:
   days: 'days'
   day: 'day'
 ```
+
+**NOTE** You also can use suffixes and prefixes to modify the sentences. For example, set `suffix: nil` and you'll get only the distance of dates: `1 year, 4 months and 1 week`.
 
 ## Level of detail (Depth)
 
