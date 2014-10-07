@@ -1,4 +1,5 @@
 # Jekyll-Timeago
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/markets/jekyll-timeago?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Gem Version](https://badge.fury.io/rb/jekyll-timeago.svg)](http://badge.fury.io/rb/jekyll-timeago) [![Build Status](https://travis-ci.org/markets/jekyll-timeago.svg?branch=master)](https://travis-ci.org/markets/jekyll-timeago)
 
