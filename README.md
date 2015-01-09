@@ -151,4 +151,4 @@ Play with `options`:
 
 ## License
 
-Copyright (c) 2013-2014 Marc Anguera. Jekyll-Timeago is released under the [MIT](LICENSE) License.
+Copyright (c) 2013-2015 Marc Anguera. Jekyll-Timeago is released under the [MIT](LICENSE) License.
