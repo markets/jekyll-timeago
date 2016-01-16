@@ -15,3 +15,7 @@ gemfile:
   - gemfiles/jekyll_v2.gemfile
   - gemfiles/jekyll_v3.gemfile
 
+matrix:
+  exclude:
+    - rvm: 1.9.3
+      gemfile: gemfiles/jekyll_v3.gemfile
