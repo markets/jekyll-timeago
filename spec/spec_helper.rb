@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'active_support/all'
 require 'jekyll'
-require File.expand_path('lib/jekyll-timeago/filter')
+require File.expand_path('lib/jekyll-timeago')
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
@@ -32,11 +32,15 @@ RSpec.configure do |config|
     }))
   end
 
-  def timeago(from, to = Date.today)
-    Jekyll::Timeago::Filter.timeago(from, to)
+  def build_site
+    Jekyll::Site.new(site_configuration)
+  end
+
+  def timeago(from, to = Date.today, options = {})
+    Jekyll::Timeago::Core.timeago(from, to, options)
   end
 
   def options
-    @options ||= Jekyll::Timeago::Filter.options
+    Jekyll::Timeago::Core.options
   end
 end
