@@ -1,11 +1,17 @@
 language: ruby
 
+cache: bundler
+
+sudo: false
+
 rvm:
   - 2.2
   - 2.1
   - 2.0
   - 1.9.3
 
-cache: bundler
+gemfile:
+  - gemfiles/jekyll_v1.gemfile
+  - gemfiles/jekyll_v2.gemfile
+  - gemfiles/jekyll_v3.gemfile
 
-sudo: false
