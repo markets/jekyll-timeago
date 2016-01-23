@@ -25,22 +25,7 @@ RSpec.configure do |config|
     YAML.load_file(File.join(SOURCE_DIR, '_config.yml'))
   end
 
-  def site_configuration(overrides = {})
-    Jekyll.configuration(overrides.merge({
-      'source'      => source_dir,
-      'destination' => dest_dir
-    }))
-  end
-
-  def build_site
-    Jekyll::Site.new(site_configuration)
-  end
-
   def timeago(from, to = Date.today, options = {})
     Jekyll::Timeago::Core.timeago(from, to, options)
-  end
-
-  def options
-    Jekyll::Timeago::Core.options
   end
 end

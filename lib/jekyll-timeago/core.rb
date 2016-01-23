@@ -27,7 +27,8 @@ module Jekyll
           to = Date.today
         end
 
-        @options = defaults.merge(options)
+        @defaults = defaults unless defined?(@defaults)
+        @options = @defaults.merge(options)
 
         from  = validate_date!(from)
         to    = validate_date!(to)
@@ -36,8 +37,8 @@ module Jekyll
         time_ago_to_now(from, to, depth)
       end
 
-      def options
-        @options
+      def configure(options = {})
+        @defaults = defaults.merge(options)
       end
 
       private

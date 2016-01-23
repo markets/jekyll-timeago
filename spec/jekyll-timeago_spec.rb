@@ -2,7 +2,16 @@ require 'spec_helper'
 
 describe Jekyll::Timeago do
   context 'Jekyll integration' do
-    let(:site) { Jekyll::Site.new(site_configuration) }
+    let(:overrides) do
+      {
+        "source"      => source_dir,
+        "destination" => dest_dir,
+        "url"         => "http://example.org",
+      }
+    end
+    let(:config)   { Jekyll.configuration(overrides) }
+    let(:site)     { Jekyll::Site.new(config) }
+    let(:contents) { File.read(dest_dir("index.html")) }
 
     it 'setup from Jekyll configuration' do
       expect(site.config['jekyll_timeago']).to eql(configuration_file['jekyll_timeago'])
@@ -10,12 +19,24 @@ describe Jekyll::Timeago do
 
     it 'process successfully the site using filters and tags' do
       expect { site.process }.to_not raise_error
+
+      lines = [
+        "<p>2 years yeah</p>",
+        "<p>12 months yeah</p>",
+        "<p>12 months yeah</p>",
+        "<p>2 years yeah</p>"
+      ]
+      expect(contents).to eq(lines.join("\n"))
     end
   end
 
   context 'Core' do
     let (:sample_date) { Date.new(2014, 7, 30) }
     let (:today) { Date.today }
+
+    before do
+      Jekyll::Timeago::Core.configure
+    end
 
     it 'does not accept invalid depth' do
       expect { timeago(today, sample_date, "depth" => 5) }.to raise_error
@@ -26,9 +47,9 @@ describe Jekyll::Timeago do
     end
 
     it 'yesterday, today and tomorrow' do
-      expect(timeago(today - 1.day)).to eql(options["yesterday"])
-      expect(timeago(today)).to eql(options["today"])
-      expect(timeago(today + 1.day)).to eql(options["tomorrow"])
+      expect(timeago(today - 1.day)).to eql("yesterday")
+      expect(timeago(today)).to eql("today")
+      expect(timeago(today + 1.day)).to eql("tomorrow")
     end
 
     it 'past time' do
@@ -42,11 +63,16 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date + 1000.days, sample_date)).to eql('in 2 years and 9 months')
     end
 
-    it 'allow different date inputs' do
+    it 'allow different date formats' do
       expect(timeago('2010-1-1', '2012-1-1')).to eql('2 years ago')
       expect(timeago('2010/1/1', '2012/1/1')).to eql('2 years ago')
       expect(timeago('Jan 2010, 1', 'Jan 2012, 1')).to eql('2 years ago')
       expect(timeago('2014-10-06 20:00:00', '2014-10-07 20:00:00')).to eql('yesterday')
+    end
+
+    it 'allow to change defaults at global level' do
+      Jekyll::Timeago::Core.configure("year" => nil, "depth" => 1, "suffix" => nil)
+      expect(timeago(sample_date - 500.days, sample_date)).to eql('1')
     end
 
     it 'allow to change level of detail' do

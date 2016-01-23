@@ -2,16 +2,10 @@ module Jekyll
   module Timeago
     module Filter
       def timeago(from, to = Date.today)
-        Jekyll::Timeago::Core.timeago(from, to, jekyll_config)
-      end
+        config = @context.registers[:site].config.fetch('jekyll_timeago', {})
 
-      private
-
-      def jekyll_config
-        @jekyll_config ||= Jekyll.configuration().fetch('jekyll_timeago', {}) rescue {}
+        Jekyll::Timeago::Core.timeago(from, to, config)
       end
     end
   end
 end
-
-Liquid::Template.register_filter(Jekyll::Timeago::Filter) if defined?(Liquid)
