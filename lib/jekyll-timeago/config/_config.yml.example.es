@@ -1,0 +1,18 @@
+jekyll_timeago:
+  depth: 2 # Nivel de detalle
+  today: 'hoy'
+  yesterday: 'ayer'
+  tomorrow: 'mañana'
+  and: 'y'
+  suffix: ''
+  prefix: 'hace'
+  suffix_future: ''
+  prefix_future: 'en'
+  years: 'años'
+  year: 'año'
+  months: 'meses'
+  month: 'mes'
+  weeks: 'semanas'
+  week: 'semana'
+  days: 'días'
+  day: 'día'

@@ -6,8 +6,10 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'jekyll-timeago/core'
 include Jekyll::Timeago::Core
 
-require 'active_support/all'
-
-require 'irb'
-ARGV.clear
-IRB.start
+if ARGV.include? "--console"
+  require 'irb'
+  ARGV.clear
+  IRB.start
+else
+  puts timeago *ARGV
+end
