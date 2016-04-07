@@ -1,13 +1,25 @@
 #!/usr/bin/env ruby
 
-lib = File.expand_path('../../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-
-require 'jekyll-timeago/core'
+require_relative "../lib/jekyll-timeago/core"
 include Jekyll::Timeago::Core
 
-if ARGV.include? "--console"
-  require 'irb'
+help_message = <<END
+Usage:
+
+  jekyll-timeago <from_date> [to_date]
+
+Notes:
+        [to] Optional, defaults to current date
+
+Options:
+        --help, -h  Print this message
+        --console   Start an interactive session with jekyll-timeago included
+END
+
+if ARGV.empty? || ARGV.include?("--help") || ARGV.include?("-h")
+  puts help_message
+elsif ARGV.include? "--console"
+  require "irb"
   ARGV.clear
   IRB.start
 else

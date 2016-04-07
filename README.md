@@ -13,11 +13,11 @@ Main features:
 * Level of detail.
 * Available via the command line.
 
-In fact, `jekyll-timeago` started just as an extension for [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed projects. But actually, you can use it in any Ruby project. Read more about usage outside Jekyll [in this section]().
+In fact, `jekyll-timeago` started just as an extension for [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily in any Ruby project. Read more about usage outside Jekyll [in this section](#usage-outside-jekyll).
 
-## Installation (Jekyll)
+## Installation
 
-You have different options to intall and plugging it into Jekyll projects:
+You have different options to install and plugging it into Jekyll projects:
 
 **Via Jekyll plugin system (recommended)**
 
@@ -44,11 +44,11 @@ group :jekyll_plugins do
 end
 ```
 
-**Manually**
+**Manually (less recommended)**
 
-Alternatively, you can simply copy the files under [lib/jekyll-timeago](lib/jekyll-timeago/) directly into your `_plugins/` directory. All these files will be loaded before Jekyll generates your site.
+Alternatively, you can simply copy the files under [lib/jekyll-timeago](lib/jekyll-timeago/) directly into your `_plugins/` directory. All those files will be loaded by Jekyll.
 
-## Usage (Jekyll)
+## Usage
 
 By default, the `timeago` helper computes distance of dates from passed date to current date (using `Date.today`). But you are able to modify this range by passing a second argument. Examples:
 
@@ -78,7 +78,9 @@ Passing a second parameter:
 
 ## Localization
 
-This plugin allows you to localize the strings needed to build the sentences. To do this, you just need to add some extra keys in your `_config.yml`. You can simply copy them from one of the [provided examples](lib/jekyll-timeago/config/). Or even, translate it to your site's language just overriding it. English example:
+This plugin allows you to localize the strings needed to build the sentences. To do this, you just need to add some extra keys in your `_config.yml`. You can simply copy them from one of the [provided examples](lib/jekyll-timeago/config/). Or even, translate it to your site's language just overriding it.
+
+English example (default):
 
 ```
 jekyll_timeago:
@@ -112,15 +114,26 @@ You are able to change the level of detail (from 1 up to 4, 2 by default) to get
 * Depht => 3 `1 year, 4 months and 1 week ago`
 * Depht => 4 `1 year, 4 months, 1 week and 4 days ago`
 
+## Usage outside Jekyll
+
+You just need to install the gem to your application (add `gem 'jekyll-timeago'` to your Gemfile). From now on, you can use the provided method by calling:
+
+```ruby
+Jekyll::Timeago::Core.timeago(from, to, options)
+```
+
+Note, that you can use the `options` parameter to override the detault localization or the level of detail.
+
 ## CLI
 
 ```
-$ jekyll-timego 2016-1-1
+$ jekyll-timeago 2016-1-1
+2 months and 6 days ago
 ```
 
 ### Console
 
-Run `$ jekyll-timego --console` to start a custom IRB session and play with the `timeago` method:
+Run `$ jekyll-timeago --console` to start a custom IRB session and play with the `timeago` method:
 
 ```ruby
 >> timeago(Date.today)
