@@ -9,7 +9,7 @@ Usage:
   jekyll-timeago <from_date> [to_date]
 
 Notes:
-        [to] Optional, defaults to current date
+        [to_date] Optional, defaults to current date
 
 Options:
         --help, -h  Print this message
