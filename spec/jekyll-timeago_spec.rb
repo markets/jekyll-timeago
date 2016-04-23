@@ -93,4 +93,15 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date - 100.days, sample_date, new_options)).to eql('hace 3 meses y 1 semana')
     end
   end
+
+  context 'CLI' do
+    it 'prints help message if called with no params or --help' do
+      expect(`jekyll-timeago`).to match("Usage")
+      expect(`jekyll-timeago --help`).to match("Usage")
+    end
+
+    it 'computes distance of dates' do
+      expect(`jekyll-timeago 2016-1-1 2016-1-5`).to match("4 days ago")
+    end
+  end
 end

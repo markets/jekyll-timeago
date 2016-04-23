@@ -122,7 +122,14 @@ You just need to install the gem to your application (add `gem 'jekyll-timeago'`
 Jekyll::Timeago::Core.timeago(from, to, options)
 ```
 
-Note, that you can use the `options` parameter to override the detault localization or the level of detail.
+Note, that you can use the `options` parameter to override the default localization or the level of detail.
+
+Or if you have the gem installed in your system and you're not using Bundler:
+
+```ruby
+require 'jekyll-timeago'
+puts Jekyll::Timeago::Core.timeago(from, to, options)
+```
 
 ## CLI
 
