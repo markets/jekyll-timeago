@@ -1,6 +1,5 @@
 appraise 'jekyll-v1' do
   gem 'jekyll', '~> 1.5'
-  gem 'listen', '< 3.1.0' if RUBY_VERSION <= "2.2"
 end
 
 appraise 'jekyll-v2' do
