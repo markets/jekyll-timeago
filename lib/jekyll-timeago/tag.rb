@@ -1,8 +1,6 @@
 module Jekyll
   module Timeago
     class Tag < Liquid::Tag
-      include Jekyll::Timeago::Filter
-
       def initialize(tag_name, dates, tokens)
         super
         @dates = dates.strip.split(' ')
@@ -10,15 +8,14 @@ module Jekyll
 
       def render(context)
         from, to = @dates[0], @dates[1]
+        config = context.registers[:site].config.fetch('jekyll_timeago', {})
 
         if to
-          timeago(from, to)
+          Jekyll::Timeago::Core.timeago(from, to, config)
         else
-          timeago(from)
+          Jekyll::Timeago::Core.timeago(from, config)
         end
       end
     end
   end
 end
-
-Liquid::Template.register_tag('timeago', Jekyll::Timeago::Tag) if defined?(Liquid)

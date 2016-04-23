@@ -1,7 +1,4 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'jekyll-timeago/version'
+require './lib/jekyll-timeago/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "jekyll-timeago"
@@ -23,4 +20,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "activesupport"
+  spec.add_development_dependency "appraisal"
 end

@@ -2,12 +2,12 @@ gems:
   - jekyll-timeago
 
 jekyll_timeago:
-  depth: 3
+  depth: 1
   today: 'today'
   yesterday: 'yesterday'
   tomorrow: 'tomorrow'
   and: 'and'
-  suffix: 'ago'
+  suffix: 'yeah'
   prefix: ''
   suffix_future: ''
   prefix_future: 'in'

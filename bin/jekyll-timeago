@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/jekyll-timeago/core"
+include Jekyll::Timeago::Core
+
+help_message = <<END
+Usage:
+
+  jekyll-timeago <from_date> [to_date]
+
+Notes:
+        [to_date] Optional, defaults to current date
+
+Options:
+        --help, -h  Print this message
+        --console   Start an interactive session with jekyll-timeago included
+END
+
+if ARGV.empty? || ARGV.include?("--help") || ARGV.include?("-h")
+  puts help_message
+elsif ARGV.include? "--console"
+  require "irb"
+  ARGV.clear
+  IRB.start
+else
+  puts timeago *ARGV
+end

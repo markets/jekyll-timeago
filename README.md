@@ -2,21 +2,24 @@
 
 [![Gem Version](https://badge.fury.io/rb/jekyll-timeago.svg)](http://badge.fury.io/rb/jekyll-timeago) [![Build Status](https://travis-ci.org/markets/jekyll-timeago.svg?branch=master)](https://travis-ci.org/markets/jekyll-timeago)
 
-Custom and simple implementation of `timeago` date filter. Main features:
+> A Ruby library to compute distance of dates in words. Originally built for Jekyll, as a Liquid extension.
 
-* Distance of dates in words
-* Future time
-* Usage via Filter or Tag
-* Localization
-* Level of detail
+Main features:
 
-In fact, `jekyll-timeago` is an extension of [Liquid](https://github.com/Shopify/liquid) Filters and Tags, so you can use it in other Liquid templates (like Octopress).
+* Compute distance of dates in words, ie: `1 week and 2 days ago`, `5 months ago`, `in 1 year`
+* Future times.
+* Out of the box support for `Jekyll` (v1, v2 and v3) projects, available as a Liquid Filter and as a Liquid Tag.
+* Localization (i18n).
+* Level of detail.
+* Available via the command line.
+
+In fact, `jekyll-timeago` started just as an extension for [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily in any Ruby project. Read more about usage outside Jekyll [in this section](#usage-outside-jekyll).
 
 ## Installation
 
-You have 3 options to install the plugin:
+You have different options to install and plugging it into Jekyll projects:
 
-**Via Jekyll plugin system**
+**Via Jekyll plugin system (recommended)**
 
 Install the `gem` to your system:
 
@@ -27,33 +30,27 @@ gem install jekyll-timeago
 In your `_config.yml` file, add a new array with the key gems and the values of the gem names of the plugins you’d like to use. In this case:
 
 ```
-gems: [jekyll-timeago]
+gems:
+  - jekyll-timeago
 ```
 
 **Via Bundler**
 
-Add this gem to your `Gemfile` and run `bundle`:
-
-```
-gem 'jekyll-timeago'
-```
-
-Then load the plugin adding the following into some file under `_plugins/` folder:
+Add this gem to your `Gemfile` and run `bundle install`:
 
 ```ruby
-# _plugins/ext.rb
-require 'rubygems'
-require 'bundler/setup'
-Bundler.require(:default)
+group :jekyll_plugins do
+  gem 'jekyll-timeago'
+end
 ```
 
-**Manually**
+**Manually (less recommended)**
 
-Alternatively, you can simply copy [this file](lib/jekyll-timeago/filter.rb) and [this file](lib/jekyll-timeago/tag.rb) directly into your `_plugins/` directory!
+Alternatively, you can simply copy the files under [lib/jekyll-timeago](lib/jekyll-timeago/) directly into your `_plugins/` directory. All those files will be loaded by Jekyll.
 
 ## Usage
 
-By default `timeago` computes distance of dates from passed date to current date (using `Date.today`). But you are able to modify this range passing a second argument in order to compute the distance of these dates in words.
+By default, the `timeago` helper computes distance of dates from passed date to current date (using `Date.today`). But you are able to modify this range by passing a second argument. Examples:
 
 **Filter example**:
 
@@ -81,7 +78,9 @@ Passing a second parameter:
 
 ## Localization
 
-The plugin allows you to localize the strings needed to build the time ago sentences. For do this, you must add some extra keys to your `_config.yml`. You can simply copy them from [this example file](_config.yml.example) and translate it to your site's language. Sample:
+This plugin allows you to localize the strings needed to build the sentences. To do this, you just need to add some extra keys in your `_config.yml`. You can simply copy them from one of the [provided examples](lib/jekyll-timeago/config/). Or even, translate it to your site's language just overriding it.
+
+English example (default):
 
 ```
 jekyll_timeago:
@@ -104,7 +103,7 @@ jekyll_timeago:
   day: 'day'
 ```
 
-**NOTE** You also can use suffixes and prefixes to modify the sentences. For example, set `suffix: nil` and you'll get only the distance of dates: `1 year, 4 months and 1 week`.
+**NOTE** You also can play with suffixes and prefixes to modify the sentences. For example, set `suffix: nil` and you'll get only the distance of dates: `1 year, 4 months and 1 week`.
 
 ## Level of detail (Depth)
 
@@ -115,9 +114,33 @@ You are able to change the level of detail (from 1 up to 4, 2 by default) to get
 * Depht => 3 `1 year, 4 months and 1 week ago`
 * Depht => 4 `1 year, 4 months, 1 week and 4 days ago`
 
-## Output Examples
+## Usage outside Jekyll
 
-Run `script/console` to start a custom IRB session and play with `timeago` method:
+You just need to install the gem to your application (add `gem 'jekyll-timeago'` to your Gemfile). From now on, you can use the provided method by calling:
+
+```ruby
+Jekyll::Timeago::Core.timeago(from, to, options)
+```
+
+Note, that you can use the `options` parameter to override the default localization or the level of detail.
+
+Or if you have the gem installed in your system and you're not using Bundler:
+
+```ruby
+require 'jekyll-timeago'
+puts Jekyll::Timeago::Core.timeago(from, to, options)
+```
+
+## CLI
+
+```
+$ jekyll-timeago 2016-1-1
+2 months and 6 days ago
+```
+
+### Console
+
+Run `$ jekyll-timeago --console` to start a custom IRB session and play with the `timeago` method:
 
 ```ruby
 >> timeago(Date.today)
@@ -143,12 +166,24 @@ Run `script/console` to start a custom IRB session and play with `timeago` metho
 Play with `options`:
 
 ```ruby
->> options[:yesterday] = "ayer"
+>> configure "yesterday" => "ayer"
 => "ayer"
 >> timeago(Date.today - 1.day)
 => "ayer"
 ```
 
+## Development
+
+Any kind of feedback, bug report, idea or enhancement are really appreciated.
+
+To contribute, just fork the repo, hack on it and send a pull request. Don't forget to add specs for behaviour changes and run the test suite:
+
+```
+bundle exec appraisal rake
+```
+
+`Appraisal` library is used to ensure compatibility with different Jekyll versions. Check out current supported versions [here](Appraisals).
+
 ## License
 
-Copyright (c) 2013-2015 Marc Anguera. Jekyll-Timeago is released under the [MIT](LICENSE) License.
+Copyright (c) 2013-2016 Marc Anguera. Jekyll-Timeago is released under the [MIT](LICENSE) License.

@@ -3,3 +3,4 @@ pkg
 Gemfile.lock
 spec/_site
 .rpsec
+*.gemfile.lock
