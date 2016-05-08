@@ -5,8 +5,8 @@ Gem::Specification.new do |spec|
   spec.version       = Jekyll::Timeago::VERSION
   spec.authors       = ["markets"]
   spec.email         = ["srmarc.ai@gmail.com"]
-  spec.description   = "Custom timeago filter for Jekyll (Liquid Filter and Tag). Localization and futures supported."
-  spec.summary       = "Custom timeago filter for Jekyll (Liquid Filter and Tag). Localization and futures supported."
+  spec.description   = "A Ruby library to compute distance of dates in words. Originally built for Jekyll, as a Liquid extension. It also supports localization and futures."
+  spec.summary       = "A date helper to compute distance of dates in words."
   spec.homepage      = "https://github.com/markets/jekyll-timeago"
   spec.license       = "MIT"
 

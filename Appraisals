@@ -8,6 +8,6 @@ appraise 'jekyll-v2' do
 end
 
 appraise 'jekyll-v3' do
-  gem 'jekyll', '~> 3.0'
+  gem 'jekyll', '~> 3.1'
   gem 'listen', '< 3.1.0' if RUBY_VERSION <= "2.2"
 end

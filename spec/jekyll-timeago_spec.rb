@@ -39,7 +39,7 @@ describe Jekyll::Timeago do
     end
 
     it 'does not accept invalid depth' do
-      expect { timeago(today, sample_date, "depth" => 5) }.to raise_error
+      expect { timeago(today, sample_date, "depth" => 5) }.to raise_error(ArgumentError)
     end
 
     it 'accepts a hash (options) as a second parameter (implicit "to")' do

@@ -48,7 +48,7 @@ module Jekyll
       end
 
       def validate_depth!(depth)
-        (1..MAX_DEPTH_LEVEL).include?(depth) or raise("Invalid depth level: #{depth.inspect}")
+        (1..MAX_DEPTH_LEVEL).include?(depth) or raise(ArgumentError, "Invalid depth level: #{depth.inspect}")
         depth
       end
 
