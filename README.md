@@ -109,10 +109,10 @@ jekyll_timeago:
 
 You are able to change the level of detail (from 1 up to 4, 2 by default) to get higher or lower granularity. This option is setted via the `config` file (see sample in previous section). Examples:
 
-* Depht => 1 `1 year ago`
-* Depht => 2 `1 year and 4 months ago` (default)
-* Depht => 3 `1 year, 4 months and 1 week ago`
-* Depht => 4 `1 year, 4 months, 1 week and 4 days ago`
+* Depth => 1 `1 year ago`
+* Depth => 2 `1 year and 4 months ago` (default)
+* Depth => 3 `1 year, 4 months and 1 week ago`
+* Depth => 4 `1 year, 4 months, 1 week and 4 days ago`
 
 ## Usage outside Jekyll
 
