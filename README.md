@@ -145,21 +145,21 @@ Run `$ jekyll-timeago --console` to start a custom IRB session and play with the
 ```ruby
 >> timeago(Date.today)
 => "today"
->> timeago(Date.today - 1.day)
+>> timeago(Date.today.prev_day)
 => "yesterday"
->> timeago(Date.today - 10.days)
+>> timeago(Date.today.prev_day(10))
 => "1 week and 3 days ago"
->> timeago(Date.today - 100.days)
+>> timeago(Date.today.prev_day(100))
 => "3 months and 1 week ago"
->> timeago(Date.today - 500.days)
+>> timeago(Date.today.prev_day(500))
 => "1 year and 4 months ago"
 >> timeago('2010-1-1', '2012-1-1')
 => "2 years ago"
->> timeago(Date.today + 1.days)
+>> timeago(Date.today.next_day)
 => "tomorrow"
->> timeago(Date.today + 7.days)
+>> timeago(Date.today.next_day(7))
 => "in 1 week"
->> timeago(Date.today + 1000.days)
+>> timeago(Date.today.next_day(1000))
 => "in 2 years and 8 months"
 ```
 
@@ -168,7 +168,7 @@ Play with `options`:
 ```ruby
 >> configure "yesterday" => "ayer"
 => "ayer"
->> timeago(Date.today - 1.day)
+>> timeago(Date.today.prev_day)
 => "ayer"
 ```
 

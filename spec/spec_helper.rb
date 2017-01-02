@@ -1,5 +1,4 @@
 require 'fileutils'
-require 'active_support/all'
 require 'jekyll'
 require File.expand_path('lib/jekyll-timeago')
 

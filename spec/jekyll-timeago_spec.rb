@@ -48,20 +48,20 @@ describe Jekyll::Timeago do
     end
 
     it 'yesterday, today and tomorrow' do
-      expect(timeago(today - 1.day)).to eql("yesterday")
+      expect(timeago(today.prev_day)).to eql("yesterday")
       expect(timeago(today)).to eql("today")
-      expect(timeago(today + 1.day)).to eql("tomorrow")
+      expect(timeago(today.next_day)).to eql("tomorrow")
     end
 
     it 'past time' do
-      expect(timeago(sample_date - 10.days, sample_date)).to eql('1 week and 3 days ago')
-      expect(timeago(sample_date - 100.days, sample_date)).to eql('3 months and 1 week ago')
-      expect(timeago(sample_date - 500.days, sample_date)).to eql('1 year and 4 months ago')
+      expect(timeago(sample_date.prev_day(10), sample_date)).to eql('1 week and 3 days ago')
+      expect(timeago(sample_date.prev_day(100), sample_date)).to eql('3 months and 1 week ago')
+      expect(timeago(sample_date.prev_day(500), sample_date)).to eql('1 year and 4 months ago')
     end
 
     it 'future time' do
-      expect(timeago(sample_date + 7.days, sample_date)).to eql('in 1 week')
-      expect(timeago(sample_date + 1000.days, sample_date)).to eql('in 2 years and 9 months')
+      expect(timeago(sample_date.next_day(7), sample_date)).to eql('in 1 week')
+      expect(timeago(sample_date.next_day(1000), sample_date)).to eql('in 2 years and 9 months')
     end
 
     it 'allow different date formats' do
@@ -73,13 +73,13 @@ describe Jekyll::Timeago do
 
     it 'allow to change defaults at global level' do
       Jekyll::Timeago::Core.configure("year" => nil, "depth" => 1, "suffix" => nil)
-      expect(timeago(sample_date - 500.days, sample_date)).to eql('1')
+      expect(timeago(sample_date.prev_day(500), sample_date)).to eql('1')
     end
 
     it 'allow to change level of detail' do
-      expect(timeago(sample_date - 500.days, sample_date, "depth" => 1)).to eql('1 year ago')
-      expect(timeago(sample_date - 500.days, sample_date, "depth" => 3)).to eql('1 year, 4 months and 2 weeks ago')
-      expect(timeago(sample_date - 500.days, sample_date, "depth" => 4)).to eql('1 year, 4 months, 2 weeks and 1 day ago')
+      expect(timeago(sample_date.prev_day(500), sample_date, "depth" => 1)).to eql('1 year ago')
+      expect(timeago(sample_date.prev_day(500), sample_date, "depth" => 3)).to eql('1 year, 4 months and 2 weeks ago')
+      expect(timeago(sample_date.prev_day(500), sample_date, "depth" => 4)).to eql('1 year, 4 months, 2 weeks and 1 day ago')
     end
 
     it 'allow localization' do
@@ -91,7 +91,7 @@ describe Jekyll::Timeago do
         "suffix" => nil
       }
 
-      expect(timeago(sample_date - 100.days, sample_date, new_options)).to eql('hace 3 meses y 1 semana')
+      expect(timeago(sample_date.prev_day(100), sample_date, new_options)).to eql('hace 3 meses y 1 semana')
     end
   end
 
