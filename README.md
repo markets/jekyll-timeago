@@ -122,7 +122,18 @@ You just need to install the gem to your application (add `gem 'jekyll-timeago'`
 Jekyll::Timeago::Core.timeago(from, to, options)
 ```
 
-Note, that you can use the `options` parameter to override the default localization or the level of detail.
+Note, that you can use the `options` parameter (must be a `Hash` and be passed as the last parameter) to override the default localization or the level of detail, e.g.:
+
+```ruby
+options = {
+  "depth"  => 3,
+  "prefix" => "hace",
+  "months" => "meses",
+  "and"    => "y",
+  "week"   => "semana",
+  "suffix" => nil
+}
+```
 
 Or if you have the gem installed in your system and you're not using Bundler:
 
@@ -166,7 +177,7 @@ Run `$ jekyll-timeago --console` to start a custom IRB session and play with the
 Play with `options`:
 
 ```ruby
->> configure "yesterday" => "ayer"
+>> configure({ "yesterday" => "ayer" })
 => "ayer"
 >> timeago(Date.today.prev_day)
 => "ayer"
@@ -186,4 +197,4 @@ bundle exec appraisal rake
 
 ## License
 
-Copyright (c) 2013-2016 Marc Anguera. Jekyll-Timeago is released under the [MIT](LICENSE) License.
+Copyright (c) Marc Anguera. Jekyll-Timeago is released under the [MIT](LICENSE) License.
