@@ -10,7 +10,6 @@ rvm:
   - 2.2
   - 2.1
   - 2.0
-  - 1.9.3
 
 gemfile:
   - gemfiles/jekyll_v1.gemfile
@@ -21,3 +20,7 @@ matrix:
   exclude:
     - rvm: 1.9.3
       gemfile: gemfiles/jekyll_v3.gemfile
+    - rvm: 2.4.0
+      gemfile: gemfiles/jekyll_v1.gemfile
+    - rvm: 2.4.0
+      gemfile: gemfiles/jekyll_v2.gemfile
