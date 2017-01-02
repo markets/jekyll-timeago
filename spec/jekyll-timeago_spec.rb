@@ -18,6 +18,7 @@ describe Jekyll::Timeago do
     end
 
     it 'process successfully the site using filters and tags' do
+      allow(Date).to receive(:today) { Date.new(2016, 1, 1) }
       expect { site.process }.to_not raise_error
 
       lines = [
