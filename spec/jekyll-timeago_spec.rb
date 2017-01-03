@@ -68,6 +68,7 @@ describe Jekyll::Timeago do
       expect(timeago('2010-1-1', '2012-1-1')).to eql('2 years ago')
       expect(timeago('2010/1/1', '2012/1/1')).to eql('2 years ago')
       expect(timeago('Jan 2010, 1', 'Jan 2012, 1')).to eql('2 years ago')
+      expect(timeago('20100101', '20120101')).to eql('2 years ago')
       expect(timeago('2014-10-06 20:00:00', '2014-10-07 20:00:00')).to eql('yesterday')
     end
 

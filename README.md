@@ -174,7 +174,7 @@ Run `$ jekyll-timeago --console` to start a custom IRB session and play with the
 => "in 2 years and 8 months"
 ```
 
-Play with `options`:
+You can modify globally, via the `configure` method, all the available options:
 
 ```ruby
 >> configure({ "yesterday" => "ayer" })
