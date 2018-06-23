@@ -5,22 +5,30 @@ cache: bundler
 sudo: false
 
 rvm:
-  - 2.4.0
-  - 2.3.3
+  - ruby-head
+  - 2.5.1
+  - 2.4.4
+  - 2.3.7
   - 2.2
-  - 2.1
-  - 2.0
 
 gemfile:
-  - gemfiles/jekyll_v1.gemfile
-  - gemfiles/jekyll_v2.gemfile
   - gemfiles/jekyll_v3.gemfile
+  - gemfiles/jekyll_v2.gemfile
+  - gemfiles/jekyll_v1.gemfile
 
 matrix:
   exclude:
-    - rvm: 1.9.3
-      gemfile: gemfiles/jekyll_v3.gemfile
-    - rvm: 2.4.0
-      gemfile: gemfiles/jekyll_v1.gemfile
-    - rvm: 2.4.0
+    - rvm: ruby-head
       gemfile: gemfiles/jekyll_v2.gemfile
+    - rvm: ruby-head
+      gemfile: gemfiles/jekyll_v1.gemfile
+    - rvm: 2.5.1
+      gemfile: gemfiles/jekyll_v2.gemfile
+    - rvm: 2.5.1
+      gemfile: gemfiles/jekyll_v1.gemfile
+    - rvm: 2.4.4
+      gemfile: gemfiles/jekyll_v2.gemfile
+    - rvm: 2.4.4
+      gemfile: gemfiles/jekyll_v1.gemfile
+  allow_failures:
+    - rvm: ruby-head
