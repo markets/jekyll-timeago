@@ -7,11 +7,11 @@
 Main features:
 
 * Compute distance of dates in words, ie: `1 week and 2 days ago`, `5 months ago`, `in 1 year`
-* Future times.
-* Out of the box support for `Jekyll` (v1, v2 and v3) projects, available as a Liquid Filter and as a Liquid Tag.
-* Localization (i18n).
-* Level of detail.
-* Available via the command line.
+* Future times
+* Out of the box support for `Jekyll` (`v1`, `v2` and `v3`) projects, available as a Liquid Filter and as a Liquid Tag
+* Localization (i18n)
+* Level of detail
+* Command line utility
 
 In fact, `jekyll-timeago` started just as an extension for [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily in any Ruby project. Read more about usage outside Jekyll [in this section](#usage-outside-jekyll).
 
@@ -78,29 +78,18 @@ Passing a second parameter:
 
 ## Localization
 
-This plugin allows you to localize the strings needed to build the sentences. To do this, you just need to add some extra keys in your `_config.yml`. You can simply copy them from one of the [provided examples](lib/jekyll-timeago/config/). Or even, translate it to your site's language just overriding it.
+This plugin allows you to localize the strings needed to build the sentences. To do this, you just need to add some extra keys in your `_config.yml`. You can simply copy them from one of the [provided examples](lib/jekyll-timeago/locales/). Or even, translate it to your site's language just overriding it.
 
 English example (default):
 
 ```
 jekyll_timeago:
   depth: 2 # Level of detail
-  today: 'today'
-  yesterday: 'yesterday'
-  tomorrow: 'tomorrow'
-  and: 'and'
-  suffix: 'ago'
-  prefix: ''
-  suffix_future: ''
-  prefix_future: 'in'
-  years: 'years'
-  year: 'year'
-  months: 'months'
-  month: 'month'
-  weeks: 'weeks'
-  week: 'week'
-  days: 'days'
-  day: 'day'
+  default_locale: 'en'
+  available_locales:
+    - 'en'
+    - 'es'
+    - 'fr'
 ```
 
 **NOTE** You also can play with suffixes and prefixes to modify the sentences. For example, set `suffix: nil` and you'll get only the distance of dates: `1 year, 4 months and 1 week`.

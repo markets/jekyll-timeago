@@ -4,3 +4,4 @@ Gemfile.lock
 spec/_site
 .rpsec
 *.gemfile.lock
+.byebug_history

@@ -1,5 +1,4 @@
-jekyll_timeago:
-  depth: 2 # niveau de détail
+fr:
   today: "aujourd'hui"
   yesterday: "hier"
   tomorrow: "demain"
@@ -16,4 +15,3 @@ jekyll_timeago:
   week: "semaine"
   days: "jours"
   day: "jour"
-

@@ -27,57 +27,28 @@ module Jekyll
           to = Date.today
         end
 
-        @defaults = defaults unless defined?(@defaults)
-        @options = @defaults.merge(options)
+        @options = options
 
-        from  = validate_date!(from)
-        to    = validate_date!(to)
-        depth = validate_depth!(@options["depth"])
+        from  = validate_date(from)
+        to    = validate_date(to)
+        depth = validate_depth(@options["depth"])
 
         time_ago_to_now(from, to, depth)
       end
 
-      def configure(options = {})
-        @defaults = defaults.merge(options)
-      end
-
       private
 
-      def validate_date!(date)
+      def validate_date(date)
         Date.parse(date.to_s)
       end
 
-      def validate_depth!(depth)
-        (1..MAX_DEPTH_LEVEL).include?(depth) or raise(ArgumentError, "Invalid depth level: #{depth.inspect}")
-        depth
+      def validate_depth(depth)
+        (1..MAX_DEPTH_LEVEL).include?(depth) ? depth : DEFAULT_DEPTH_LEVEL
       end
 
-      def defaults
-        {
-          "depth"         => DEFAULT_DEPTH_LEVEL,
-          "today"         => 'today',
-          "yesterday"     => 'yesterday',
-          "tomorrow"      => 'tomorrow',
-          "and"           => 'and',
-          "suffix"        => 'ago',
-          "prefix"        => '',
-          "suffix_future" => '',
-          "prefix_future" => 'in',
-          "years"         => 'years',
-          "year"          => 'year',
-          "months"        => 'months',
-          "month"         => 'month',
-          "weeks"         => 'weeks',
-          "week"          => 'week',
-          "days"          => 'days',
-          "day"           => 'day'
-        }
+      def t(key)
+        MiniI18n.translate(key, @options)
       end
-
-      def translate(key)
-        @options[key.to_s]
-      end
-      alias_method :t, :translate
 
       # Days passed to time ago sentence
       def time_ago_to_now(from, to, depth)

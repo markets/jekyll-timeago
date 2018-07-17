@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
-require_relative "../lib/jekyll-timeago/core"
-include Jekyll::Timeago::Core
+require "bundler/setup"
+require_relative "../lib/jekyll-timeago"
+include Jekyll::Timeago
 
 help_message = <<END
 Usage:
@@ -12,16 +13,32 @@ Notes:
         [to_date] Optional, defaults to current date
 
 Options:
-        --help, -h  Print this message
-        --console   Start an interactive session with jekyll-timeago included
+        --help, -h      Prints this message
+        --version, -v   Prints the current version
+        --console, -c   Starts an interactive IRB session with jekyll-timeago included
+        --locale, -l    Uses the provided locale
 END
 
 if ARGV.empty? || ARGV.include?("--help") || ARGV.include?("-h")
   puts help_message
-elsif ARGV.include? "--console"
+elsif ARGV.include?("--version") || ARGV.include?("-v")
+  puts "v#{Jekyll::Timeago::VERSION}"
+elsif ARGV.include?("--console") || ARGV.include?("-c")
   require "irb"
   ARGV.clear
   IRB.start
 else
+  custom_locale = "--locale" if ARGV.include?("--locale")
+  custom_locale = "-l" if ARGV.include?("-l")
+
+  if custom_locale
+    index = ARGV.index(custom_locale)
+    locale = ARGV.delete_at(index + 1)
+    ARGV.delete_at(index)
+
+    options = { locale: locale }
+    ARGV << options
+  end
+
   puts timeago *ARGV
 end
