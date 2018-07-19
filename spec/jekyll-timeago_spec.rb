@@ -88,6 +88,10 @@ describe Jekyll::Timeago do
       expect(`jekyll-timeago 2016-1-1 2016-1-5`).to match("4 days ago")
     end
 
+    it 'prints error with invalid date' do
+      expect(`jekyll-timeago 1`).to match("ERROR!")
+    end
+
     it 'with custom locale' do
       expect(`jekyll-timeago 2016-1-1 2016-1-5 -l fr`).to match("il y a environ 4 jours")
       expect(`jekyll-timeago 2016-1-1 2016-1-5 --locale fr`).to match("il y a environ 4 jours")

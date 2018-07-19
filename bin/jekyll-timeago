@@ -40,5 +40,9 @@ else
     ARGV << options
   end
 
-  puts timeago *ARGV
+  begin
+    puts timeago *ARGV
+  rescue ArgumentError => e
+    puts "ERROR! #{e}"
+  end
 end
