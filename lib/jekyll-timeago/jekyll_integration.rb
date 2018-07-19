@@ -1,33 +1,35 @@
 module Jekyll
   module Timeago
+    @@jekyll_initialized = nil
+
     def self.jekyll_config(context)
-      @@jekyll_config ||= context.registers[:site].config.fetch('jekyll_timeago', {})
+      @@jekyll_config ||= context.registers[:site].config['jekyll_timeago'] || {}
     end
 
-    def self.page_config(context)
-      context['page']
-    end
+    def self.jekyll_page_data(context)
+      options = jekyll_config(context)
+      locale = context['page']['locale']
 
-    def self.configure_from_jekyll(context)
-      config = jekyll_config(context)
-      locale = page_config(context)['locale']
+      options[:locale] = locale if locale
 
-      config[:locale] = locale if locale
+      if !@@jekyll_initialized
+        MiniI18n.configure do |config|
+          config.available_locales = options['available_locales']
+          config.default_locale = options['default_locale']
+          config.fallbacks = options['fallbacks']
+        end
 
-      MiniI18n.configure do
-        available_locales = config['available_locales']
-        default_locale = config['default_locale']
-        fallbacks = config['fallbacks']
+        @@jekyll_initialized = true
       end
 
-      config
+      options
     end
 
     module Filter
       def timeago(from, to = Date.today)
-        config = Jekyll::Timeago.configure_from_jekyll(@context)
+        options = Jekyll::Timeago.jekyll_page_data(@context)
 
-        Core.timeago(from, to, config)
+        Core.timeago(from, to, options)
       end
     end
 
@@ -38,11 +40,11 @@ module Jekyll
       end
 
       def render(context)
-        config = Jekyll::Timeago.configure_from_jekyll(context)
+        options = Jekyll::Timeago.jekyll_page_data(context)
 
         from, to = @dates[0], @dates[1]
-        to = config if to.nil?
-        Core.timeago(from, to, config)
+        to = options if to.nil?
+        Core.timeago(from, to, options)
       end
     end
   end
