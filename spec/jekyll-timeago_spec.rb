@@ -61,11 +61,12 @@ describe Jekyll::Timeago do
     end
 
     it 'allow to change level of detail' do
+      expect(timeago(sample_date.prev_day(500), sample_date, depth: 1)).to eq('1 year ago')
       expect(timeago(sample_date.prev_day(500), sample_date, "depth" => 1)).to eq('1 year ago')
-      expect(timeago(sample_date.prev_day(500), sample_date, "depth" => 2)).to eq('1 year and 4 months ago')
-      expect(timeago(sample_date.prev_day(500), sample_date, "depth" => 3)).to eq('1 year, 4 months and 2 weeks ago')
-      expect(timeago(sample_date.prev_day(500), sample_date, "depth" => 4)).to eq('1 year, 4 months, 2 weeks and 1 day ago')
-      expect(timeago(sample_date.prev_day(500), sample_date, "depth" => 5)).to eq('1 year and 4 months ago')
+      expect(timeago(sample_date.prev_day(500), sample_date, depth: 2)).to eq('1 year and 4 months ago')
+      expect(timeago(sample_date.prev_day(500), sample_date, depth: 3)).to eq('1 year, 4 months and 2 weeks ago')
+      expect(timeago(sample_date.prev_day(500), sample_date, depth: 4)).to eq('1 year, 4 months, 2 weeks and 1 day ago')
+      expect(timeago(sample_date.prev_day(500), sample_date, depth: 5)).to eq('1 year and 4 months ago')
     end
 
     it 'allow localization' do

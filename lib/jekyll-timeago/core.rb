@@ -31,7 +31,7 @@ module Jekyll
 
         from  = validate_date(from)
         to    = validate_date(to)
-        depth = validate_depth(@options["depth"])
+        depth = validate_depth(@options[:depth] || @options["depth"])
 
         time_ago_to_now(from, to, depth)
       end
