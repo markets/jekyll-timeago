@@ -3,6 +3,7 @@ gems:
 
 jekyll_timeago:
   depth: 1
+  translations_path: "/_locales/*.yaml"
   default_locale: 'en'
   available_locales:
     - 'en'

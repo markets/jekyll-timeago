@@ -22,10 +22,10 @@ describe Jekyll::Timeago do
       expect { site.process }.to_not raise_error
 
       expected =
-        "<p>hace 2 años</p>\n"\
-        "<p>hace 12 meses</p>\n"\
-        "<p>hace 12 meses</p>\n"\
-        "<p>hace 2 años</p>"
+        "<p>2 años</p>\n"\
+        "<p>12 meses</p>\n"\
+        "<p>12 meses</p>\n"\
+        "<p>2 años</p>"
 
       expect(contents).to eq(expected)
     end
@@ -70,7 +70,7 @@ describe Jekyll::Timeago do
     end
 
     it 'allow localization' do
-      expect(timeago(sample_date.prev_day(100), sample_date, locale: :es)).to eq('hace 3 meses y 1 semana')
+      expect(timeago(sample_date.prev_day(100), sample_date, locale: :fr)).to eq('il y a environ 3 mois et 1 semaine')
     end
   end
 

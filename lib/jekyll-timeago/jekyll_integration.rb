@@ -14,6 +14,11 @@ module Jekyll
 
       if !@@jekyll_initialized
         MiniI18n.configure do |config|
+          if options['translations_path']
+            path = context.registers[:site].source + options['translations_path']
+            config.load_translations(path)
+          end
+
           config.available_locales = options['available_locales']
           config.default_locale = options['default_locale']
           config.fallbacks = options['fallbacks']
