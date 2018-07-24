@@ -78,7 +78,7 @@ puts Jekyll::Timeago.timeago('2030-1-1')
 
 * `locale`
 
-Use a different language:
+To use a different language:
 
 ```ruby
 >> Jekyll::Timeago.timeago(Date.today.prev_day(200), locale: :es)
@@ -87,7 +87,7 @@ Use a different language:
 => "il y a environ 6 mois et 2 semaines"
 ```
 
-Read more about the localization options [here](i18n).
+Read more about the localization options [here](#i18n).
 
 * `depth`
 
@@ -169,11 +169,6 @@ end
 
 ```html
 <p>{{ page.date | timeago }}</p>
-```
-
-Passing a parameter:
-
-```html
 <p>{{ page.date | timeago: '2020-1-1' }}</p>
 ```
 
@@ -181,11 +176,6 @@ Passing a parameter:
 
 ```html
 <p>{% timeago 2000-1-1 %}</p>
-```
-
-Passing a second parameter:
-
-```html
 <p>{% timeago 2000-1-1 2010-1-1 %}</p>
 ```
 
