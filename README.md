@@ -8,12 +8,12 @@
 
 Main features:
 
-* Compute distance of dates, in words, ie: `1 week and 2 days ago`, `5 months ago`, `in 1 year`
-* Future times
-* Out of the box support for `Jekyll` (`v1`, `v2` and `v3`) projects, available as a Liquid Filter and as a Liquid Tag
-* Localization (i18n)
-* Level of detail
-* Command line utility
+- Compute distance of dates, in words, ie: `1 week and 2 days ago`, `5 months ago`, `in 1 year`
+- Future times
+- Out of the box support for `Jekyll` (`v1`, `v2` and `v3`) projects, available as a Liquid Filter and as a Liquid Tag
+- Localization (i18n)
+- Level of detail
+- Command line utility
 
 In fact, `jekyll-timeago` started as an extension for the [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily in any Ruby project.
 
@@ -139,7 +139,7 @@ Starts a custom IRB session with the `#timeago` method included:
 
 You have different options to install and use `jekyll-timeago` into your Jekyll project:
 
-**> Via Jekyll plugin system**
+- **Via Jekyll plugin system**
 
 Install the `gem` to your system:
 
@@ -154,7 +154,7 @@ gems:
   - jekyll-timeago
 ```
 
-**> Via Bundler**
+- **Via Bundler**
 
 Add this gem to your `Gemfile` and run `bundle install`:
 
@@ -184,7 +184,7 @@ end
 
 In your `_config.yml` file:
 
-```
+```yaml
 jekyll_timeago:
   depth: 2
   translations_path: '/path_to_your_translations/*.yaml'
