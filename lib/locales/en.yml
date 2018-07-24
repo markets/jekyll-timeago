@@ -1,5 +1,4 @@
-jekyll_timeago:
-  depth: 2 # Level of detail
+en:
   today: 'today'
   yesterday: 'yesterday'
   tomorrow: 'tomorrow'

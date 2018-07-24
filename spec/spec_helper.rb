@@ -1,11 +1,9 @@
 require 'fileutils'
 require 'jekyll'
-require File.expand_path('lib/jekyll-timeago')
+require 'jekyll-timeago'
 
 RSpec.configure do |config|
-  config.run_all_when_everything_filtered = true
-  config.filter_run :focus
-  config.order = 'random'
+  config.order = :random
 
   SOURCE_DIR = File.expand_path('../source', __FILE__)
   DEST_DIR   = File.expand_path('../_site', __FILE__)

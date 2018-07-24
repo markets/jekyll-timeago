@@ -3,19 +3,9 @@ gems:
 
 jekyll_timeago:
   depth: 1
-  today: 'today'
-  yesterday: 'yesterday'
-  tomorrow: 'tomorrow'
-  and: 'and'
-  suffix: 'yeah'
-  prefix: ''
-  suffix_future: ''
-  prefix_future: 'in'
-  years: 'years'
-  year: 'year'
-  months: 'months'
-  month: 'month'
-  weeks: 'weeks'
-  week: 'week'
-  days: 'days'
-  day: 'day'
+  translations_path: "/_locales/*.yaml"
+  default_locale: 'en'
+  available_locales:
+    - 'en'
+    - 'es'
+    - 'fr'
