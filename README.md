@@ -15,9 +15,9 @@ Main features:
 * Level of detail
 * Command line utility
 
-In fact, `jekyll-timeago` started as an extension for [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily on any Ruby project.
+In fact, `jekyll-timeago` started as an extension for the [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily in any Ruby project.
 
-Read more about the Jekyll integration [in this section](#jekyll-integration).
+Read more about the `Jekyll` integration [in this section](#jekyll-integration).
 
 ## Installation
 
@@ -118,6 +118,7 @@ If you want to contribute and support more languages by default, please feel fre
 ## CLI
 
 ```
+> jekyll-timeago --help
 > jekyll-timeago 2016-1-1
 2 years and 6 months ago
 > jekyll-timeago 2016-1-1 --locale fr
@@ -138,7 +139,7 @@ Starts a custom IRB session with the `#timeago` method included:
 
 You have different options to install and use `jekyll-timeago` into your Jekyll project:
 
-**Via Jekyll plugin system (recommended)**
+**> Via Jekyll plugin system**
 
 Install the `gem` to your system:
 
@@ -153,7 +154,7 @@ gems:
   - jekyll-timeago
 ```
 
-**Via Bundler**
+**> Via Bundler**
 
 Add this gem to your `Gemfile` and run `bundle install`:
 
@@ -210,10 +211,8 @@ Any kind of feedback, bug report, idea or enhancement are really appreciated.
 To contribute, just fork the repo, hack on it and send a pull request. Don't forget to add specs for behaviour changes and run the test suite:
 
 ```
-> bundle exec appraisal rake
+> bundle exec rake
 ```
-
-We use the `Appraisal` gem to ensure compatibility with different Jekyll versions. Check out current supported versions [here](Appraisals).
 
 ## License
 
