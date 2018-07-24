@@ -4,34 +4,151 @@
 [![Build Status](https://travis-ci.org/markets/jekyll-timeago.svg?branch=master)](https://travis-ci.org/markets/jekyll-timeago)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a8be458ba0532c2d057d/maintainability)](https://codeclimate.com/github/markets/jekyll-timeago/maintainability)
 
-> A Ruby library to compute distance of dates in words. Originally built for Jekyll, as a Liquid extension.
+> A Ruby library to compute distance of dates in words, with localization support. Originally built for Jekyll.
 
 Main features:
 
-* Compute distance of dates in words, ie: `1 week and 2 days ago`, `5 months ago`, `in 1 year`
+* Compute distance of dates, in words, ie: `1 week and 2 days ago`, `5 months ago`, `in 1 year`
 * Future times
 * Out of the box support for `Jekyll` (`v1`, `v2` and `v3`) projects, available as a Liquid Filter and as a Liquid Tag
 * Localization (i18n)
 * Level of detail
 * Command line utility
 
-In fact, `jekyll-timeago` started just as an extension for [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily in any Ruby project. Read more about usage outside Jekyll [in this section](#usage-outside-jekyll).
+In fact, `jekyll-timeago` started as an extension for [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily on any Ruby project.
+
+Read more about the Jekyll integration [in this section](#jekyll-integration).
 
 ## Installation
 
-You have different options to install and plugging it into Jekyll projects:
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'jekyll-timeago'
+```
+
+And then execute:
+
+    > bundle install
+
+Or install it yourself as:
+
+    > gem install jekyll-timeago
+
+## Usage
+
+The gem provides the `#timeago` method:
+
+```ruby
+Jekyll::Timeago.timeago(from, to = Date.today, options = {})
+```
+
+Examples:
+
+```ruby
+>> Jekyll::Timeago.timeago(Date.today)
+=> "today"
+>> Jekyll::Timeago.timeago(Date.today.prev_day)
+=> "yesterday"
+>> Jekyll::Timeago.timeago(Date.today.prev_day(10))
+=> "1 week and 3 days ago"
+>> Jekyll::Timeago.timeago(Date.today.prev_day(100))
+=> "3 months and 1 week ago"
+>> Jekyll::Timeago.timeago(Date.today.prev_day(500))
+=> "1 year and 4 months ago"
+>> Jekyll::Timeago.timeago('2010-1-1', '2012-1-1')
+=> "2 years ago"
+>> Jekyll::Timeago.timeago(Date.today.next_day)
+=> "tomorrow"
+>> Jekyll::Timeago.timeago(Date.today.next_day(7))
+=> "in 1 week"
+>> Jekyll::Timeago.timeago(Date.today.next_day(1000))
+=> "in 2 years and 8 months"
+```
+
+**NOTE** If you have the gem installed in your system, and you're not using Bundler (probably because you're are writing a basic script), don't forget to require the library first:
+
+```ruby
+require 'jekyll-timeago'
+
+puts Jekyll::Timeago.timeago('2030-1-1')
+```
+
+### Options
+
+* `locale`
+
+Use a different language:
+
+```ruby
+>> Jekyll::Timeago.timeago(Date.today.prev_day(200), locale: :es)
+=> "hace 6 meses y 2 semanas"
+>> Jekyll::Timeago.timeago(Date.today.prev_day(200), locale: :fr)
+=> "il y a environ 6 mois et 2 semaines"
+```
+
+Read more about the localization options [here](i18n).
+
+* `depth`
+
+You are able to change the level of detail (from 1 up to 4, 2 by default) to get higher or lower granularity:
+
+```ruby
+>> Jekyll::Timeago.timeago(Date.today.prev_day(2000), depth: 3)
+=> "5 years, 5 months and 3 weeks ago"
+>> Jekyll::Timeago.timeago(Date.today.prev_day(2000), depth: 4)
+=> "5 years, 5 months, 3 weeks and 4 days ago"
+```
+
+## I18n
+
+By default, `jekyll-timego` already provides translations for some languages. You can check the list [here](lib/locales/). However, you are able to provide your own translations, or even override the originals, easily.
+
+This project uses the [mini_i18n](https://github.com/markets/mini_i18n) gem under the hood to deal with translations. You can read further about all options in [its docs](https://github.com/markets/mini_i18n#usage). Example:
+
+```ruby
+MiniI18n.configure do |config|
+  config.load_translations('/path_to_your_translations_files/*.yml')
+  config.default_locale = :en
+end
+```
+
+If you want to contribute and support more languages by default, please feel free to send a pull request.
+
+## CLI
+
+```
+> jekyll-timeago 2016-1-1
+2 years and 6 months ago
+> jekyll-timeago 2016-1-1 --locale fr
+il y a environ 2 années et 6 mois
+```
+
+### Console
+
+Starts a custom IRB session with the `#timeago` method included:
+
+```
+> jekyll-timeago --console
+>> timeago(Date.today)
+=> "today"
+```
+
+## Jekyll integration
+
+You have different options to install and use `jekyll-timeago` into your Jekyll project:
 
 **Via Jekyll plugin system (recommended)**
 
 Install the `gem` to your system:
 
 ```
-gem install jekyll-timeago
+> gem install jekyll-timeago
 ```
 
 In your `_config.yml` file, add a new array with the key gems and the values of the gem names of the plugins you’d like to use. In this case:
 
-```
+```yaml
 gems:
   - jekyll-timeago
 ```
@@ -46,15 +163,9 @@ group :jekyll_plugins do
 end
 ```
 
-**Manually (less recommended)**
+### Usage
 
-Alternatively, you can simply copy the files under [lib/jekyll-timeago](lib/jekyll-timeago/) directly into your `_plugins/` directory. All those files will be loaded by Jekyll.
-
-## Usage
-
-By default, the `timeago` helper computes distance of dates from passed date to current date (using `Date.today`). But you are able to modify this range by passing a second argument. Examples:
-
-**Filter example**:
+**Liquid Filter**:
 
 ```html
 <p>{{ page.date | timeago }}</p>
@@ -66,7 +177,7 @@ Passing a parameter:
 <p>{{ page.date | timeago: '2020-1-1' }}</p>
 ```
 
-**Tag example**:
+**Liquid Tag**:
 
 ```html
 <p>{% timeago 2000-1-1 %}</p>
@@ -78,15 +189,14 @@ Passing a second parameter:
 <p>{% timeago 2000-1-1 2010-1-1 %}</p>
 ```
 
-## Localization
+### Configuration
 
-This plugin allows you to localize the strings needed to build the sentences. To do this, you just need to add some extra keys in your `_config.yml`. You can simply copy them from one of the [provided examples](lib/jekyll-timeago/locales/). Or even, translate it to your site's language just overriding it.
-
-English example (default):
+In your `_config.yml` file:
 
 ```
 jekyll_timeago:
   depth: 2
+  translations_path: '/path_to_your_translations/*.yaml'
   default_locale: 'en'
   fallbacks: true
   available_locales:
@@ -95,84 +205,12 @@ jekyll_timeago:
     - 'fr'
 ```
 
-**NOTE** You also can play with suffixes and prefixes to modify the sentences. For example, set `suffix: nil` and you'll get only the distance of dates: `1 year, 4 months and 1 week`.
+Also, you can set a different language per page using the [Front Matter](https://jekyllrb.com/docs/frontmatter/) functionality:
 
-## Level of detail (Depth)
-
-You are able to change the level of detail (from 1 up to 4, 2 by default) to get higher or lower granularity. This option is setted via the `config` file (see sample in previous section). Examples:
-
-* Depth => 1 `1 year ago`
-* Depth => 2 `1 year and 4 months ago` (default)
-* Depth => 3 `1 year, 4 months and 1 week ago`
-* Depth => 4 `1 year, 4 months, 1 week and 4 days ago`
-
-## Usage outside Jekyll
-
-You just need to install the gem to your application (add `gem 'jekyll-timeago'` to your Gemfile). From now on, you can use the provided method by calling:
-
-```ruby
-Jekyll::Timeago::Core.timeago(from, to, options)
-```
-
-Note, that you can use the `options` parameter (must be a `Hash` and be passed as the last parameter) to override the default localization or the level of detail, e.g.:
-
-```ruby
-options = {
-  "depth"  => 3,
-  "prefix" => "hace",
-  "months" => "meses",
-  "and"    => "y",
-  "week"   => "semana",
-  "suffix" => nil
-}
-```
-
-Or if you have the gem installed in your system and you're not using Bundler:
-
-```ruby
-require 'jekyll-timeago'
-puts Jekyll::Timeago::Core.timeago(from, to, options)
-```
-
-## CLI
-
-```
-$ jekyll-timeago 2016-1-1
-2 months and 6 days ago
-```
-
-### Console
-
-Run `$ jekyll-timeago --console` to start a custom IRB session and play with the `timeago` method:
-
-```ruby
->> timeago(Date.today)
-=> "today"
->> timeago(Date.today.prev_day)
-=> "yesterday"
->> timeago(Date.today.prev_day(10))
-=> "1 week and 3 days ago"
->> timeago(Date.today.prev_day(100))
-=> "3 months and 1 week ago"
->> timeago(Date.today.prev_day(500))
-=> "1 year and 4 months ago"
->> timeago('2010-1-1', '2012-1-1')
-=> "2 years ago"
->> timeago(Date.today.next_day)
-=> "tomorrow"
->> timeago(Date.today.next_day(7))
-=> "in 1 week"
->> timeago(Date.today.next_day(1000))
-=> "in 2 years and 8 months"
-```
-
-You can modify globally, via the `configure` method, all the available options:
-
-```ruby
->> configure({ "yesterday" => "ayer" })
-=> "ayer"
->> timeago(Date.today.prev_day)
-=> "ayer"
+```yaml
+---
+locale: 'es'
+---
 ```
 
 ## Development
@@ -182,10 +220,10 @@ Any kind of feedback, bug report, idea or enhancement are really appreciated.
 To contribute, just fork the repo, hack on it and send a pull request. Don't forget to add specs for behaviour changes and run the test suite:
 
 ```
-bundle exec appraisal rake
+> bundle exec appraisal rake
 ```
 
-`Appraisal` library is used to ensure compatibility with different Jekyll versions. Check out current supported versions [here](Appraisals).
+We use the `Appraisal` gem to ensure compatibility with different Jekyll versions. Check out current supported versions [here](Appraisals).
 
 ## License
 
