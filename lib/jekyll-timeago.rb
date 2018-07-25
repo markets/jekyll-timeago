@@ -8,7 +8,11 @@ end
 
 module Jekyll
   module Timeago
-    include Jekyll::Timeago::Core
+    extend self
+
+    def timeago(from, to = Date.today, options = {})
+      Core.timeago(from, to, options)
+    end
   end
 end
 

@@ -23,6 +23,6 @@ RSpec.configure do |config|
   end
 
   def timeago(from, to = Date.today, options = {})
-    Jekyll::Timeago::Core.timeago(from, to, options)
+    Jekyll::Timeago.timeago(from, to, options)
   end
 end

@@ -6,10 +6,10 @@ module Jekyll
       extend self
 
       DAYS_PER = {
-        :days => 1,
-        :weeks => 7,
-        :months => 30,
-        :years => 365
+        days:   1,
+        weeks:  7,
+        months: 30,
+        years:  365
       }
 
       # Max level of detail

@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
-require "bundler/setup"
+require "mini_i18n"
 require_relative "../lib/jekyll-timeago"
-include Jekyll::Timeago
 
 help_message = <<END
 Usage:
@@ -25,6 +24,8 @@ elsif ARGV.include?("--version") || ARGV.include?("-v")
   puts "v#{Jekyll::Timeago::VERSION}"
 elsif ARGV.include?("--console") || ARGV.include?("-c")
   require "irb"
+  include Jekyll::Timeago
+
   ARGV.clear
   IRB.start
 else
@@ -41,8 +42,8 @@ else
   end
 
   begin
-    puts timeago *ARGV
+    puts Jekyll::Timeago.timeago *ARGV
   rescue ArgumentError => e
-    puts "ERROR! #{e}"
+    puts "Error! #{e}"
   end
 end
