@@ -110,7 +110,7 @@ module Jekyll
         if slots.length == 1
           slots[0]
         else
-          "#{slots[0...-1].join(', ')} #{t(:and)} #{slots[-1]}"
+          "#{slots[0...-1].join(t(:words_connector))} #{t(:last_word_connector)} #{slots[-1]}"
         end
       end
     end

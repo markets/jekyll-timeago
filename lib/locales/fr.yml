@@ -2,7 +2,8 @@ fr:
   today: "aujourd'hui"
   yesterday: 'hier'
   tomorrow: 'demain'
-  and: 'et'
+  last_word_connector: 'et'
+  words_connector: ', '
   suffix: ''
   prefix: 'il y a environ'
   suffix_future: ''
