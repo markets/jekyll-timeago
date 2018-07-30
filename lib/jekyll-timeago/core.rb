@@ -46,8 +46,8 @@ module Jekyll
         (1..MAX_DEPTH_LEVEL).include?(depth) ? depth : DEFAULT_DEPTH_LEVEL
       end
 
-      def t(key)
-        MiniI18n.translate(key, @options)
+      def t(key, options = {})
+        MiniI18n.translate(key, @options.merge(options))
       end
 
       # Days passed to time ago sentence
@@ -80,14 +80,9 @@ module Jekyll
         days       = DAYS_PER[time_range]
         num_elems  = (days_passed / days).to_i
 
-        range_type = if num_elems == 1
-          t(time_range[0...-1]) # singularize key
-        else
-          t(time_range)
-        end
+        current_slots << t(time_range, count: num_elems)
 
-        current_slots << "#{num_elems} #{range_type}"
-        pending_days  = days_passed - (num_elems * days)
+        pending_days = days_passed - (num_elems * days)
         build_time_ago_slots(pending_days, depth - 1, current_slots)
       end
 

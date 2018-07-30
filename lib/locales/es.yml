@@ -8,11 +8,15 @@ es:
   prefix: 'hace'
   suffix_future: ''
   prefix_future: 'en'
-  years: 'años'
-  year: 'año'
-  months: 'meses'
-  month: 'mes'
-  weeks: 'semanas'
-  week: 'semana'
-  days: 'días'
-  day: 'día'
+  years:
+    one: '1 año'
+    many: "%{count} años"
+  months:
+    one: '1 mes'
+    many: '%{count} meses'
+  weeks:
+    one: '1 semana'
+    many: '%{count} semanas'
+  days:
+    one: '1 día'
+    many: '%{count} días'

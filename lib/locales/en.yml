@@ -8,11 +8,15 @@ en:
   prefix: ''
   suffix_future: ''
   prefix_future: 'in'
-  years: 'years'
-  year: 'year'
-  months: 'months'
-  month: 'month'
-  weeks: 'weeks'
-  week: 'week'
-  days: 'days'
-  day: 'day'
+  years:
+    one: '1 year'
+    many: "%{count} years"
+  months:
+    one: '1 month'
+    many: '%{count} months'
+  weeks:
+    one: '1 week'
+    many: '%{count} weeks'
+  days:
+    one: '1 day'
+    many: '%{count} days'

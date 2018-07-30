@@ -8,11 +8,15 @@ it:
   prefix: ''
   suffix_future: ''
   prefix_future: 'fra'
-  years: 'anni'
-  year: 'anno'
-  months: 'mesi'
-  month: 'mese'
-  weeks: 'settimane'
-  week: 'settimana'
-  days: 'giorni'
-  day: 'giorno'
+  years:
+    one: '1 anno'
+    many: "%{count} anni"
+  months:
+    one: '1 mese'
+    many: '%{count} mesi'
+  weeks:
+    one: '1 settimana'
+    many: '%{count} settimane'
+  days:
+    one: '1 giorno'
+    many: '%{count} giorni'

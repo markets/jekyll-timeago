@@ -8,11 +8,15 @@ pt:
   prefix: ''
   suffix_future: ''
   prefix_future: 'em'
-  years: 'anos'
-  year: 'ano'
-  months: 'meses'
-  month: 'mês'
-  weeks: 'semanas'
-  week: 'semanas'
-  days: 'dias'
-  day: 'dia'
+  years:
+    one: '1 ano'
+    many: "%{count} anos"
+  months:
+    one: '1 mês'
+    many: '%{count} meses'
+  weeks:
+    one: '1 semana'
+    many: '%{count} semanas'
+  days:
+    one: '1 dia'
+    many: '%{count} dias'

@@ -8,11 +8,15 @@ fr:
   prefix: 'il y a environ'
   suffix_future: ''
   prefix_future: 'dans'
-  years: 'années'
-  year: 'année'
-  months: 'mois'
-  month: 'mois'
-  weeks: 'semaines'
-  week: 'semaine'
-  days: 'jours'
-  day: 'jour'
+  years:
+    one: '1 année'
+    many: "%{count} années"
+  months:
+    one: '1 mois'
+    many: '%{count} mois'
+  weeks:
+    one: '1 semaine'
+    many: '%{count} semaines'
+  days:
+    one: '1 jour'
+    many: '%{count} jours'

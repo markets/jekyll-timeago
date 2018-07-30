@@ -182,7 +182,7 @@ end
 
 ### Configuration
 
-In your `_config.yml` file:
+In your `_config.yml` file, you can customize the following options:
 
 ```yaml
 jekyll_timeago:
