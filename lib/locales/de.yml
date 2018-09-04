@@ -1,0 +1,22 @@
+de:
+  today: 'heute'
+  yesterday: 'gestern'
+  tomorrow: 'morgen'
+  last_word_connector: 'und'
+  words_connector: ', '
+  suffix: 'zuvor'
+  prefix: ''
+  suffix_future: ''
+  prefix_future: 'in'
+  years:
+    one: '1 Jahr'
+    many: "%{count} Jahre"
+  months:
+    one: '1 Monat'
+    many: '%{count} Monate'
+  weeks:
+    one: '1 Woche'
+    many: '%{count} Wochen'
+  days:
+    one: '1 Tag'
+    many: '%{count} Tage'
