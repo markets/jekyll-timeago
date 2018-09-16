@@ -11,7 +11,7 @@ Main features:
 - Compute distance of dates, in words, ie: `1 week and 2 days ago`, `5 months ago`, `in 1 year`
 - Future times
 - Out of the box support for `Jekyll` (`v1`, `v2` and `v3`) projects, available as a Liquid Filter and as a Liquid Tag
-- Localization (i18n)
+- Localization
 - Level of detail
 - Command line utility
 
@@ -100,7 +100,7 @@ You are able to change the level of detail (from 1 up to 4, 2 by default) to get
 => "5 years, 5 months, 3 weeks and 4 days ago"
 ```
 
-## I18n
+## Localization
 
 By default, `jekyll-timego` already provides translations for some languages. You can check the list [here](lib/locales/). However, you are able to provide your own translations, or even override the originals, easily.
 
@@ -109,11 +109,11 @@ This project uses the [mini_i18n](https://github.com/markets/mini_i18n) gem unde
 ```ruby
 MiniI18n.configure do |config|
   config.load_translations('/path_to_your_translations_files/*.yml')
-  config.default_locale = :en
+  config.default_locale = :es
 end
 ```
 
-If you want to contribute and support more languages by default, please feel free to send a pull request.
+If you want to contribute and support more default languages, please feel free to send a pull request.
 
 ## CLI
 
