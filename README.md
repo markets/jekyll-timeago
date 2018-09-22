@@ -87,7 +87,7 @@ To use a different language:
 => "il y a environ 6 mois et 2 semaines"
 ```
 
-Read more about the localization options [here](#i18n).
+Read more about the localization options [here](#localization).
 
 * `depth`
 
