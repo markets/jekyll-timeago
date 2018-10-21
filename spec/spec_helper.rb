@@ -4,6 +4,7 @@ require 'jekyll-timeago'
 
 RSpec.configure do |config|
   config.order = :random
+  config.include Jekyll::Timeago
 
   SOURCE_DIR = File.expand_path('../source', __FILE__)
   DEST_DIR   = File.expand_path('../_site', __FILE__)
@@ -20,9 +21,5 @@ RSpec.configure do |config|
 
   def configuration_file
     YAML.load_file(File.join(SOURCE_DIR, '_config.yml'))
-  end
-
-  def timeago(from, to = Date.today, options = {})
-    Jekyll::Timeago.timeago(from, to, options)
   end
 end

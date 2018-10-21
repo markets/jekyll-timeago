@@ -37,41 +37,48 @@ Or install it yourself as:
 
 ## Usage
 
-The gem provides the `#timeago` method:
+The gem provides the `timeago` method:
 
 ```ruby
 Jekyll::Timeago.timeago(from, to = Date.today, options = {})
 ```
 
+You can include the method in the current context by including the module (so you can call directly the `timeago` method without using the whole scope):
+
+```ruby
+include Jekyll::Timeago
+```
+
 Examples:
 
 ```ruby
->> Jekyll::Timeago.timeago(Date.today)
+>> timeago(Date.today)
 => "today"
->> Jekyll::Timeago.timeago(Date.today.prev_day)
+>> timeago(Date.today.prev_day)
 => "yesterday"
->> Jekyll::Timeago.timeago(Date.today.prev_day(10))
+>> timeago(Date.today.prev_day(10))
 => "1 week and 3 days ago"
->> Jekyll::Timeago.timeago(Date.today.prev_day(100))
+>> timeago(Date.today.prev_day(100))
 => "3 months and 1 week ago"
->> Jekyll::Timeago.timeago(Date.today.prev_day(500))
+>> timeago(Date.today.prev_day(500))
 => "1 year and 4 months ago"
->> Jekyll::Timeago.timeago('2010-1-1', '2012-1-1')
+>> timeago('2010-1-1', '2012-1-1')
 => "2 years ago"
->> Jekyll::Timeago.timeago(Date.today.next_day)
+>> timeago(Date.today.next_day)
 => "tomorrow"
->> Jekyll::Timeago.timeago(Date.today.next_day(7))
+>> timeago(Date.today.next_day(7))
 => "in 1 week"
->> Jekyll::Timeago.timeago(Date.today.next_day(1000))
+>> timeago(Date.today.next_day(1000))
 => "in 2 years and 8 months"
 ```
 
-**NOTE** If you have the gem installed in your system, and you're not using Bundler (probably because you're are writing a basic script), don't forget to require the library first:
+**NOTE** If you have the gem installed in your system globally, and you're not using Bundler (probably because you're are writing a basic script), don't forget to require the library first:
 
 ```ruby
 require 'jekyll-timeago'
+include Jekyll::Timeago
 
-puts Jekyll::Timeago.timeago('2030-1-1')
+puts timeago('2030-1-1')
 ```
 
 ### Options
@@ -81,9 +88,9 @@ puts Jekyll::Timeago.timeago('2030-1-1')
 To use a different language:
 
 ```ruby
->> Jekyll::Timeago.timeago(Date.today.prev_day(200), locale: :es)
+>> timeago(Date.today.prev_day(200), locale: :es)
 => "hace 6 meses y 2 semanas"
->> Jekyll::Timeago.timeago(Date.today.prev_day(200), locale: :fr)
+>> timeago(Date.today.prev_day(200), locale: :fr)
 => "il y a environ 6 mois et 2 semaines"
 ```
 
@@ -94,9 +101,9 @@ Read more about the localization options [here](#localization).
 You are able to change the level of detail (from 1 up to 4, 2 by default) to get higher or lower granularity:
 
 ```ruby
->> Jekyll::Timeago.timeago(Date.today.prev_day(2000), depth: 3)
+>> timeago(Date.today.prev_day(2000), depth: 3)
 => "5 years, 5 months and 3 weeks ago"
->> Jekyll::Timeago.timeago(Date.today.prev_day(2000), depth: 4)
+>> timeago(Date.today.prev_day(2000), depth: 4)
 => "5 years, 5 months, 3 weeks and 4 days ago"
 ```
 
@@ -127,7 +134,7 @@ il y a environ 2 années et 6 mois
 
 ### Console
 
-Starts a custom IRB session with the `#timeago` method included:
+Starts a custom IRB session with the `timeago` method included:
 
 ```
 > jekyll-timeago --console
