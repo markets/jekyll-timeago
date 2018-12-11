@@ -10,13 +10,13 @@ de:
   prefix_future: 'in'
   years:
     one: '1 Jahr'
-    many: "%{count} Jahre"
+    other: "%{count} Jahre"
   months:
     one: '1 Monat'
-    many: '%{count} Monate'
+    other: '%{count} Monate'
   weeks:
     one: '1 Woche'
-    many: '%{count} Wochen'
+    other: '%{count} Wochen'
   days:
     one: '1 Tag'
-    many: '%{count} Tage'
+    other: '%{count} Tage'

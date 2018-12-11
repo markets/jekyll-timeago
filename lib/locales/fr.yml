@@ -10,13 +10,13 @@ fr:
   prefix_future: 'dans'
   years:
     one: '1 année'
-    many: "%{count} années"
+    other: "%{count} années"
   months:
     one: '1 mois'
-    many: '%{count} mois'
+    other: '%{count} mois'
   weeks:
     one: '1 semaine'
-    many: '%{count} semaines'
+    other: '%{count} semaines'
   days:
     one: '1 jour'
-    many: '%{count} jours'
+    other: '%{count} jours'

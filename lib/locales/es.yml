@@ -10,13 +10,13 @@ es:
   prefix_future: 'en'
   years:
     one: '1 año'
-    many: "%{count} años"
+    other: "%{count} años"
   months:
     one: '1 mes'
-    many: '%{count} meses'
+    other: '%{count} meses'
   weeks:
     one: '1 semana'
-    many: '%{count} semanas'
+    other: '%{count} semanas'
   days:
     one: '1 día'
-    many: '%{count} días'
+    other: '%{count} días'

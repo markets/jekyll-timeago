@@ -10,13 +10,13 @@ it:
   prefix_future: 'fra'
   years:
     one: '1 anno'
-    many: "%{count} anni"
+    other: "%{count} anni"
   months:
     one: '1 mese'
-    many: '%{count} mesi'
+    other: '%{count} mesi'
   weeks:
     one: '1 settimana'
-    many: '%{count} settimane'
+    other: '%{count} settimane'
   days:
     one: '1 giorno'
-    many: '%{count} giorni'
+    other: '%{count} giorni'
