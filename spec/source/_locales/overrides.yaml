@@ -1,2 +1,2 @@
 es:
-  prefix: ''
+  past: '%{date_range}'

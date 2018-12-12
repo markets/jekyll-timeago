@@ -2,12 +2,10 @@ it:
   today: 'oggi'
   yesterday: 'ieri'
   tomorrow: 'domani'
+  past: '%{date_range} fa'
+  future: 'fra %{date_range}'
   last_word_connector: 'e'
   words_connector: ', '
-  suffix: 'fa'
-  prefix: ''
-  suffix_future: ''
-  prefix_future: 'fra'
   years:
     one: '1 anno'
     other: "%{count} anni"

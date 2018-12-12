@@ -2,12 +2,10 @@ en:
   today: 'today'
   yesterday: 'yesterday'
   tomorrow: 'tomorrow'
+  past: '%{date_range} ago'
+  future: 'in %{date_range}'
   last_word_connector: 'and'
   words_connector: ', '
-  suffix: 'ago'
-  prefix: ''
-  suffix_future: ''
-  prefix_future: 'in'
   years:
     one: '1 year'
     other: "%{count} years"

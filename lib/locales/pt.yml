@@ -2,12 +2,10 @@ pt:
   today: 'hoje'
   yesterday: 'ontem'
   tomorrow: 'amanhã'
+  past: '%{date_range} atrás'
+  future: 'em %{date_range}'
   last_word_connector: 'e'
   words_connector: ', '
-  suffix: 'atrás'
-  prefix: ''
-  suffix_future: ''
-  prefix_future: 'em'
   years:
     one: '1 ano'
     other: "%{count} anos"

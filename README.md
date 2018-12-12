@@ -10,9 +10,9 @@ Main features:
 
 - Compute distance of dates, in words, ie: `1 week and 2 days ago`, `5 months ago`, `in 1 year`
 - Future times
-- Out of the box support for `Jekyll` (`v1`, `v2` and `v3`) projects, available as a Liquid Filter and as a Liquid Tag
+- Out of the box support for `Jekyll` projects, available as a Liquid Filter and as a Liquid Tag
 - Localization
-- Level of detail
+- Level of detail customization
 - Command line utility
 
 In fact, `jekyll-timeago` started as an extension for the [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily in any Ruby project.
@@ -123,6 +123,8 @@ end
 If you want to contribute and support more default languages, please feel free to send a pull request.
 
 ## CLI
+
+You can also `jekyll-timeago` from the command line:
 
 ```
 > jekyll-timeago --help

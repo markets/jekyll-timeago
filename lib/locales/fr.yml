@@ -2,12 +2,10 @@ fr:
   today: "aujourd'hui"
   yesterday: 'hier'
   tomorrow: 'demain'
+  past: 'il y a environ %{date_range}'
+  future: 'dans %{date_range}'
   last_word_connector: 'et'
   words_connector: ', '
-  suffix: ''
-  prefix: 'il y a environ'
-  suffix_future: ''
-  prefix_future: 'dans'
   years:
     one: '1 année'
     other: "%{count} années"

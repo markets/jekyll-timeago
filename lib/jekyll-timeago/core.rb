@@ -46,10 +46,6 @@ module Jekyll
         (1..MAX_DEPTH_LEVEL).include?(depth) ? depth : DEFAULT_DEPTH_LEVEL
       end
 
-      def t(key, options = {})
-        MiniI18n.translate(key, @options.merge(options))
-      end
-
       # Days passed to time ago sentence
       def time_ago_to_now(from, to, depth)
         days_passed = (to - from).to_i
@@ -63,10 +59,14 @@ module Jekyll
         sentence = to_sentence(slots)
 
         if future
-          "#{t(:prefix_future)} #{sentence} #{t(:suffix_future)}".strip
+          t(:future, date_range: sentence)
         else
-          "#{t(:prefix)} #{sentence} #{t(:suffix)}".strip
+          t(:past, date_range: sentence)
         end
+      end
+
+      def t(key, options = {})
+        MiniI18n.translate(key, @options.merge(options))
       end
 
       # Builds time ranges: ['1 month', '5 days']

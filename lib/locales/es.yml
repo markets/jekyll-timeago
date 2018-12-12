@@ -2,12 +2,10 @@ es:
   today: 'hoy'
   yesterday: 'ayer'
   tomorrow: 'mañana'
+  past: 'hace %{date_range}'
+  future: 'en %{date_range}'
   last_word_connector: 'y'
   words_connector: ', '
-  suffix: ''
-  prefix: 'hace'
-  suffix_future: ''
-  prefix_future: 'en'
   years:
     one: '1 año'
     other: "%{count} años"
