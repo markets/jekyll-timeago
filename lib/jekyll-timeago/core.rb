@@ -5,20 +5,10 @@ module Jekyll
     module Core
       extend self
 
-      DAYS_PER = {
-        days:   1,
-        weeks:  7,
-        months: 30,
-        years:  365
-      }
-
-      # Max level of detail
-      # years > months > weeks > days
-      # 1 year and 7 months and 2 weeks and 6 days
+      # Max level of detail: years > months > weeks > days
       MAX_DEPTH_LEVEL = 4
 
       # Default level of detail
-      # 1 month and 5 days, 3 weeks and 2 days, 2 years and 6 months
       DEFAULT_DEPTH_LEVEL = 2
 
       def timeago(from, to = Date.today, options = {})
@@ -46,7 +36,6 @@ module Jekyll
         (1..MAX_DEPTH_LEVEL).include?(depth) ? depth : DEFAULT_DEPTH_LEVEL
       end
 
-      # Days passed to time ago sentence
       def time_ago_to_now(from, to, depth)
         days_passed = (to - from).to_i
 
@@ -54,19 +43,14 @@ module Jekyll
         return t(:yesterday) if days_passed == 1
         return t(:tomorrow)  if days_passed == -1
 
-        future   = days_passed < 0
-        slots    = build_time_ago_slots(days_passed.abs, depth)
-        sentence = to_sentence(slots)
+        past_or_future = from < to ? :past : :future
+        slots = build_time_ago_slots(days_passed.abs, depth)
 
-        if future
-          t(:future, date_range: sentence)
-        else
-          t(:past, date_range: sentence)
-        end
+        t(past_or_future, date_range: to_sentence(slots))
       end
 
       def t(key, options = {})
-        MiniI18n.translate(key, @options.merge(options))
+        MiniI18n.t(key, @options.merge(options))
       end
 
       # Builds time ranges: ['1 month', '5 days']
@@ -76,27 +60,31 @@ module Jekyll
       def build_time_ago_slots(days_passed, depth, current_slots = [])
         return current_slots if depth == 0 || days_passed == 0
 
-        time_range = days_to_time_range(days_passed)
-        days       = DAYS_PER[time_range]
-        num_elems  = (days_passed / days).to_i
+        range     = days_to_range(days_passed)
+        days      = days_in(range)
+        num_elems = (days_passed / days).to_i
 
-        current_slots << t(time_range, count: num_elems)
+        current_slots << t(range, count: num_elems)
 
         pending_days = days_passed - (num_elems * days)
         build_time_ago_slots(pending_days, depth - 1, current_slots)
       end
 
-      # Number of days to minimum period time which can be grouped
-      def days_to_time_range(days_passed)
-        case days_passed.abs
-        when 1..6
-          :days
-        when 7..30
-          :weeks
-        when 31..365
-          :months
-        else
-          :years
+      def days_to_range(days)
+        case days.abs
+        when 1..6 then :days
+        when 7..30 then :weeks
+        when 31..365 then :months
+        else :years
+        end
+      end
+
+      def days_in(range)
+        case range
+        when :days then 1
+        when :weeks then 7
+        when :months then 30
+        when :years then 365
         end
       end
 
