@@ -1,22 +1,21 @@
 #!/usr/bin/env ruby
 
-require "mini_i18n"
 require_relative "../lib/jekyll-timeago"
 
-help_message = <<END
-Usage:
+help_message = <<~HELP_MESSAGE
+  Usage:
 
-  jekyll-timeago <from_date> [to_date]
+    jekyll-timeago <from_date> [to_date]
 
-Notes:
-        [to_date] Optional, defaults to current date
+  Notes:
+          [to_date] Optional, defaults to current date
 
-Options:
-        --help, -h      Prints this message
-        --version, -v   Prints the current version
-        --console, -c   Starts an interactive IRB session with jekyll-timeago included
-        --locale, -l    Uses the provided locale
-END
+  Options:
+          --help, -h      Prints this message
+          --version, -v   Prints the current version
+          --console, -c   Starts an interactive IRB session with jekyll-timeago included
+          --locale, -l    Uses the provided locale
+HELP_MESSAGE
 
 if ARGV.empty? || ARGV.include?("--help") || ARGV.include?("-h")
   puts help_message

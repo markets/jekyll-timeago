@@ -27,7 +27,7 @@ matrix:
       gemfile: gemfiles/jekyll_v1.gemfile
     - rvm: 2.4.5
       gemfile: gemfiles/jekyll_v2.gemfile
-    - rvm: 2.4.4
+    - rvm: 2.4.5
       gemfile: gemfiles/jekyll_v1.gemfile
   allow_failures:
     - rvm: ruby-head
