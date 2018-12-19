@@ -1,0 +1,20 @@
+ca:
+  today: 'avui'
+  yesterday: 'ahir'
+  tomorrow: 'demà'
+  past: 'fa %{date_range}'
+  future: "d'aquí %{date_range}"
+  last_word_connector: 'i'
+  words_connector: ', '
+  years:
+    one: '1 any'
+    other: '%{count} anys'
+  months:
+    one: '1 mes'
+    other: '%{count} mesos'
+  weeks:
+    one: '1 setmana'
+    other: '%{count} setmanes'
+  days:
+    one: '1 dia'
+    other: '%{count} dies'

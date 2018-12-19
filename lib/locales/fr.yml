@@ -8,7 +8,7 @@ fr:
   words_connector: ', '
   years:
     one: '1 année'
-    other: "%{count} années"
+    other: '%{count} années'
   months:
     one: '1 mois'
     other: '%{count} mois'

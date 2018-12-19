@@ -159,7 +159,7 @@ Install the `gem` to your system:
 In your `_config.yml` file, add a new array with the key gems and the values of the gem names of the plugins you’d like to use. In this case:
 
 ```yaml
-gems:
+plugins:
   - jekyll-timeago
 ```
 
