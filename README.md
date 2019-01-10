@@ -15,7 +15,7 @@ Main features:
 - Level of detail customization
 - Command line utility
 
-In fact, `jekyll-timeago` started as an extension for the [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily in any Ruby project.
+In fact, `jekyll-timeago` started as an extension for the [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily on any Ruby project and even as a tool from the [terminal](#cli)!
 
 Read more about the `Jekyll` integration [in this section](#jekyll-integration).
 
@@ -124,7 +124,7 @@ If you want to contribute and support more default languages, please feel free t
 
 ## CLI
 
-You can also `jekyll-timeago` from the command line:
+You can also use `jekyll-timeago` from the command line:
 
 ```
 > jekyll-timeago --help
