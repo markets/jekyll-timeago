@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "mini_i18n", '>= 0.8.0'
 
   spec.add_development_dependency "jekyll", ">= 1.5"
-  spec.add_development_dependency "bundler", "~> 2.0.1"
+  spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "appraisal"
