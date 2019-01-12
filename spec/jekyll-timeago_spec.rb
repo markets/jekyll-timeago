@@ -52,6 +52,11 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.next_day(1000), sample_date)).to eq('in 2 years and 9 months')
     end
 
+    it 'future time in Russian' do
+      expect(timeago(sample_date.next_day(7), sample_date, locale: :ru)).to eq('через неделю')
+      expect(timeago(sample_date.next_day(1000), sample_date, locale: :ru)).to eq('через 2 года и 9 месяцев')
+    end
+
     it 'allow different date formats' do
       expect(timeago('2010-1-1', '2012-1-1')).to eq('2 years ago')
       expect(timeago('2010/1/1', '2012/1/1')).to eq('2 years ago')
@@ -71,6 +76,7 @@ describe Jekyll::Timeago do
 
     it 'allow localization' do
       expect(timeago(sample_date.prev_day(100), sample_date, locale: :fr)).to eq('il y a environ 3 mois et 1 semaine')
+      expect(timeago(sample_date.prev_day(100), sample_date, locale: :ru)).to eq('3 месяца и неделю назад')
     end
   end
 
@@ -96,6 +102,7 @@ describe Jekyll::Timeago do
     it 'with custom locale' do
       expect(`bin/jekyll-timeago 2016-1-1 2016-1-5 -l fr`).to match("il y a environ 4 jours")
       expect(`bin/jekyll-timeago 2016-1-1 2016-1-5 --locale fr`).to match("il y a environ 4 jours")
+      expect(`bin/jekyll-timeago 2016-1-1 2016-1-5 --locale ru`).to match("4 дня назад")
     end
   end
 end
