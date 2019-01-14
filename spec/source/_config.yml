@@ -1,4 +1,4 @@
-gems:
+plugins:
   - jekyll-timeago
 
 jekyll_timeago:
@@ -9,3 +9,4 @@ jekyll_timeago:
     - 'en'
     - 'es'
     - 'fr'
+    - 'ru'

@@ -1,0 +1,24 @@
+ru:
+  today: 'сегодня'
+  yesterday: 'вчера'
+  tomorrow: 'завтра'
+  past: '%{date_range} назад'
+  future: 'через %{date_range}'
+  last_word_connector: 'и'
+  words_connector: ', '
+  years:
+    one: 'год'
+    few: '%{count} года'
+    other: '%{count} лет'
+  months:
+    one: 'месяц'
+    few: '%{count} месяца'
+    other: '%{count} месяцев'
+  weeks:
+    one: 'неделю'
+    few: '%{count} недели'
+    other: '%{count} недель'
+  days:
+    one: 'день'
+    few: '%{count} дня'
+    other: '%{count} дней'
