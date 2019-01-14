@@ -50,9 +50,6 @@ describe Jekyll::Timeago do
     it 'future time' do
       expect(timeago(sample_date.next_day(7), sample_date)).to eq('in 1 week')
       expect(timeago(sample_date.next_day(1000), sample_date)).to eq('in 2 years and 9 months')
-    end
-
-    it 'future time in Russian' do
       expect(timeago(sample_date.next_day(7), sample_date, locale: :ru)).to eq('через неделю')
       expect(timeago(sample_date.next_day(1000), sample_date, locale: :ru)).to eq('через 2 года и 9 месяцев')
     end

@@ -18,18 +18,16 @@ end
 
 MiniI18n.configure do |config|
   config.load_translations(__dir__ + '/locales/*.yml')
-  # https://developer.mozilla.org/en-US/docs/Mozilla/Localization/Localization_and_Plurals
   config.pluralization_rules = {
-    # Plural_rule_7_(3_forms)
     ru: -> (n) {
-        r = n % 10
-        if(n != 11 && r == 1)
-            'one'
-        elsif(!(12..14).include?(n) && (2..4).include?(r))
-            'few'
-        else
-            'other'
-        end
-    },
+      r = n % 10
+      if n != 11 && r == 1
+        'one'
+      elsif !(12..14).include?(n) && (2..4).include?(r)
+        'few'
+      else
+        'other'
+      end
+    }
   }
 end
