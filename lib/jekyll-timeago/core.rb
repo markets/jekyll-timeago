@@ -11,6 +11,9 @@ module Jekyll
       # Default level of detail
       DEFAULT_DEPTH_LEVEL = 2
 
+      # Default threshold
+      DEFAULT_THRESHOLD = 0
+
       def timeago(from, to = Date.today, options = {})
         if to.is_a?(Hash)
           options = to
@@ -22,8 +25,9 @@ module Jekyll
         from  = validate_date(from)
         to    = validate_date(to)
         depth = validate_depth(@options[:depth] || @options["depth"])
+        threshold = validate_threshold(@options[:threshold])
 
-        time_ago_to_now(from, to, depth)
+        time_ago_to_now(from, to, depth, threshold)
       end
 
       private
@@ -32,11 +36,15 @@ module Jekyll
         Date.parse(date.to_s)
       end
 
+      def validate_threshold(threshold)
+        (0.0 .. 1.0).include?(threshold) ? threshold : DEFAULT_THRESHOLD
+      end
+
       def validate_depth(depth)
         (1..MAX_DEPTH_LEVEL).include?(depth) ? depth : DEFAULT_DEPTH_LEVEL
       end
 
-      def time_ago_to_now(from, to, depth)
+      def time_ago_to_now(from, to, depth, threshold)
         days_passed = (to - from).to_i
 
         return t(:today)     if days_passed == 0
@@ -44,7 +52,7 @@ module Jekyll
         return t(:tomorrow)  if days_passed == -1
 
         past_or_future = from < to ? :past : :future
-        slots = build_time_ago_slots(days_passed.abs, depth)
+        slots = build_time_ago_slots(days_passed.abs, depth, threshold)
 
         t(past_or_future, date_range: to_sentence(slots))
       end
@@ -56,8 +64,9 @@ module Jekyll
       # Builds time ranges: ['1 month', '5 days']
       # - days_passed: integer in absolute
       # - depth: level of detail
+      # - threshold: minimum fractional difference to keep for next slot
       # - current_slots: built time slots
-      def build_time_ago_slots(days_passed, depth, current_slots = [])
+      def build_time_ago_slots(days_passed, depth, threshold, current_slots = [])
         return current_slots if depth == 0 || days_passed == 0
 
         range     = days_to_range(days_passed)
@@ -67,7 +76,12 @@ module Jekyll
         current_slots << t(range, count: num_elems)
 
         pending_days = days_passed - (num_elems * days)
-        build_time_ago_slots(pending_days, depth - 1, current_slots)
+
+        if pending_days >= (days_passed * threshold).floor
+          build_time_ago_slots(pending_days, depth - 1, threshold, current_slots)
+        else
+          current_slots
+        end
       end
 
       def days_to_range(days)

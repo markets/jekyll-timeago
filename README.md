@@ -14,6 +14,7 @@ Main features:
 - Localization
 - Level of detail customization
 - Command line utility
+- Approximate distance, with custom threshold. `366 days` becomes `1 year ago` instead of `1 year, 1 day ago`.
 
 In fact, `jekyll-timeago` started as an extension for the [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily on any Ruby project and even as a tool from the [terminal](#cli)!
 
@@ -105,6 +106,15 @@ You are able to change the level of detail (from 1 up to 4, 2 by default) to get
 => "5 years, 5 months and 3 weeks ago"
 >> timeago(Date.today.prev_day(2000), depth: 4)
 => "5 years, 5 months, 3 weeks and 4 days ago"
+```
+
+- `threshold` (default 0)
+
+The next component in the time must atleast match this threshold to be picked. Set to 0 by default, so you don't get any approximations. Can be used to drop "straggling" values which are too low to be of any use (`in 7 months, 2 days` is as good as saying `in 7 months`).
+
+```ruby
+>> timeago(Date.today.prev_day(366), depth: 2, threshold: 0.05)
+=> "1 year ago"
 ```
 
 ## Localization

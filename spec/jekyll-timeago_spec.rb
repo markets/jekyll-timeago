@@ -25,7 +25,8 @@ describe Jekyll::Timeago do
         "<p>2 años</p>\n"\
         "<p>12 meses</p>\n"\
         "<p>12 meses</p>\n"\
-        "<p>2 años</p>"
+        "<p>2 años</p>\n"\
+        "<p>en 1 año</p>\n"
 
       expect(contents).to eq(expected)
     end
@@ -69,6 +70,10 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(500), sample_date, depth: 3)).to eq('1 year, 4 months and 2 weeks ago')
       expect(timeago(sample_date.prev_day(500), sample_date, depth: 4)).to eq('1 year, 4 months, 2 weeks and 1 day ago')
       expect(timeago(sample_date.prev_day(500), sample_date, depth: 5)).to eq('1 year and 4 months ago')
+    end
+
+    it 'allow threshold configuration' do
+      expect(timeago(sample_date.prev_day(366), sample_date, threshold: 0.05)).to eq('1 year ago')
     end
 
     it 'allow localization' do
