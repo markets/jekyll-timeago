@@ -14,7 +14,7 @@ Main features:
 - Localization
 - Level of detail customization
 - Command line utility
-- Approximate distance, with customizable threshold, ie: `366 days` becomes `1 year ago` instead of `1 year, 1 day ago`
+- Approximate distance, with customizable threshold, ie: `366 days` becomes `1 year ago` instead of `1 year and 1 day ago`
 
 In fact, `jekyll-timeago` started as an extension for the [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily on any Ruby project and even as a tool from the [terminal](#cli)!
 
