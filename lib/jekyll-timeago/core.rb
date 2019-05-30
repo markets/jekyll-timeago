@@ -22,9 +22,9 @@ module Jekyll
 
         @options = options
 
-        from  = validate_date(from)
-        to    = validate_date(to)
-        depth = validate_depth(@options[:depth] || @options["depth"])
+        from      = validate_date(from)
+        to        = validate_date(to)
+        depth     = validate_depth(@options[:depth] || @options["depth"])
         threshold = validate_threshold(@options[:threshold])
 
         time_ago_to_now(from, to, depth, threshold)
@@ -37,7 +37,7 @@ module Jekyll
       end
 
       def validate_threshold(threshold)
-        (0.0 .. 1.0).include?(threshold) ? threshold : DEFAULT_THRESHOLD
+        (0.0..1.0).include?(threshold) ? threshold : DEFAULT_THRESHOLD
       end
 
       def validate_depth(depth)
