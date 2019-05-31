@@ -2,8 +2,8 @@ plugins:
   - jekyll-timeago
 
 jekyll_timeago:
-  depth: 1
-  threshold: 0.01
+  depth: 2
+  threshold: 0.05
   translations_path: "/_locales/*.yaml"
   default_locale: 'en'
   available_locales:
