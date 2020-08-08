@@ -1,0 +1,20 @@
+zh_hans:
+  today: '今天'
+  yesterday: '昨天'
+  tomorrow: '明天'
+  past: '%{date_range}以前'
+  future: '%{date_range}以后'
+  last_word_connector: ''
+  words_connector: ''
+  years:
+    one: '1年'
+    other: '%{count}年'
+  months:
+    one: '1个月'
+    other: '%{count}个月'
+  weeks:
+    one: '1周'
+    other: '%{count}周'
+  days:
+    one: '1天'
+    other: '%{count}天'
