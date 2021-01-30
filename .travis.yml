@@ -2,19 +2,15 @@ language: ruby
 cache: bundler
 rvm:
   - ruby-head
+  - 2.7.2
   - 2.6.3
   - 2.5.5
   - 2.4.5
-  - 2.3.8
 
 gemfile:
   - gemfiles/jekyll_v3.gemfile
+  - gemfiles/jekyll_v4.gemfile
 
 matrix:
-  include:
-    - rvm: 2.3.8
-      gemfile: gemfiles/jekyll_v2.gemfile
-    - rvm: 2.3.8
-      gemfile: gemfiles/jekyll_v1.gemfile
   allow_failures:
     - rvm: ruby-head
