@@ -230,7 +230,7 @@ Any kind of feedback, bug report, idea or enhancement are really appreciated.
 To contribute, just fork the repo, hack on it and send a pull request. Don't forget to add specs for behaviour changes and run the test suite:
 
 ```
-> bundle exec rake
+> bundle exec rspec
 ```
 
 ## License
