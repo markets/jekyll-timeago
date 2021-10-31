@@ -1,7 +1,7 @@
 # Jekyll-Timeago
 
 [![Gem Version](https://img.shields.io/gem/v/jekyll-timeago.svg)](https://rubygems.org/gems/jekyll-timeago)
-[![Build Status](https://travis-ci.com/markets/jekyll-timeago.svg?branch=master)](https://travis-ci.com/markets/jekyll-timeago)
+[![Build Status](https://github.com/markets/jekyll-timeago/workflows/CI/badge.svg)](https://github.com/markets/jekyll-timeago/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a8be458ba0532c2d057d/maintainability)](https://codeclimate.com/github/markets/jekyll-timeago/maintainability)
 
 > A Ruby library to compute distance of dates in words, with localization support. Originally built for Jekyll.
