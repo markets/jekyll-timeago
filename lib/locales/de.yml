@@ -2,16 +2,16 @@ de:
   today: 'heute'
   yesterday: 'gestern'
   tomorrow: 'morgen'
-  past: '%{date_range} zuvor'
+  past: 'vor %{date_range}'
   future: 'in %{date_range}'
   last_word_connector: 'und'
   words_connector: ', '
   years:
     one: '1 Jahr'
-    other: '%{count} Jahre'
+    other: '%{count} Jahren'
   months:
     one: '1 Monat'
-    other: '%{count} Monate'
+    other: '%{count} Monaten'
   weeks:
     one: '1 Woche'
     other: '%{count} Wochen'
