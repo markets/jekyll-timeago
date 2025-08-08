@@ -46,10 +46,15 @@ module Jekyll
 
       def time_ago_to_now(from, to, depth, threshold)
         days_passed = (to - from).to_i
+        style = @options[:style] || @options["style"]
+        is_short_style = style == :short || style == "short"
 
-        return t(:today)     if days_passed == 0
-        return t(:yesterday) if days_passed == 1
-        return t(:tomorrow)  if days_passed == -1
+        # For short style, bypass special cases and use regular formatting
+        unless is_short_style
+          return t(:today)     if days_passed == 0
+          return t(:yesterday) if days_passed == 1
+          return t(:tomorrow)  if days_passed == -1
+        end
 
         past_or_future = from < to ? :past : :future
         slots = build_time_ago_slots(days_passed.abs, depth, threshold)
