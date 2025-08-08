@@ -9,24 +9,16 @@ zh_hans:
   years:
     one: '1年'
     other: '%{count}年'
-  years_short:
-    one: '1年'
-    other: '%{count}年'
+  years_short: '%{count}年'
   months:
     one: '1个月'
     other: '%{count}个月'
-  months_short:
-    one: '1月'
-    other: '%{count}月'
+  months_short: '%{count}月'
   weeks:
     one: '1周'
     other: '%{count}周'
-  weeks_short:
-    one: '1周'
-    other: '%{count}周'
+  weeks_short: '%{count}周'
   days:
     one: '1天'
     other: '%{count}天'
-  days_short:
-    one: '1天'
-    other: '%{count}天'
+  days_short: '%{count}天'

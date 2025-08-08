@@ -9,24 +9,16 @@ ja:
   years:
     one: '1年'
     other: '%{count}年'
-  years_short:
-    one: '1年'
-    other: '%{count}年'
+  years_short: '%{count}年'
   months:
     one: '1ヶ月'
     other: '%{count}个月'
-  months_short:
-    one: '1月'
-    other: '%{count}月'
+  months_short: '%{count}月'
   weeks:
     one: '1週間'
     other: '%{count}週間'
-  weeks_short:
-    one: '1週'
-    other: '%{count}週'
+  weeks_short: '%{count}週'
   days:
     one: '1日'
     other: '%{count}日'
-  days_short:
-    one: '1日'
-    other: '%{count}日'
+  days_short: '%{count}日'
