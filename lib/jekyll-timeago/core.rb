@@ -47,6 +47,7 @@ module Jekyll
       def time_ago_to_now(from, to, depth, threshold)
         days_passed = (to - from).to_i
 
+        # Special cases for today, yesterday, and tomorrow (preserved for all styles)
         return t(:today)     if days_passed == 0
         return t(:yesterday) if days_passed == 1
         return t(:tomorrow)  if days_passed == -1
@@ -61,6 +62,16 @@ module Jekyll
         MiniI18n.t(key, @options.merge(options))
       end
 
+      # Translate a time unit, using short form if style is :short
+      def translate_unit(unit, count)
+        style = @options[:style] || @options["style"]
+        if style == :short || style == "short"
+          t("#{unit}_short", count: count)
+        else
+          t(unit, count: count)
+        end
+      end
+
       # Builds time ranges with natural unit conversions: ['1 month', '5 days']
       def build_time_ago_slots(days_passed, depth, threshold)
         # Calculate components with natural unit conversions
@@ -70,7 +81,7 @@ module Jekyll
         selected = select_components(components, depth, threshold, days_passed)
         
         # Convert to translated strings
-        selected.map { |unit, count| t(unit, count: count) }
+        selected.map { |unit, count| translate_unit(unit, count) }
       end
 
       def calculate_natural_components(days_passed)

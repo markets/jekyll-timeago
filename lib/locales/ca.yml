@@ -9,12 +9,16 @@ ca:
   years:
     one: '1 any'
     other: '%{count} anys'
+  years_short: '%{count}a'
   months:
     one: '1 mes'
     other: '%{count} mesos'
+  months_short: '%{count}m'
   weeks:
     one: '1 setmana'
     other: '%{count} setmanes'
+  weeks_short: '%{count}s'
   days:
     one: '1 dia'
     other: '%{count} dies'
+  days_short: '%{count}d'

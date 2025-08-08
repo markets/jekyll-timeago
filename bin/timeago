@@ -15,6 +15,7 @@ help_message = <<~HELP_MESSAGE
       --version, -v   Prints the current version
       --console, -c   Starts an interactive IRB session with jekyll-timeago included
       --locale, -l    Uses the provided locale
+      --style, -s     Uses the provided style (short)
 HELP_MESSAGE
 
 if ARGV.empty? || ARGV.include?("--help") || ARGV.include?("-h")
@@ -28,6 +29,9 @@ elsif ARGV.include?("--console") || ARGV.include?("-c")
   ARGV.clear
   IRB.start
 else
+  options = {}
+  
+  # Handle locale option
   custom_locale = "--locale" if ARGV.include?("--locale")
   custom_locale = "-l" if ARGV.include?("-l")
 
@@ -35,10 +39,21 @@ else
     index = ARGV.index(custom_locale)
     locale = ARGV.delete_at(index + 1)
     ARGV.delete_at(index)
-
-    options = { locale: locale }
-    ARGV << options
+    options[:locale] = locale
   end
+
+  # Handle style option
+  custom_style = "--style" if ARGV.include?("--style")
+  custom_style = "-s" if ARGV.include?("-s")
+
+  if custom_style
+    index = ARGV.index(custom_style)
+    style = ARGV.delete_at(index + 1)
+    ARGV.delete_at(index)
+    options[:style] = style
+  end
+
+  ARGV << options if !options.empty?
 
   begin
     puts Jekyll::Timeago.timeago *ARGV

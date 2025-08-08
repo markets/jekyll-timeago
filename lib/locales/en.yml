@@ -9,12 +9,16 @@ en:
   years:
     one: '1 year'
     other: '%{count} years'
+  years_short: '%{count}y'
   months:
     one: '1 month'
     other: '%{count} months'
+  months_short: '%{count}mo'
   weeks:
     one: '1 week'
     other: '%{count} weeks'
+  weeks_short: '%{count}w'
   days:
     one: '1 day'
     other: '%{count} days'
+  days_short: '%{count}d'
