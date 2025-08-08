@@ -52,8 +52,7 @@ module Jekyll
         return t(:tomorrow)  if days_passed == -1
 
         past_or_future = from < to ? :past : :future
-        slots = build_time_ago_slots(days_passed.abs, depth, threshold)
-        slots = apply_simple_rounding(slots)
+        slots = build_intelligent_time_slots(days_passed.abs, depth, threshold)
 
         t(past_or_future, date_range: to_sentence(slots))
       end
@@ -62,52 +61,124 @@ module Jekyll
         MiniI18n.t(key, @options.merge(options))
       end
 
-      # Apply simple rounding rules for more natural expressions
-      def apply_simple_rounding(slots)
-        return slots if slots.empty?
+      # Builds time ranges intelligently with natural rounding: ['1 month', '5 days']
+      # This approach calculates intelligent time units from the start, avoiding post-processing
+      def build_intelligent_time_slots(days_passed, depth, threshold)
+        # Start with raw calculation
+        time_components = calculate_time_components(days_passed)
         
-        # Handle "12 months" -> "1 year"
-        if slots.length == 1 && slots[0] == t(:months, count: 12)
-          return [t(:years, count: 1)]
-        end
+        # Apply intelligent rounding during selection
+        selected_components = select_natural_components(time_components, depth, threshold)
         
-        # Handle "1 month and 4 weeks" -> "2 months"
-        if slots.length == 2 && 
-           slots[0] == t(:months, count: 1) && 
-           slots[1] == t(:weeks, count: 4)
-          return [t(:months, count: 2)]
-        end
-        
-        # Handle "1 year and 12 months" -> "2 years"  
-        if slots.length == 2 &&
-           slots[0] == t(:years, count: 1) &&
-           slots[1] == t(:months, count: 12)
-          return [t(:years, count: 2)]
-        end
-        
-        slots
+        # Convert to translated slots
+        selected_components.map { |unit, count| t(unit, count: count) }
       end
-
-      # Builds time ranges: ['1 month', '5 days']
-      # - days_passed: integer in absolute
-      # - depth: level of detail
-      # - threshold: minimum fractional difference to keep for next slot
-      # - current_slots: built time slots
-      def build_time_ago_slots(days_passed, depth, threshold, current_slots = [])
-        return current_slots if depth == 0 || days_passed == 0
-
-        range     = days_to_range(days_passed)
-        days      = days_in(range)
-        num_elems = (days_passed / days).to_i
-
-        current_slots << t(range, count: num_elems)
-
-        pending_days = days_passed - (num_elems * days)
-
-        if pending_days >= (days_passed * threshold).floor
-          build_time_ago_slots(pending_days, depth - 1, threshold, current_slots)
+      
+      # Calculate all possible time components from days
+      def calculate_time_components(days_passed)
+        years = days_passed / 365
+        remaining_after_years = days_passed % 365
+        
+        months = remaining_after_years / 30
+        remaining_after_months = remaining_after_years % 30
+        
+        weeks = remaining_after_months / 7
+        days = remaining_after_months % 7
+        
+        {
+          years: years,
+          months: months, 
+          weeks: weeks,
+          days: days,
+          total_days: days_passed
+        }
+      end
+      
+      # Intelligently select which components to use with natural rounding
+      def select_natural_components(components, depth, threshold)
+        total_days = components[:total_days]
+        
+        # Handle special cases that should be rounded naturally
+        
+        # Case: ~12 months (360 days) should become 1 year
+        if total_days >= 355 && total_days <= 370
+          return [[:years, 1]]
+        end
+        
+        # Case: ~24 months should become 2 years  
+        if total_days >= 720 && total_days <= 730
+          return [[:years, 2]]
+        end
+        
+        # Case: 1 month + 4 weeks (58 days) should become 2 months
+        if total_days >= 55 && total_days <= 65 && 
+           components[:years] == 0 && components[:months] == 1 && components[:weeks] >= 3
+          return [[:months, 2]]
+        end
+        
+        # Default case: use standard algorithm but with intelligent choices
+        build_standard_slots_intelligently(components, depth, threshold)
+      end
+      
+      # Build slots using enhanced version of original algorithm
+      def build_standard_slots_intelligently(components, depth, threshold)
+        total_days = components[:total_days]
+        result = []
+        remaining_days = total_days
+        
+        # Years
+        if remaining_days >= 365 && result.length < depth
+          years = remaining_days / 365
+          result << [:years, years]
+          remaining_days = remaining_days % 365
+        end
+        
+        # Months (but avoid "12 months" - it should have been caught above)
+        if remaining_days >= 30 && result.length < depth
+          months = remaining_days / 30
+          # If we would get exactly 12 months, round to 1 year instead
+          if months == 12 && result.empty?
+            result << [:years, 1]
+            return result
+          end
+          result << [:months, months]
+          remaining_days = remaining_days % 30
+        end
+        
+        # Weeks 
+        if remaining_days >= 7 && result.length < depth
+          weeks = remaining_days / 7
+          # Check if this creates an unnatural combination
+          if result.length == 1 && result[0] == [:months, 1] && weeks == 4
+            # This would create "1 month and 4 weeks" - convert to "2 months"
+            return [[:months, 2]]
+          end
+          result << [:weeks, weeks]
+          remaining_days = remaining_days % 7
+        end
+        
+        # Days
+        if remaining_days > 0 && result.length < depth
+          result << [:days, remaining_days]
+        end
+        
+        # Apply threshold filtering
+        apply_threshold_filtering(result, total_days, threshold)
+      end
+      
+      # Filter out components that are below threshold
+      def apply_threshold_filtering(components, total_days, threshold)
+        return components if threshold == 0 || components.length <= 1
+        
+        # Calculate if smallest component meets threshold
+        last_component = components.last
+        last_unit, last_count = last_component
+        last_days = last_count * days_in(last_unit)
+        
+        if last_days < (total_days * threshold).floor
+          components[0...-1] # Remove last component
         else
-          current_slots
+          components
         end
       end
 
