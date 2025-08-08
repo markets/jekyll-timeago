@@ -137,10 +137,10 @@ If you want to contribute and support more default languages, please feel free t
 You can also use `jekyll-timeago` from the command line:
 
 ```
-> jekyll-timeago --help
-> jekyll-timeago 2016-1-1
+> timeago --help
+> timeago 2016-1-1
 2 years and 6 months ago
-> jekyll-timeago 2016-1-1 --locale fr
+> timeago 2016-1-1 --locale fr
 il y a environ 2 années et 6 mois
 ```
 
@@ -149,7 +149,7 @@ il y a environ 2 années et 6 mois
 Starts a custom IRB session with the `timeago` method included:
 
 ```
-> jekyll-timeago --console
+> timeago --console
 >> timeago(Date.today)
 => "today"
 ```
