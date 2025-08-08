@@ -1,0 +1,14 @@
+en:
+  hello: "hello"
+  hello_interpolation: "hello %{name}"
+  fallback: "fallback"
+  second_level:
+    hello: ""
+  notifications:
+    zero: 'no unread notifications'
+    one: '1 unread notification'
+    other: '%{count} unread notifications'
+  number:
+    as:
+      currency: '%{number} $'
+      distance: 'Distance -> %{number} miles'

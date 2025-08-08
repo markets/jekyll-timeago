@@ -1,0 +1,25 @@
+en:
+  bye: "bye"
+  second_level:
+    hello: "hello 2"
+
+es:
+  hello: "hola"
+  hello_interpolation: "hola %{name}"
+  fallback: ""
+  bye: "adiós"
+  second_level:
+    hello: "hola 2"
+  number:
+    as:
+      currency: '%{number} €'
+  notifications:
+    zero: 'no hay nuevas notificaciones'
+    other: 'tienes notificaciones por leer'
+
+fr:
+  hello: "bonjour"
+  hello_interpolation: "bonjour %{name}"
+  bye: "au revoir"
+  second_level:
+    hello: "bonjour 2"

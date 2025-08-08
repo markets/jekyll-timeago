@@ -1,0 +1,17 @@
+es:
+  date:
+    formats:
+      default: "%-d/%-m/%Y"
+      short: "%-d %b %y"
+    day_names: [domingo, lunes, martes, miércoles, jueves, viernes, sábado]
+    abbr_day_names: [dom, lun, mar, mié, jue, vie, sáb]
+    month_names: [enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre]
+    abbr_month_names: [ene, feb, mar, abr, may, jun, jul, ago, sep, oct, nov, dic]
+  time:
+    formats:
+      default: "%a %-d de %B de %Y - %H:%M"
+      short: "%-d %b %y - %H:%M"
+  number:
+    format:
+      delimiter: '.'
+      separator: ','

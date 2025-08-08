@@ -1,0 +1,17 @@
+it:
+  date:
+    formats:
+      default: "%A %-d %B %Y"
+      short: "%-d/%m/%y"
+    day_names: [domenica, lunedì, martedì, mercoledì, giovedì, venerdì, sabato]
+    abbr_day_names: [dom, lun, mar, mer, gio, ven, sab]
+    month_names: [gennaio, febbraio, marzo, aprile, maggio, giugno, luglio, agosto, settembre, ottobre, novembre, dicembre]
+    abbr_month_names: [gen, feb, mar, apr, mag, giu, lug, ago, set, ott, nov, dic]
+  time:
+    formats:
+      default: "%a %-d %B %Y - %H:%M"
+      short: "%-d/%m/%y - %H:%M"
+  number:
+    format:
+      delimiter: '.'
+      separator: ','
