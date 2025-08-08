@@ -102,8 +102,14 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(60), sample_date, style: :short)).to eq('2mo ago')
       expect(timeago(sample_date.prev_day(7), sample_date, style: :short)).to eq('1w ago')
       expect(timeago(sample_date.prev_day(14), sample_date, style: :short)).to eq('2w ago')
-      expect(timeago(sample_date.prev_day(1), sample_date, style: :short)).to eq('1d ago')
+      expect(timeago(sample_date.prev_day(1), sample_date, style: :short)).to eq('yesterday')
       expect(timeago(sample_date.prev_day(2), sample_date, style: :short)).to eq('2d ago')
+    end
+
+    it 'preserve special cases (today, yesterday, tomorrow) with short style' do
+      expect(timeago(today, today, style: :short)).to eq('today')
+      expect(timeago(today.prev_day, today, style: :short)).to eq('yesterday')
+      expect(timeago(today.next_day, today, style: :short)).to eq('tomorrow')
     end
 
     it 'allow short style with different locales' do
