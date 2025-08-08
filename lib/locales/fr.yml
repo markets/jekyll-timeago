@@ -9,12 +9,24 @@ fr:
   years:
     one: '1 année'
     other: '%{count} années'
+  years_short:
+    one: '1a'
+    other: '%{count}a'
   months:
     one: '1 mois'
     other: '%{count} mois'
+  months_short:
+    one: '1mo'
+    other: '%{count}mo'
   weeks:
     one: '1 semaine'
     other: '%{count} semaines'
+  weeks_short:
+    one: '1s'
+    other: '%{count}s'
   days:
     one: '1 jour'
     other: '%{count} jours'
+  days_short:
+    one: '1j'
+    other: '%{count}j'

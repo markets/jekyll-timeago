@@ -93,6 +93,31 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(100), sample_date, locale: :fr)).to eq('il y a environ 3 mois et 1 semaine')
       expect(timeago(sample_date.prev_day(100), sample_date, locale: :ru)).to eq('3 месяца и неделю назад')
     end
+
+    it 'allow short style formatting' do
+      expect(timeago(sample_date.prev_day(365), sample_date, style: :short)).to eq('1y ago')
+      expect(timeago(sample_date.prev_day(365), sample_date, "style" => "short")).to eq('1y ago')
+      expect(timeago(sample_date.prev_day(730), sample_date, style: :short)).to eq('2y ago')
+      expect(timeago(sample_date.prev_day(30), sample_date, style: :short)).to eq('1mo ago')
+      expect(timeago(sample_date.prev_day(60), sample_date, style: :short)).to eq('2mo ago')
+      expect(timeago(sample_date.prev_day(7), sample_date, style: :short)).to eq('1w ago')
+      expect(timeago(sample_date.prev_day(14), sample_date, style: :short)).to eq('2w ago')
+      expect(timeago(sample_date.prev_day(1), sample_date, style: :short)).to eq('1d ago')
+      expect(timeago(sample_date.prev_day(2), sample_date, style: :short)).to eq('2d ago')
+    end
+
+    it 'allow short style with different locales' do
+      expect(timeago(sample_date.prev_day(365), sample_date, locale: :fr, style: :short)).to eq('il y a environ 1a')
+      expect(timeago(sample_date.prev_day(365), sample_date, locale: :ru, style: :short)).to eq('1г назад')
+      expect(timeago(sample_date.prev_day(365), sample_date, locale: :es, style: :short)).to eq('hace 1a')
+      expect(timeago(sample_date.prev_day(30), sample_date, locale: :de, style: :short)).to eq('vor 1mo')
+    end
+
+    it 'allow complex combinations with short style' do
+      expect(timeago(sample_date.prev_day(400), sample_date, style: :short)).to eq('1y and 1mo ago')
+      expect(timeago(sample_date.prev_day(100), sample_date, style: :short, depth: 1)).to eq('3mo ago')
+      expect(timeago(sample_date.prev_day(100), sample_date, style: :short, depth: 3)).to eq('3mo, 1w and 3d ago')
+    end
   end
 
   context 'CLI' do
@@ -118,6 +143,17 @@ describe Jekyll::Timeago do
       expect(`bin/timeago 2016-1-1 2016-1-5 -l fr`).to match("il y a environ 4 jours")
       expect(`bin/timeago 2016-1-1 2016-1-5 --locale fr`).to match("il y a environ 4 jours")
       expect(`bin/timeago 2016-1-1 2016-1-5 --locale ru`).to match("4 дня назад")
+    end
+
+    it 'with short style' do
+      expect(`bin/timeago 2016-1-1 2018-1-1 -s short`).to match("2y ago")
+      expect(`bin/timeago 2016-1-1 2018-1-1 --style short`).to match("2y ago")
+      expect(`bin/timeago 2016-1-1 2016-2-1 -s short`).to match("1mo ago")
+    end
+
+    it 'with combined locale and style options' do
+      expect(`bin/timeago 2016-1-1 2018-1-1 -l fr -s short`).to match("il y a environ 2a")
+      expect(`bin/timeago 2016-1-1 2018-1-1 --locale ru --style short`).to match("2г назад")
     end
   end
 end

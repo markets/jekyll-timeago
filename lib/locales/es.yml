@@ -9,12 +9,24 @@ es:
   years:
     one: '1 año'
     other: '%{count} años'
+  years_short:
+    one: '1a'
+    other: '%{count}a'
   months:
     one: '1 mes'
     other: '%{count} meses'
+  months_short:
+    one: '1m'
+    other: '%{count}m'
   weeks:
     one: '1 semana'
     other: '%{count} semanas'
+  weeks_short:
+    one: '1s'
+    other: '%{count}s'
   days:
     one: '1 día'
     other: '%{count} días'
+  days_short:
+    one: '1d'
+    other: '%{count}d'

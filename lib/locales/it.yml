@@ -9,12 +9,24 @@ it:
   years:
     one: '1 anno'
     other: '%{count} anni'
+  years_short:
+    one: '1a'
+    other: '%{count}a'
   months:
     one: '1 mese'
     other: '%{count} mesi'
+  months_short:
+    one: '1m'
+    other: '%{count}m'
   weeks:
     one: '1 settimana'
     other: '%{count} settimane'
+  weeks_short:
+    one: '1s'
+    other: '%{count}s'
   days:
     one: '1 giorno'
     other: '%{count} giorni'
+  days_short:
+    one: '1g'
+    other: '%{count}g'
