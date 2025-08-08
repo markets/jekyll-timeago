@@ -53,13 +53,39 @@ module Jekyll
 
         past_or_future = from < to ? :past : :future
         slots = build_time_ago_slots(days_passed.abs, depth, threshold)
-        slots = apply_rounding_rules(slots)
+        slots = apply_simple_rounding(slots)
 
         t(past_or_future, date_range: to_sentence(slots))
       end
 
       def t(key, options = {})
         MiniI18n.t(key, @options.merge(options))
+      end
+
+      # Apply simple rounding rules for more natural expressions
+      def apply_simple_rounding(slots)
+        return slots if slots.empty?
+        
+        # Handle "12 months" -> "1 year"
+        if slots.length == 1 && slots[0] == t(:months, count: 12)
+          return [t(:years, count: 1)]
+        end
+        
+        # Handle "1 month and 4 weeks" -> "2 months"
+        if slots.length == 2 && 
+           slots[0] == t(:months, count: 1) && 
+           slots[1] == t(:weeks, count: 4)
+          return [t(:months, count: 2)]
+        end
+        
+        # Handle "1 year and 12 months" -> "2 years"  
+        if slots.length == 2 &&
+           slots[0] == t(:years, count: 1) &&
+           slots[1] == t(:months, count: 12)
+          return [t(:years, count: 2)]
+        end
+        
+        slots
       end
 
       # Builds time ranges: ['1 month', '5 days']
@@ -82,71 +108,6 @@ module Jekyll
           build_time_ago_slots(pending_days, depth - 1, threshold, current_slots)
         else
           current_slots
-        end
-      end
-
-      # Apply rounding rules to handle cases like "1 month and 4 weeks" -> "2 months"
-      # and "1 year and 12 months" -> "2 years"
-      def apply_rounding_rules(slots)
-        # Handle single slot case: "12 months" -> "1 year"
-        if slots.length == 1
-          count, unit = parse_slot_info(slots[0])
-          if unit == :months && count == 12
-            return [t(:years, count: 1)]
-          end
-          return slots
-        end
-
-        return slots if slots.length < 2
-
-        # Parse the first slot to get unit and count
-        first_slot = slots[0]
-        second_slot = slots[1]
-
-        # Extract count and unit from localized strings by checking known patterns
-        first_count, first_unit = parse_slot_info(first_slot)
-        second_count, second_unit = parse_slot_info(second_slot)
-
-        return slots unless first_count && first_unit && second_count && second_unit
-
-        # Apply rounding rules
-        if should_round_up?(first_unit, second_unit, second_count)
-          # Create rounded up slot
-          new_count = first_count + 1
-          rounded_slot = t(first_unit, count: new_count)
-          [rounded_slot]
-        else
-          slots
-        end
-      end
-
-      # Parse slot information to extract count and unit
-      def parse_slot_info(slot)
-        # This is a simplified approach - we'll extract the unit by checking translations
-        units = [:years, :months, :weeks, :days]
-        
-        units.each do |unit|
-          # Generate sample translations to match against
-          (1..15).each do |count|
-            sample = t(unit, count: count)
-            if slot == sample
-              return [count, unit]
-            end
-          end
-        end
-        
-        [nil, nil]
-      end
-
-      # Determine if we should round up based on the units and count
-      def should_round_up?(first_unit, second_unit, second_count)
-        case [first_unit, second_unit]
-        when [:months, :weeks]
-          second_count == 4  # 4 weeks ≈ 1 month
-        when [:years, :months]
-          second_count == 12  # 12 months = 1 year
-        else
-          false
         end
       end
 
