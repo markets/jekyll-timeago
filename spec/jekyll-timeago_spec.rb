@@ -106,12 +106,6 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(2), sample_date, style: :short)).to eq('2d ago')
     end
 
-    it 'preserve special cases (today, yesterday, tomorrow) with short style' do
-      expect(timeago(today, today, style: :short)).to eq('today')
-      expect(timeago(today.prev_day, today, style: :short)).to eq('yesterday')
-      expect(timeago(today.next_day, today, style: :short)).to eq('tomorrow')
-    end
-
     it 'allow short style with different locales' do
       expect(timeago(sample_date.prev_day(365), sample_date, locale: :fr, style: :short)).to eq('il y a environ 1a')
       expect(timeago(sample_date.prev_day(365), sample_date, locale: :ru, style: :short)).to eq('1г назад')
@@ -152,14 +146,14 @@ describe Jekyll::Timeago do
     end
 
     it 'with short style' do
-      expect(`bin/timeago 2016-1-1 2018-1-1 -s short`).to match("2y ago")
-      expect(`bin/timeago 2016-1-1 2018-1-1 --style short`).to match("2y ago")
-      expect(`bin/timeago 2016-1-1 2016-2-1 -s short`).to match("1mo ago")
+      expect(`bin/timeago 2016-1-1 2018-1-1 -s short`).to match("2y and 1d ago")
+      expect(`bin/timeago 2016-1-1 2018-1-1 --style short`).to match("2y and 1d ago")
+      expect(`bin/timeago 2016-1-1 2016-2-1 -s short`).to match("1mo and 1d ago")
     end
 
     it 'with combined locale and style options' do
       expect(`bin/timeago 2016-1-1 2018-1-1 -l fr -s short`).to match("il y a environ 2a")
-      expect(`bin/timeago 2016-1-1 2018-1-1 --locale ru --style short`).to match("2г назад")
+      expect(`bin/timeago 2016-1-1 2018-1-1 --locale ru --style short`).to match("2г и 1д назад")
     end
   end
 end

@@ -119,7 +119,7 @@ The next component in the time must at least match this threshold to be picked. 
 
 #### `style`
 
-Use `:short` style for abbreviated time formats while preserving natural language for special cases:
+Use `:short` style for abbreviated time formats:
 
 ```ruby
 >> timeago(Date.today.prev_day(365), style: :short)
@@ -128,10 +128,6 @@ Use `:short` style for abbreviated time formats while preserving natural languag
 => "1mo ago"
 >> timeago(Date.today.prev_day(7), style: :short)
 => "1w ago"
->> timeago(Date.today.prev_day(1), style: :short)
-=> "yesterday"
->> timeago(Date.today, style: :short)
-=> "today"
 ```
 
 Short style works with all other options:
@@ -181,15 +177,6 @@ You can use the `--style` (or `-s`) option to get abbreviated time formats:
 2y ago
 > timeago 2016-1-1 2016-2-1 --style short
 1mo ago
-```
-
-The short style preserves natural language for special cases like "today", "yesterday", and "tomorrow":
-
-```
-> timeago $(date -d "yesterday" +%Y-%m-%d) $(date +%Y-%m-%d) --style short
-yesterday
-> timeago $(date +%Y-%m-%d) $(date +%Y-%m-%d) --style short
-today
 ```
 
 You can combine style with locale options:
