@@ -5,16 +5,16 @@ require_relative "../lib/jekyll-timeago"
 help_message = <<~HELP_MESSAGE
   Usage:
 
-    jekyll-timeago <from_date> [to_date]
+    timeago <from_date> [to_date]
 
   Notes:
-          [to_date] Optional, defaults to current date
+      [to_date] Optional, defaults to current date
 
   Options:
-          --help, -h      Prints this message
-          --version, -v   Prints the current version
-          --console, -c   Starts an interactive IRB session with jekyll-timeago included
-          --locale, -l    Uses the provided locale
+      --help, -h      Prints this message
+      --version, -v   Prints the current version
+      --console, -c   Starts an interactive IRB session with jekyll-timeago included
+      --locale, -l    Uses the provided locale
 HELP_MESSAGE
 
 if ARGV.empty? || ARGV.include?("--help") || ARGV.include?("-h")

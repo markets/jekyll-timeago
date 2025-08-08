@@ -97,27 +97,27 @@ describe Jekyll::Timeago do
 
   context 'CLI' do
     it 'prints help message if called with no params or --help' do
-      expect(`bin/jekyll-timeago`).to match("Usage")
-      expect(`bin/jekyll-timeago --help`).to match("Usage")
+      expect(`bin/timeago`).to match("Usage")
+      expect(`bin/timeago --help`).to match("Usage")
     end
 
     it 'prints current version' do
-      expect(`bin/jekyll-timeago -v`).to match("v#{Jekyll::Timeago::VERSION}")
-      expect(`bin/jekyll-timeago --version`).to match("v#{Jekyll::Timeago::VERSION}")
+      expect(`bin/timeago -v`).to match("v#{Jekyll::Timeago::VERSION}")
+      expect(`bin/timeago --version`).to match("v#{Jekyll::Timeago::VERSION}")
     end
 
     it 'computes distance of dates' do
-      expect(`bin/jekyll-timeago 2016-1-1 2016-1-5`).to match("4 days ago")
+      expect(`bin/timeago 2016-1-1 2016-1-5`).to match("4 days ago")
     end
 
     it 'prints error with invalid date' do
-      expect(`bin/jekyll-timeago 0`).to match("Error!")
+      expect(`bin/timeago 0`).to match("Error!")
     end
 
     it 'with custom locale' do
-      expect(`bin/jekyll-timeago 2016-1-1 2016-1-5 -l fr`).to match("il y a environ 4 jours")
-      expect(`bin/jekyll-timeago 2016-1-1 2016-1-5 --locale fr`).to match("il y a environ 4 jours")
-      expect(`bin/jekyll-timeago 2016-1-1 2016-1-5 --locale ru`).to match("4 дня назад")
+      expect(`bin/timeago 2016-1-1 2016-1-5 -l fr`).to match("il y a environ 4 jours")
+      expect(`bin/timeago 2016-1-1 2016-1-5 --locale fr`).to match("il y a environ 4 jours")
+      expect(`bin/timeago 2016-1-1 2016-1-5 --locale ru`).to match("4 дня назад")
     end
   end
 end
