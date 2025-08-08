@@ -73,20 +73,13 @@ describe Jekyll::Timeago do
     end
 
     it 'allow threshold configuration' do
-      expect(timeago(sample_date.prev_day(366), sample_date, threshold: 0.05)).to eq('1 year ago')
+      expect(timeago(sample_date.prev_day(366), sample_date, threshold: 0.1)).to eq('1 year ago')
     end
 
     it 'applies rounding rules for natural language' do
-      # Test "1 month and 4 weeks" rounds to "2 months"
       expect(timeago(sample_date.prev_day(58), sample_date)).to eq('2 months ago')
-      
-      # Test "12 months" rounds to "1 year"
       expect(timeago(sample_date.prev_day(360), sample_date)).to eq('1 year ago')
-      
-      # Test "1 year and 12 months" rounds to "2 years"
       expect(timeago(sample_date.prev_day(725), sample_date)).to eq('2 years ago')
-      
-      # Test future cases too
       expect(timeago(sample_date.next_day(58), sample_date)).to eq('in 2 months')
       expect(timeago(sample_date.next_day(360), sample_date)).to eq('in 1 year')
       expect(timeago(sample_date.next_day(725), sample_date)).to eq('in 2 years')

@@ -62,7 +62,6 @@ module Jekyll
       end
 
       # Builds time ranges with natural unit conversions: ['1 month', '5 days']
-      # Uses mathematical rules to convert units naturally (12 months = 1 year, 4 weeks = 1 month)
       def build_time_ago_slots(days_passed, depth, threshold)
         # Calculate components with natural unit conversions
         components = calculate_natural_components(days_passed)
@@ -74,9 +73,7 @@ module Jekyll
         selected.map { |unit, count| t(unit, count: count) }
       end
 
-      # Calculate time components with natural unit conversions applied
       def calculate_natural_components(days_passed)
-        # Calculate raw components using standard division
         years = days_passed / 365
         remaining_days = days_passed % 365
         
@@ -86,15 +83,11 @@ module Jekyll
         weeks = remaining_days / 7
         days = remaining_days % 7
         
-        components = { years: years, months: months, weeks: weeks, days: days }
-        
-        # Apply natural unit conversions using mathematical rules
-        normalize_units(components)
+        normalize_units({ years: years, months: months, weeks: weeks, days: days })
       end
 
-      # Apply mathematical unit conversions (no hardcoded cases)
       def normalize_units(components)
-        # Convert 12+ months to years (handles any multiple: 12→1yr, 24→2yr, 36→3yr, etc.)
+        # Convert 12+ months to years (handles any multiple: 12 → 1yr, 24 → 2yr, 36 → 3yr, etc.)
         if components[:months] >= 12
           additional_years = components[:months] / 12
           components[:years] += additional_years
@@ -120,7 +113,6 @@ module Jekyll
 
       # Select components based on depth and apply threshold filtering
       def select_components(components, depth, threshold, total_days)
-        # Build array of non-zero components in order of significance
         result = []
         
         [:years, :months, :weeks, :days].each do |unit|
@@ -130,7 +122,6 @@ module Jekyll
           end
         end
         
-        # Apply threshold filtering to remove insignificant components
         apply_threshold_filtering(result, total_days, threshold)
       end
 
@@ -146,15 +137,6 @@ module Jekyll
           components[0...-1] # Remove last component
         else
           components
-        end
-      end
-
-      def days_to_range(days)
-        case days.abs
-        when 1..6 then :days
-        when 7..30 then :weeks
-        when 31..365 then :months
-        else :years
         end
       end
 

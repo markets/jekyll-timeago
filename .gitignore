@@ -5,4 +5,5 @@ spec/_site
 .rpsec
 *.gemfile.lock
 .byebug_history
+.bundle
 vendor/

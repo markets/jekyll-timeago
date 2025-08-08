@@ -84,7 +84,7 @@ puts timeago('2030-1-1')
 
 ### Options
 
-* `locale`
+#### `locale`
 
 To use a different language:
 
@@ -97,7 +97,7 @@ To use a different language:
 
 Read more about the localization options [here](#localization).
 
-* `depth`
+#### `depth`
 
 You are able to change the level of detail (from 1 up to 4, 2 by default) to get higher or lower granularity:
 
@@ -108,7 +108,7 @@ You are able to change the level of detail (from 1 up to 4, 2 by default) to get
 => "5 years, 5 months, 3 weeks and 4 days ago"
 ```
 
-- `threshold`
+#### `threshold`
 
 The next component in the time must at least match this threshold to be picked. Set to 0 by default, so you don't get any approximations. Can be used to drop "straggling" values which are too low to be of any use (`in 7 months and 2 days` is as good as saying `in 7 months`).
 
