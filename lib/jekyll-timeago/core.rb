@@ -52,7 +52,7 @@ module Jekyll
         return t(:tomorrow)  if days_passed == -1
 
         past_or_future = from < to ? :past : :future
-        slots = build_intelligent_time_slots(days_passed.abs, depth, threshold)
+        slots = build_time_ago_slots(days_passed.abs, depth, threshold)
 
         t(past_or_future, date_range: to_sentence(slots))
       end
@@ -61,121 +61,88 @@ module Jekyll
         MiniI18n.t(key, @options.merge(options))
       end
 
-      # Builds time ranges intelligently with natural rounding: ['1 month', '5 days']
-      # This approach calculates intelligent time units from the start, avoiding post-processing
-      def build_intelligent_time_slots(days_passed, depth, threshold)
-        # Start with raw calculation
-        time_components = calculate_time_components(days_passed)
+      # Builds time ranges with natural unit conversions: ['1 month', '5 days']
+      # Uses mathematical rules to convert units naturally (12 months = 1 year, 4 weeks = 1 month)
+      def build_time_ago_slots(days_passed, depth, threshold)
+        # Calculate components with natural unit conversions
+        components = calculate_natural_components(days_passed)
         
-        # Apply intelligent rounding during selection
-        selected_components = select_natural_components(time_components, depth, threshold)
+        # Select components based on depth and threshold  
+        selected = select_components(components, depth, threshold, days_passed)
         
-        # Convert to translated slots
-        selected_components.map { |unit, count| t(unit, count: count) }
+        # Convert to translated strings
+        selected.map { |unit, count| t(unit, count: count) }
       end
-      
-      # Calculate all possible time components from days
-      def calculate_time_components(days_passed)
+
+      # Calculate time components with natural unit conversions applied
+      def calculate_natural_components(days_passed)
+        # Calculate raw components using standard division
         years = days_passed / 365
-        remaining_after_years = days_passed % 365
+        remaining_days = days_passed % 365
         
-        months = remaining_after_years / 30
-        remaining_after_months = remaining_after_years % 30
+        months = remaining_days / 30
+        remaining_days = remaining_days % 30
         
-        weeks = remaining_after_months / 7
-        days = remaining_after_months % 7
+        weeks = remaining_days / 7
+        days = remaining_days % 7
         
-        {
-          years: years,
-          months: months, 
-          weeks: weeks,
-          days: days,
-          total_days: days_passed
-        }
+        components = { years: years, months: months, weeks: weeks, days: days }
+        
+        # Apply natural unit conversions using mathematical rules
+        normalize_units(components)
       end
-      
-      # Intelligently select which components to use with natural rounding
-      def select_natural_components(components, depth, threshold)
-        total_days = components[:total_days]
-        
-        # Handle special cases that should be rounded naturally
-        
-        # Case: ~12 months (360 days) should become 1 year
-        if total_days >= 355 && total_days <= 370
-          return [[:years, 1]]
+
+      # Apply mathematical unit conversions (no hardcoded cases)
+      def normalize_units(components)
+        # Convert 12+ months to years (handles any multiple: 12→1yr, 24→2yr, 36→3yr, etc.)
+        if components[:months] >= 12
+          additional_years = components[:months] / 12
+          components[:years] += additional_years
+          components[:months] = components[:months] % 12
         end
         
-        # Case: ~24 months should become 2 years  
-        if total_days >= 720 && total_days <= 730
-          return [[:years, 2]]
+        # Convert 4+ weeks to months (proportional conversion)
+        if components[:weeks] >= 4
+          additional_months = components[:weeks] / 4
+          components[:months] += additional_months  
+          components[:weeks] = components[:weeks] % 4
         end
         
-        # Case: 1 month + 4 weeks (58 days) should become 2 months
-        if total_days >= 55 && total_days <= 65 && 
-           components[:years] == 0 && components[:months] == 1 && components[:weeks] >= 3
-          return [[:months, 2]]
+        # After adding months, check again for year conversion (handles cascading)
+        if components[:months] >= 12
+          additional_years = components[:months] / 12
+          components[:years] += additional_years
+          components[:months] = components[:months] % 12
         end
         
-        # Default case: use standard algorithm but with intelligent choices
-        build_standard_slots_intelligently(components, depth, threshold)
+        components
       end
-      
-      # Build slots using enhanced version of original algorithm
-      def build_standard_slots_intelligently(components, depth, threshold)
-        total_days = components[:total_days]
+
+      # Select components based on depth and apply threshold filtering
+      def select_components(components, depth, threshold, total_days)
+        # Build array of non-zero components in order of significance
         result = []
-        remaining_days = total_days
         
-        # Years
-        if remaining_days >= 365 && result.length < depth
-          years = remaining_days / 365
-          result << [:years, years]
-          remaining_days = remaining_days % 365
-        end
-        
-        # Months (but avoid "12 months" - it should have been caught above)
-        if remaining_days >= 30 && result.length < depth
-          months = remaining_days / 30
-          # If we would get exactly 12 months, round to 1 year instead
-          if months == 12 && result.empty?
-            result << [:years, 1]
-            return result
+        [:years, :months, :weeks, :days].each do |unit|
+          count = components[unit]
+          if count > 0 && result.length < depth
+            result << [unit, count]
           end
-          result << [:months, months]
-          remaining_days = remaining_days % 30
         end
         
-        # Weeks 
-        if remaining_days >= 7 && result.length < depth
-          weeks = remaining_days / 7
-          # Check if this creates an unnatural combination
-          if result.length == 1 && result[0] == [:months, 1] && weeks == 4
-            # This would create "1 month and 4 weeks" - convert to "2 months"
-            return [[:months, 2]]
-          end
-          result << [:weeks, weeks]
-          remaining_days = remaining_days % 7
-        end
-        
-        # Days
-        if remaining_days > 0 && result.length < depth
-          result << [:days, remaining_days]
-        end
-        
-        # Apply threshold filtering
+        # Apply threshold filtering to remove insignificant components
         apply_threshold_filtering(result, total_days, threshold)
       end
-      
-      # Filter out components that are below threshold
+
+      # Filter out components that don't meet the threshold
       def apply_threshold_filtering(components, total_days, threshold)
         return components if threshold == 0 || components.length <= 1
         
         # Calculate if smallest component meets threshold
-        last_component = components.last
-        last_unit, last_count = last_component
-        last_days = last_count * days_in(last_unit)
+        last_unit, last_count = components.last
+        last_unit_days = last_count * days_in(last_unit)
         
-        if last_days < (total_days * threshold).floor
+        if last_unit_days < (total_days * threshold).floor
           components[0...-1] # Remove last component
         else
           components
