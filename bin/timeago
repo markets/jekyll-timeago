@@ -51,11 +51,6 @@ else
     style = ARGV.delete_at(index + 1)
     ARGV.delete_at(index)
     options[:style] = style
-    
-    # For CLI short style, default to depth 1 for simpler output
-    if style == "short"
-      options[:depth] = 1
-    end
   end
 
   ARGV << options if !options.empty?

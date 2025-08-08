@@ -117,6 +117,32 @@ The next component in the time must at least match this threshold to be picked. 
 => "1 year ago"
 ```
 
+#### `style`
+
+Use `:short` style for abbreviated time formats while preserving natural language for special cases:
+
+```ruby
+>> timeago(Date.today.prev_day(365), style: :short)
+=> "1y ago"
+>> timeago(Date.today.prev_day(30), style: :short)
+=> "1mo ago"
+>> timeago(Date.today.prev_day(7), style: :short)
+=> "1w ago"
+>> timeago(Date.today.prev_day(1), style: :short)
+=> "yesterday"
+>> timeago(Date.today, style: :short)
+=> "today"
+```
+
+Short style works with all other options:
+
+```ruby
+>> timeago(Date.today.prev_day(400), style: :short, depth: 2)
+=> "1y and 1mo ago"
+>> timeago(Date.today.prev_day(365), locale: :fr, style: :short)
+=> "il y a environ 1a"
+```
+
 ## Localization
 
 By default, `jekyll-timego` already provides translations for some languages. You can check the list [here](lib/locales/). However, you are able to provide your own translations, or even override the originals, easily.
@@ -142,6 +168,37 @@ You can also use `jekyll-timeago` from the command line:
 2 years and 6 months ago
 > timeago 2016-1-1 --locale fr
 il y a environ 2 années et 6 mois
+```
+
+### Style Option
+
+You can use the `--style` (or `-s`) option to get abbreviated time formats:
+
+```
+> timeago 2016-1-1 2018-1-1
+2 years ago
+> timeago 2016-1-1 2018-1-1 --style short
+2y ago
+> timeago 2016-1-1 2016-2-1 --style short
+1mo ago
+```
+
+The short style preserves natural language for special cases like "today", "yesterday", and "tomorrow":
+
+```
+> timeago $(date -d "yesterday" +%Y-%m-%d) $(date +%Y-%m-%d) --style short
+yesterday
+> timeago $(date +%Y-%m-%d) $(date +%Y-%m-%d) --style short
+today
+```
+
+You can combine style with locale options:
+
+```
+> timeago 2016-1-1 2018-1-1 --locale fr --style short
+il y a environ 2a
+> timeago 2016-1-1 2018-1-1 --locale ru --style short
+2г назад
 ```
 
 ### Console
