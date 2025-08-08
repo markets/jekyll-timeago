@@ -61,35 +61,82 @@ module Jekyll
         MiniI18n.t(key, @options.merge(options))
       end
 
-      # Builds time ranges: ['1 month', '5 days']
-      # - days_passed: integer in absolute
-      # - depth: level of detail
-      # - threshold: minimum fractional difference to keep for next slot
-      # - current_slots: built time slots
-      def build_time_ago_slots(days_passed, depth, threshold, current_slots = [])
-        return current_slots if depth == 0 || days_passed == 0
-
-        range     = days_to_range(days_passed)
-        days      = days_in(range)
-        num_elems = (days_passed / days).to_i
-
-        current_slots << t(range, count: num_elems)
-
-        pending_days = days_passed - (num_elems * days)
-
-        if pending_days >= (days_passed * threshold).floor
-          build_time_ago_slots(pending_days, depth - 1, threshold, current_slots)
-        else
-          current_slots
-        end
+      # Builds time ranges with natural unit conversions: ['1 month', '5 days']
+      def build_time_ago_slots(days_passed, depth, threshold)
+        # Calculate components with natural unit conversions
+        components = calculate_natural_components(days_passed)
+        
+        # Select components based on depth and threshold  
+        selected = select_components(components, depth, threshold, days_passed)
+        
+        # Convert to translated strings
+        selected.map { |unit, count| t(unit, count: count) }
       end
 
-      def days_to_range(days)
-        case days.abs
-        when 1..6 then :days
-        when 7..30 then :weeks
-        when 31..365 then :months
-        else :years
+      def calculate_natural_components(days_passed)
+        years = days_passed / 365
+        remaining_days = days_passed % 365
+        
+        months = remaining_days / 30
+        remaining_days = remaining_days % 30
+        
+        weeks = remaining_days / 7
+        days = remaining_days % 7
+        
+        normalize_units({ years: years, months: months, weeks: weeks, days: days })
+      end
+
+      def normalize_units(components)
+        # Convert 12+ months to years (handles any multiple: 12 → 1yr, 24 → 2yr, 36 → 3yr, etc.)
+        if components[:months] >= 12
+          additional_years = components[:months] / 12
+          components[:years] += additional_years
+          components[:months] = components[:months] % 12
+        end
+        
+        # Convert 4+ weeks to months (proportional conversion)
+        if components[:weeks] >= 4
+          additional_months = components[:weeks] / 4
+          components[:months] += additional_months  
+          components[:weeks] = components[:weeks] % 4
+        end
+        
+        # After adding months, check again for year conversion (handles cascading)
+        if components[:months] >= 12
+          additional_years = components[:months] / 12
+          components[:years] += additional_years
+          components[:months] = components[:months] % 12
+        end
+        
+        components
+      end
+
+      # Select components based on depth and apply threshold filtering
+      def select_components(components, depth, threshold, total_days)
+        result = []
+        
+        [:years, :months, :weeks, :days].each do |unit|
+          count = components[unit]
+          if count > 0 && result.length < depth
+            result << [unit, count]
+          end
+        end
+        
+        apply_threshold_filtering(result, total_days, threshold)
+      end
+
+      # Filter out components that don't meet the threshold
+      def apply_threshold_filtering(components, total_days, threshold)
+        return components if threshold == 0 || components.length <= 1
+        
+        # Calculate if smallest component meets threshold
+        last_unit, last_count = components.last
+        last_unit_days = last_count * days_in(last_unit)
+        
+        if last_unit_days < (total_days * threshold).floor
+          components[0...-1] # Remove last component
+        else
+          components
         end
       end
 

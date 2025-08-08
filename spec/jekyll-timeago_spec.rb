@@ -23,8 +23,8 @@ describe Jekyll::Timeago do
 
       expected =
         "<p>2 años</p>\n"\
-        "<p>12 meses</p>\n"\
-        "<p>12 meses</p>\n"\
+        "<p>1 año</p>\n"\
+        "<p>1 año</p>\n"\
         "<p>2 años</p>\n"\
         "<p>en 1 año</p>\n"
 
@@ -73,7 +73,20 @@ describe Jekyll::Timeago do
     end
 
     it 'allow threshold configuration' do
-      expect(timeago(sample_date.prev_day(366), sample_date, threshold: 0.05)).to eq('1 year ago')
+      expect(timeago(sample_date.prev_day(366), sample_date, threshold: 0.1)).to eq('1 year ago')
+    end
+
+    it 'applies rounding rules for natural language' do
+      expect(timeago(sample_date.prev_day(58), sample_date)).to eq('2 months ago')
+      expect(timeago(sample_date.prev_day(360), sample_date)).to eq('1 year ago')
+      expect(timeago(sample_date.prev_day(725), sample_date)).to eq('2 years ago')
+      expect(timeago(sample_date.next_day(58), sample_date)).to eq('in 2 months')
+      expect(timeago(sample_date.next_day(360), sample_date)).to eq('in 1 year')
+      expect(timeago(sample_date.next_day(725), sample_date)).to eq('in 2 years')
+      
+      # Test cases that should NOT round up
+      expect(timeago(sample_date.prev_day(44), sample_date)).to eq('1 month and 2 weeks ago')
+      expect(timeago(sample_date.prev_day(545), sample_date)).to eq('1 year and 6 months ago')
     end
 
     it 'allow localization' do
