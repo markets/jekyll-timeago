@@ -10,7 +10,7 @@ Main features:
 
 - Compute distance of dates, in words: `1 week and 2 days ago`, `5 months ago`
 - Future times: `in 1 year`
-- Alternative formats: short (`2y and 1mo ago`) and array (`['2 years', '1 month']`)
+- Alternative formats: short (`2y and 1mo ago`), array (`['2 years', '1 month']`), and hash (`{years: 2, months: 1}`)
 - Out of the box support for `Jekyll` projects, available as a Liquid Filter and as a Liquid Tag
 - Localization: `hace 3 semanas`
 - Level of detail customization
@@ -140,6 +140,17 @@ Use `:array` style for structured data:
 => ["5 months", "1 week"]
 ```
 
+Use `:hash` style for structured hash data:
+
+```ruby
+>> timeago(Date.today.prev_day(365), style: :hash)
+=> {:years=>1}
+>> timeago(Date.today.prev_day(160), style: :hash)
+=> {:years=>0, :months=>5, :weeks=>1}
+>> timeago(Date.today.prev_day(500), style: :hash)
+=> {:years=>1, :months=>4}
+```
+
 #### `only`
 
 Use the `only` option to accumulate all time into a single unit. Supported values are `:years`, `:months`, `:weeks`, and `:days`:
@@ -188,6 +199,8 @@ il y a environ 2 années et 6 mois
 2y ago
 > timeago 2016-1-1 2018-1-1 -l es -s short
 hace 2a y 1d
+> timeago 2016-1-1 2018-1-1 --style hash
+{:years=>2, :days=>1}
 > timeago 2016-1-1 2018-1-1 --only weeks
 104 weeks ago
 > timeago 2016-1-1 2018-1-1 --only months -s short

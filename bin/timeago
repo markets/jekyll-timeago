@@ -36,7 +36,7 @@ parser = OptionParser.new do |opts|
     options[:locale] = locale
   end
 
-  opts.on("-s", "--style STYLE", "Uses the provided style (short, array)") do |style|
+  opts.on("-s", "--style STYLE", "Uses the provided style (short, array, hash)") do |style|
     options[:style] = style
   end
 
