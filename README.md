@@ -140,6 +140,25 @@ Use `:array` style for structured data:
 => ["5 months", "1 week"]
 ```
 
+#### `only`
+
+Use the `only` option to accumulate all time into a single unit. Supported values are `:years`, `:months`, `:weeks`, and `:days`:
+
+```ruby
+>> timeago(Date.today.prev_day(365), only: :weeks)
+=> "52 weeks ago"
+>> timeago(Date.today.prev_day(365), only: :months)
+=> "12 months ago"
+>> timeago(Date.today.prev_day(100), only: :weeks)
+=> "14 weeks ago"
+>> timeago(Date.today.prev_day(500), only: :days)
+=> "500 days ago"
+>> timeago(Date.today.prev_day(365), only: :weeks, style: :short)
+=> "52w ago"
+>> timeago(Date.today.prev_day(365), only: :months, locale: :es)
+=> "hace 12 meses"
+```
+
 ## Localization
 
 By default, `jekyll-timego` already provides translations for some languages. You can check the list [here](lib/locales/). However, you are able to provide your own translations, or even override the originals, easily.
@@ -169,6 +188,10 @@ il y a environ 2 années et 6 mois
 2y ago
 > timeago 2016-1-1 2018-1-1 -l es -s short
 hace 2a y 1d
+> timeago 2016-1-1 2018-1-1 --only weeks
+104 weeks ago
+> timeago 2016-1-1 2018-1-1 --only months -s short
+24mo ago
 ```
 
 ### Console

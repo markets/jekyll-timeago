@@ -39,6 +39,10 @@ parser = OptionParser.new do |opts|
   opts.on("-s", "--style STYLE", "Uses the provided style (short, array)") do |style|
     options[:style] = style
   end
+
+  opts.on("-o", "--only UNIT", "Accumulates time in specified unit (years, months, weeks, days)") do |unit|
+    options[:only] = unit
+  end
 end
 
 begin

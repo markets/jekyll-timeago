@@ -130,6 +130,44 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(160), sample_date, style: :array)).to eq(['5 months', '1 week'])
       expect(timeago(sample_date.prev_day(160), sample_date, style: :array, locale: :es)).to eq(['5 meses', '1 semana'])
     end
+
+    it 'allows "only" option to accumulate time into single unit' do
+      # Test "only: :days"
+      expect(timeago(sample_date.prev_day(7), sample_date, only: :days)).to eq('7 days ago')
+      expect(timeago(sample_date.prev_day(7), sample_date, "only" => "days")).to eq('7 days ago')
+      expect(timeago(sample_date.prev_day(30), sample_date, only: :days)).to eq('30 days ago')
+      
+      # Test "only: :weeks"
+      expect(timeago(sample_date.prev_day(7), sample_date, only: :weeks)).to eq('1 week ago')
+      expect(timeago(sample_date.prev_day(14), sample_date, only: :weeks)).to eq('2 weeks ago')
+      expect(timeago(sample_date.prev_day(30), sample_date, only: :weeks)).to eq('4 weeks ago')
+      expect(timeago(sample_date.prev_day(365), sample_date, only: :weeks)).to eq('52 weeks ago')
+      
+      # Test "only: :months"
+      expect(timeago(sample_date.prev_day(30), sample_date, only: :months)).to eq('1 month ago')
+      expect(timeago(sample_date.prev_day(60), sample_date, only: :months)).to eq('2 months ago')
+      expect(timeago(sample_date.prev_day(365), sample_date, only: :months)).to eq('12 months ago')
+      
+      # Test "only: :years"
+      expect(timeago(sample_date.prev_day(365), sample_date, only: :years)).to eq('1 year ago')
+      expect(timeago(sample_date.prev_day(730), sample_date, only: :years)).to eq('2 years ago')
+      expect(timeago(sample_date.prev_day(1000), sample_date, only: :years)).to eq('3 years ago')
+    end
+
+    it 'allows "only" option with different styles' do
+      # Test with short style
+      expect(timeago(sample_date.prev_day(365), sample_date, only: :weeks, style: :short)).to eq('52w ago')
+      expect(timeago(sample_date.prev_day(30), sample_date, only: :months, style: :short)).to eq('1mo ago')
+      
+      # Test with array style
+      expect(timeago(sample_date.prev_day(365), sample_date, only: :weeks, style: :array)).to eq(['52 weeks'])
+      expect(timeago(sample_date.prev_day(30), sample_date, only: :months, style: :array)).to eq(['1 month'])
+    end
+
+    it 'allows "only" option with different locales' do
+      expect(timeago(sample_date.prev_day(30), sample_date, only: :weeks, locale: :es)).to eq('hace 4 semanas')
+      expect(timeago(sample_date.prev_day(365), sample_date, only: :months, locale: :fr)).to eq('il y a environ 12 mois')
+    end
   end
 
   context 'CLI' do
@@ -161,11 +199,16 @@ describe Jekyll::Timeago do
       expect(`bin/timeago 2016-1-1 2018-1-1 -s short`).to match("2y and 1d ago")
       expect(`bin/timeago 2016-1-1 2018-1-1 --style short`).to match("2y and 1d ago")
       expect(`bin/timeago 2016-1-1 2016-2-1 -s short`).to match("1mo and 1d ago")
-    end
-
-    it 'with combined locale and style options' do
       expect(`bin/timeago 2016-1-1 2018-1-1 -l fr -s short`).to match("il y a environ 2a")
       expect(`bin/timeago 2016-1-1 2018-1-1 --locale ru --style short`).to match("2г и 1д назад")
+    end
+
+    it 'with only option' do
+      expect(`bin/timeago 2016-1-1 2018-1-1 --only weeks`).to match("104 weeks ago")
+      expect(`bin/timeago 2016-1-1 2018-1-1 -o months`).to match("24 months ago")
+      expect(`bin/timeago 2016-1-1 2016-2-1 --only days`).to match("31 days ago")
+      expect(`bin/timeago 2016-1-1 2018-1-1 -l fr --only months`).to match("il y a environ 24 mois")
+      expect(`bin/timeago 2016-1-1 2018-1-1 --only weeks -s short`).to match("104w ago")
     end
   end
 end
