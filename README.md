@@ -151,6 +151,15 @@ Use `:hash` style for structured hash data:
 => {:years=>1, :months=>4}
 ```
 
+Hash keys are automatically localized based on the locale:
+
+```ruby
+>> timeago(Date.today.prev_day(500), style: :hash, locale: :es)
+=> {:años=>1, :meses=>4}
+>> timeago(Date.today.prev_day(160), style: :hash, locale: :fr)
+=> {:années=>0, :mois=>5, :semaines=>1}
+```
+
 #### `only`
 
 Use the `only` option to accumulate all time into a single unit. Supported values are `:years`, `:months`, `:weeks`, and `:days`:
@@ -168,6 +177,15 @@ Use the `only` option to accumulate all time into a single unit. Supported value
 => "52w ago"
 >> timeago(Date.today.prev_day(365), only: :months, locale: :es)
 => "hace 12 meses"
+```
+
+The `only` option also works with hash style and provides localized keys:
+
+```ruby
+>> timeago(Date.today.prev_day(365), only: :months, style: :hash)
+=> {:months=>12}
+>> timeago(Date.today.prev_day(365), only: :months, style: :hash, locale: :es)
+=> {:meses=>12}
 ```
 
 ## Localization
@@ -201,6 +219,8 @@ il y a environ 2 années et 6 mois
 hace 2a y 1d
 > timeago 2016-1-1 2018-1-1 --style hash
 {:years=>2, :days=>1}
+> timeago 2016-1-1 2018-1-1 --style hash --locale es
+{:años=>2, :días=>1}
 > timeago 2016-1-1 2018-1-1 --only weeks
 104 weeks ago
 > timeago 2016-1-1 2018-1-1 --only months -s short

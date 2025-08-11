@@ -68,9 +68,9 @@ module Jekyll
         # Handle special cases for hash style
         if @style == "hash"
           case days_passed
-          when 0 then return { days: 0 }
-          when 1 then return { days: 1 }
-          when -1 then return { days: 1 }
+          when 0 then return { localized_unit_name(:days) => 0 }
+          when 1 then return { localized_unit_name(:days) => 1 }
+          when -1 then return { localized_unit_name(:days) => 1 }
           end
         else
           return t(:today)     if days_passed == 0
@@ -84,7 +84,7 @@ module Jekyll
         if @style == "array"
           slots
         elsif @style == "hash"
-          build_hash_output(days_passed.abs)
+          build_time_ago_slots(days_passed.abs, format_as_hash: true)
         else
           t(past_or_future, date_range: to_sentence(slots))
         end
@@ -103,10 +103,18 @@ module Jekyll
         end
       end
 
-      # Builds time ranges with natural unit conversions: ['1 month', '5 days']
-      def build_time_ago_slots(days_passed)
+      # Get localized unit name for hash keys (always plural form)
+      def localized_unit_name(unit)
+        # Extract the unit name from the plural form translation
+        translated = t(unit, count: 2)
+        # Remove any count prefix (e.g. "2 años" -> "años")
+        translated.gsub(/^\d+\s+/, '').to_sym
+      end
+
+      # Builds time ranges with natural unit conversions: ['1 month', '5 days'] or {:months => 1, :days => 5}
+      def build_time_ago_slots(days_passed, format_as_hash: false)
         # If "only" option is specified, calculate total time in that unit
-        return build_only_slots(days_passed) if @only
+        return build_only_slots(days_passed, format_as_hash: format_as_hash) if @only
         
         # Calculate components with natural unit conversions
         components = calculate_natural_components(days_passed)
@@ -114,36 +122,27 @@ module Jekyll
         # Select components based on depth and threshold  
         selected = select_components(components, days_passed)
         
-        # Convert to translated strings
-        selected.map { |unit, count| translate_unit(unit, count) }
+        # Format output based on requested format
+        if format_as_hash
+          result = {}
+          selected.each { |unit, count| result[localized_unit_name(unit)] = count }
+          result
+        else
+          # Convert to translated strings
+          selected.map { |unit, count| translate_unit(unit, count) }
+        end
       end
 
       # Build time slots when "only" option is specified
-      def build_only_slots(days_passed)
+      def build_only_slots(days_passed, format_as_hash: false)
         unit = @only.to_sym
         count = calculate_total_in_unit(days_passed, unit)
-        [translate_unit(unit, count)]
-      end
-
-      # Build hash output for hash style
-      def build_hash_output(days_passed)
-        # If "only" option is specified, return single unit hash
-        if @only
-          unit = @only.to_sym
-          count = calculate_total_in_unit(days_passed, unit)
-          return { unit => count }
+        
+        if format_as_hash
+          { localized_unit_name(unit) => count }
+        else
+          [translate_unit(unit, count)]
         end
-        
-        # Calculate components with natural unit conversions
-        components = calculate_natural_components(days_passed)
-        
-        # Select components based on depth and threshold  
-        selected = select_components(components, days_passed)
-        
-        # Convert to hash format
-        result = {}
-        selected.each { |unit, count| result[unit] = count }
-        result
       end
 
       # Calculate total time in specified unit

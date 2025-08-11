@@ -140,10 +140,23 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(10), sample_date, style: :hash)).to eq({weeks: 1, days: 3})
     end
 
+    it 'allows hash style with localized keys' do
+      expect(timeago(sample_date.prev_day(365), sample_date, style: :hash, locale: :es)).to eq({años: 1})
+      expect(timeago(sample_date.prev_day(160), sample_date, style: :hash, locale: :es)).to eq({meses: 5, semanas: 1})
+      expect(timeago(sample_date.prev_day(500), sample_date, style: :hash, locale: :fr)).to eq({années: 1, mois: 4})
+      expect(timeago(sample_date.prev_day(10), sample_date, style: :hash, locale: :fr)).to eq({semaines: 1, jours: 3})
+    end
+
     it 'allows hash style with special cases' do
       expect(timeago(sample_date, sample_date, style: :hash)).to eq({days: 0})
       expect(timeago(sample_date.prev_day, sample_date, style: :hash)).to eq({days: 1})
       expect(timeago(sample_date.next_day, sample_date, style: :hash)).to eq({days: 1})
+    end
+
+    it 'allows hash style with special cases and localized keys' do
+      expect(timeago(sample_date, sample_date, style: :hash, locale: :es)).to eq({días: 0})
+      expect(timeago(sample_date.prev_day, sample_date, style: :hash, locale: :es)).to eq({días: 1})
+      expect(timeago(sample_date.next_day, sample_date, style: :hash, locale: :fr)).to eq({jours: 1})
     end
 
     it 'allows hash style with future times' do
@@ -196,6 +209,10 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(30), sample_date, only: :months, style: :hash)).to eq({months: 1})
       expect(timeago(sample_date.prev_day(365), sample_date, only: :days, style: :hash)).to eq({days: 365})
       expect(timeago(sample_date.prev_day(365), sample_date, only: :years, style: :hash)).to eq({years: 1})
+
+      # Test with hash style and localized keys
+      expect(timeago(sample_date.prev_day(365), sample_date, only: :weeks, style: :hash, locale: :es)).to eq({semanas: 52})
+      expect(timeago(sample_date.prev_day(30), sample_date, only: :months, style: :hash, locale: :fr)).to eq({mois: 1})
     end
 
     it 'allows "only" option with different locales' do
