@@ -1,58 +1,65 @@
 #!/usr/bin/env ruby
 
 require_relative "../lib/jekyll-timeago"
+require "optparse"
 
-help_message = <<~HELP_MESSAGE
-  Usage:
+options = {}
+show_help = false
+show_version = false
+start_console = false
 
-    timeago <from_date> [to_date]
+parser = OptionParser.new do |opts|
+  opts.banner = <<~HELP_MESSAGE
+    Usage:
 
-  Notes:
-      [to_date] Optional, defaults to current date
+        timeago <from_date> [to_date]
 
-  Options:
-      --help, -h      Prints this message
-      --version, -v   Prints the current version
-      --console, -c   Starts an interactive IRB session with jekyll-timeago included
-      --locale, -l    Uses the provided locale
-      --style, -s     Uses the provided style (short)
-HELP_MESSAGE
+    Notes:
+        [to_date] Optional, defaults to current date
 
-if ARGV.empty? || ARGV.include?("--help") || ARGV.include?("-h")
-  puts help_message
-elsif ARGV.include?("--version") || ARGV.include?("-v")
-  puts "v#{Jekyll::Timeago::VERSION}"
-elsif ARGV.include?("--console") || ARGV.include?("-c")
-  require "irb"
-  include Jekyll::Timeago
+    Options:
+  HELP_MESSAGE
 
-  ARGV.clear
-  IRB.start
-else
-  options = {}
-  
-  # Handle locale option
-  custom_locale = "--locale" if ARGV.include?("--locale")
-  custom_locale = "-l" if ARGV.include?("-l")
+  opts.on("-h", "--help", "Prints this message") do
+    show_help = true
+  end
 
-  if custom_locale
-    index = ARGV.index(custom_locale)
-    locale = ARGV.delete_at(index + 1)
-    ARGV.delete_at(index)
+  opts.on("-v", "--version", "Prints the current version") do
+    show_version = true
+  end
+
+  opts.on("-c", "--console", "Starts an interactive IRB session with jekyll-timeago included") do
+    start_console = true
+  end
+
+  opts.on("-l", "--locale LOCALE", "Uses the provided locale") do |locale|
     options[:locale] = locale
   end
 
-  # Handle style option
-  custom_style = "--style" if ARGV.include?("--style")
-  custom_style = "-s" if ARGV.include?("-s")
-
-  if custom_style
-    index = ARGV.index(custom_style)
-    style = ARGV.delete_at(index + 1)
-    ARGV.delete_at(index)
+  opts.on("-s", "--style STYLE", "Uses the provided style (short, array)") do |style|
     options[:style] = style
   end
+end
 
+begin
+  parser.parse!
+rescue OptionParser::InvalidOption, OptionParser::MissingArgument => e
+  puts "Error! #{e}"
+  puts parser
+  exit 1
+end
+
+if show_help
+  puts parser
+elsif show_version
+  puts "v#{Jekyll::Timeago::VERSION}"
+elsif start_console
+  require "irb"
+  include Jekyll::Timeago
+  IRB.start
+elsif ARGV.empty?
+  puts parser
+else
   ARGV << options if !options.empty?
 
   begin
