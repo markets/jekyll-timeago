@@ -16,7 +16,7 @@ Main features:
 - Command line utility
 - Approximate distance, with customizable threshold, ie: `366 days` becomes `1 year ago` instead of `1 year and 1 day ago`
 
-In fact, `jekyll-timeago` started as an extension for the [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll and Octopress backed sites. But actually, you can use it easily on any Ruby project and even as a tool from the [terminal](#cli)!
+In fact, `jekyll-timeago` started as an extension for the [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll backed sites. But actually, you can use it easily on any Ruby project and even as a tool from the [terminal](#cli)!
 
 Read more about the `Jekyll` integration [in this section](#jekyll-integration).
 
@@ -117,6 +117,19 @@ The next component in the time must at least match this threshold to be picked. 
 => "1 year ago"
 ```
 
+#### `style`
+
+Use `:short` style for abbreviated time formats:
+
+```ruby
+>> timeago(Date.today.prev_day(365), style: :short)
+=> "1y ago"
+>> timeago(Date.today.prev_day(30), style: :short)
+=> "1mo ago"
+>> timeago(Date.today.prev_day(7), style: :short)
+=> "1w ago"
+```
+
 ## Localization
 
 By default, `jekyll-timego` already provides translations for some languages. You can check the list [here](lib/locales/). However, you are able to provide your own translations, or even override the originals, easily.
@@ -142,6 +155,10 @@ You can also use `jekyll-timeago` from the command line:
 2 years and 6 months ago
 > timeago 2016-1-1 --locale fr
 il y a environ 2 années et 6 mois
+> timeago 2016-1-1 2018-1-1 --style short
+2y ago
+> timeago 2016-1-1 2018-1-1 -l es -s short
+hace 2a y 1d
 ```
 
 ### Console

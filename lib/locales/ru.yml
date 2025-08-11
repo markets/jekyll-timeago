@@ -10,15 +10,19 @@ ru:
     one: 'год'
     few: '%{count} года'
     other: '%{count} лет'
+  years_short: '%{count}г'
   months:
     one: 'месяц'
     few: '%{count} месяца'
     other: '%{count} месяцев'
+  months_short: '%{count}м'
   weeks:
     one: 'неделю'
     few: '%{count} недели'
     other: '%{count} недель'
+  weeks_short: '%{count}н'
   days:
     one: 'день'
     few: '%{count} дня'
     other: '%{count} дней'
+  days_short: '%{count}д'
