@@ -17,6 +17,9 @@ module Jekyll
       # Available styles
       STYLES = %w(default short array)
 
+      # Available "only" options
+      ONLY_OPTIONS = %w(years months weeks days)
+
       def timeago(from, to = Date.today, options = {})
         if to.is_a?(Hash)
           options = to
@@ -30,6 +33,7 @@ module Jekyll
         @depth     = validate_depth(@options[:depth] || @options["depth"])
         @style     = validate_style(@options[:style] || @options["style"])
         @threshold = validate_threshold(@options[:threshold] || @options["threshold"])
+        @only      = validate_only(@options[:only] || @options["only"])
 
         time_ago_to_now
       end
@@ -53,12 +57,22 @@ module Jekyll
         STYLES.include?(style) ? style : nil
       end
 
+      def validate_only(only)
+        return nil if only.nil?
+        only = only.to_s
+        ONLY_OPTIONS.include?(only) ? only : nil
+      end
+
       def time_ago_to_now
         days_passed = (@to - @from).to_i
 
-        return t(:today)     if days_passed == 0
-        return t(:yesterday) if days_passed == 1
-        return t(:tomorrow)  if days_passed == -1
+        # Handle special cases only if "only" option is not specified
+        # or if days_passed is 0 (today should be "today" regardless of only option)
+        if !@only || days_passed == 0
+          return t(:today)     if days_passed == 0
+          return t(:yesterday) if days_passed == 1 && !@only
+          return t(:tomorrow)  if days_passed == -1 && !@only
+        end
 
         past_or_future = @from < @to ? :past : :future
         slots = build_time_ago_slots(days_passed.abs)
@@ -85,6 +99,11 @@ module Jekyll
 
       # Builds time ranges with natural unit conversions: ['1 month', '5 days']
       def build_time_ago_slots(days_passed)
+        # If "only" option is specified, calculate total time in that unit
+        if @only
+          return build_only_slots(days_passed)
+        end
+        
         # Calculate components with natural unit conversions
         components = calculate_natural_components(days_passed)
         
@@ -93,6 +112,33 @@ module Jekyll
         
         # Convert to translated strings
         selected.map { |unit, count| translate_unit(unit, count) }
+      end
+
+      # Build time slots when "only" option is specified
+      def build_only_slots(days_passed)
+        unit = @only.to_sym
+        count = calculate_total_in_unit(days_passed, unit)
+        [translate_unit(unit, count)]
+      end
+
+      # Calculate total time in specified unit
+      def calculate_total_in_unit(days_passed, unit)        
+        case unit
+        when :days
+          days_passed
+        when :weeks
+          # Ensure minimum of 1 week if days_passed > 0
+          return 1 if days_passed > 0 && days_passed < 7
+          (days_passed / 7.0).round
+        when :months
+          # Ensure minimum of 1 month if days_passed > 0
+          return 1 if days_passed > 0 && days_passed < 30
+          (days_passed / 30.0).round
+        when :years
+          # Ensure minimum of 1 year if days_passed > 0
+          return 1 if days_passed > 0 && days_passed < 365
+          (days_passed / 365.0).round
+        end
       end
 
       def calculate_natural_components(days_passed)

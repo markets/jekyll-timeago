@@ -16,6 +16,7 @@ help_message = <<~HELP_MESSAGE
       --console, -c   Starts an interactive IRB session with jekyll-timeago included
       --locale, -l    Uses the provided locale
       --style, -s     Uses the provided style (short)
+      --only, -o      Accumulates time in specified unit (years, months, weeks, days)
 HELP_MESSAGE
 
 if ARGV.empty? || ARGV.include?("--help") || ARGV.include?("-h")
@@ -51,6 +52,17 @@ else
     style = ARGV.delete_at(index + 1)
     ARGV.delete_at(index)
     options[:style] = style
+  end
+
+  # Handle only option
+  custom_only = "--only" if ARGV.include?("--only")
+  custom_only = "-o" if ARGV.include?("-o")
+
+  if custom_only
+    index = ARGV.index(custom_only)
+    only = ARGV.delete_at(index + 1)
+    ARGV.delete_at(index)
+    options[:only] = only
   end
 
   ARGV << options if !options.empty?
