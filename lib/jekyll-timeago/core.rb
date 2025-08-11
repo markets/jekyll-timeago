@@ -15,7 +15,7 @@ module Jekyll
       DEFAULT_THRESHOLD = 0
 
       # Available styles
-      STYLES = %w(short array)
+      STYLES = %w(short array hash)
 
       # Available "only" options
       ONLY_OPTIONS = %w(years months weeks days)
@@ -65,15 +65,26 @@ module Jekyll
       def time_ago_to_now
         days_passed = (@to - @from).to_i
 
-        return t(:today)     if days_passed == 0
-        return t(:yesterday) if days_passed == 1
-        return t(:tomorrow)  if days_passed == -1
+        # Handle special cases for hash style
+        if @style == "hash"
+          case days_passed
+          when 0 then return { days: 0 }
+          when 1 then return { days: 1 }
+          when -1 then return { days: 1 }
+          end
+        else
+          return t(:today)     if days_passed == 0
+          return t(:yesterday) if days_passed == 1
+          return t(:tomorrow)  if days_passed == -1
+        end
 
         past_or_future = @from < @to ? :past : :future
         slots = build_time_ago_slots(days_passed.abs)
 
         if @style == "array"
           slots
+        elsif @style == "hash"
+          build_hash_output(days_passed.abs)
         else
           t(past_or_future, date_range: to_sentence(slots))
         end
@@ -112,6 +123,27 @@ module Jekyll
         unit = @only.to_sym
         count = calculate_total_in_unit(days_passed, unit)
         [translate_unit(unit, count)]
+      end
+
+      # Build hash output for hash style
+      def build_hash_output(days_passed)
+        # If "only" option is specified, return single unit hash
+        if @only
+          unit = @only.to_sym
+          count = calculate_total_in_unit(days_passed, unit)
+          return { unit => count }
+        end
+        
+        # Calculate components with natural unit conversions
+        components = calculate_natural_components(days_passed)
+        
+        # Select components based on depth and threshold  
+        selected = select_components(components, days_passed)
+        
+        # Convert to hash format
+        result = {}
+        selected.each { |unit, count| result[unit] = count }
+        result
       end
 
       # Calculate total time in specified unit
