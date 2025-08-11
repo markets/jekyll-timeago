@@ -60,7 +60,7 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.next_day(1000), sample_date, locale: :ru)).to eq('через 2 года и 9 месяцев')
     end
 
-    it 'allow different date formats' do
+    it 'allows different date formats' do
       expect(timeago('2010-1-1', '2012-1-1')).to eq('2 years ago')
       expect(timeago('2010/1/1', '2012/1/1')).to eq('2 years ago')
       expect(timeago('Jan 2010, 1', 'Jan 2012, 1')).to eq('2 years ago')
@@ -68,7 +68,7 @@ describe Jekyll::Timeago do
       expect(timeago('2014-10-06 20:00:00', '2014-10-07 20:00:00')).to eq('yesterday')
     end
 
-    it 'allow to change level of detail' do
+    it 'allows to change level of detail' do
       expect(timeago(sample_date.prev_day(500), sample_date, depth: 1)).to eq('1 year ago')
       expect(timeago(sample_date.prev_day(500), sample_date, "depth" => 1)).to eq('1 year ago')
       expect(timeago(sample_date.prev_day(500), sample_date, depth: 2)).to eq('1 year and 4 months ago')
@@ -77,7 +77,7 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(500), sample_date, depth: 5)).to eq('1 year and 4 months ago')
     end
 
-    it 'allow threshold configuration' do
+    it 'allows threshold configuration' do
       expect(timeago(sample_date.prev_day(366), sample_date, threshold: 0.1)).to eq('1 year ago')
     end
 
@@ -94,12 +94,12 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(545), sample_date)).to eq('1 year and 6 months ago')
     end
 
-    it 'allow localization' do
+    it 'allows localization' do
       expect(timeago(sample_date.prev_day(100), sample_date, locale: :fr)).to eq('il y a environ 3 mois et 1 semaine')
       expect(timeago(sample_date.prev_day(100), sample_date, locale: :ru)).to eq('3 месяца и неделю назад')
     end
 
-    it 'allow short style formatting' do
+    it 'allows short style formatting' do
       expect(timeago(sample_date.prev_day(365), sample_date, style: :short)).to eq('1y ago')
       expect(timeago(sample_date.prev_day(365), sample_date, "style" => "short")).to eq('1y ago')
       expect(timeago(sample_date.prev_day(730), sample_date, style: :short)).to eq('2y ago')
@@ -111,20 +111,20 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(2), sample_date, style: :short)).to eq('2d ago')
     end
 
-    it 'allow short style with different locales' do
+    it 'allows short style with different locales' do
       expect(timeago(sample_date.prev_day(365), sample_date, locale: :fr, style: :short)).to eq('il y a environ 1a')
       expect(timeago(sample_date.prev_day(365), sample_date, locale: :ru, style: :short)).to eq('1г назад')
       expect(timeago(sample_date.prev_day(365), sample_date, locale: :es, style: :short)).to eq('hace 1a')
       expect(timeago(sample_date.prev_day(30), sample_date, locale: :de, style: :short)).to eq('vor 1mo')
     end
 
-    it 'allow complex combinations with short style' do
+    it 'allows complex combinations with short style' do
       expect(timeago(sample_date.prev_day(400), sample_date, style: :short)).to eq('1y and 1mo ago')
       expect(timeago(sample_date.prev_day(100), sample_date, style: :short, depth: 1)).to eq('3mo ago')
       expect(timeago(sample_date.prev_day(100), sample_date, style: :short, depth: 3)).to eq('3mo, 1w and 3d ago')
     end
 
-    it 'allow array style formatting' do
+    it 'allows array style formatting' do
       expect(timeago(sample_date.prev_day(365), sample_date, style: :array)).to eq(['1 year'])
       expect(timeago(sample_date.prev_day(365), sample_date, "style" => "array")).to eq(['1 year'])
       expect(timeago(sample_date.prev_day(160), sample_date, style: :array)).to eq(['5 months', '1 week'])
