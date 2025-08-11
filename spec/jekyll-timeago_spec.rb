@@ -123,6 +123,12 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(100), sample_date, style: :short, depth: 1)).to eq('3mo ago')
       expect(timeago(sample_date.prev_day(100), sample_date, style: :short, depth: 3)).to eq('3mo, 1w and 3d ago')
     end
+
+    it 'allow array style formatting' do
+      expect(timeago(sample_date.prev_day(365), sample_date, style: :array)).to eq(['1 year'])
+      expect(timeago(sample_date.prev_day(365), sample_date, "style" => "array")).to eq(['1 year'])
+      expect(timeago(sample_date.prev_day(160), sample_date, style: :array)).to eq(['5 months', '1 week'])
+    end
   end
 
   context 'CLI' do
