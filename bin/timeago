@@ -9,7 +9,16 @@ show_version = false
 start_console = false
 
 parser = OptionParser.new do |opts|
-  opts.banner = "Usage:\n\n  timeago <from_date> [to_date]\n\nNotes:\n    [to_date] Optional, defaults to current date\n\nOptions:"
+  opts.banner = <<~BANNER
+    Usage:
+
+        timeago <from_date> [to_date]
+
+    Notes:
+        [to_date] Optional, defaults to current date
+
+    Options:
+  BANNER
 
   opts.on("-h", "--help", "Prints this message") do
     show_help = true
@@ -27,7 +36,7 @@ parser = OptionParser.new do |opts|
     options[:locale] = locale
   end
 
-  opts.on("-s", "--style STYLE", "Uses the provided style (short)") do |style|
+  opts.on("-s", "--style STYLE", "Uses the provided style (short, array)") do |style|
     options[:style] = style
   end
 end
