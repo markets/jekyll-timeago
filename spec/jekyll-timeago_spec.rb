@@ -199,9 +199,6 @@ describe Jekyll::Timeago do
       expect(`bin/timeago 2016-1-1 2018-1-1 -s short`).to match("2y and 1d ago")
       expect(`bin/timeago 2016-1-1 2018-1-1 --style short`).to match("2y and 1d ago")
       expect(`bin/timeago 2016-1-1 2016-2-1 -s short`).to match("1mo and 1d ago")
-    end
-
-    it 'with combined locale and style options' do
       expect(`bin/timeago 2016-1-1 2018-1-1 -l fr -s short`).to match("il y a environ 2a")
       expect(`bin/timeago 2016-1-1 2018-1-1 --locale ru --style short`).to match("2г и 1д назад")
     end
@@ -210,9 +207,6 @@ describe Jekyll::Timeago do
       expect(`bin/timeago 2016-1-1 2018-1-1 --only weeks`).to match("104 weeks ago")
       expect(`bin/timeago 2016-1-1 2018-1-1 -o months`).to match("24 months ago")
       expect(`bin/timeago 2016-1-1 2016-2-1 --only days`).to match("31 days ago")
-    end
-
-    it 'with combined options including only' do
       expect(`bin/timeago 2016-1-1 2018-1-1 -l fr --only months`).to match("il y a environ 24 mois")
       expect(`bin/timeago 2016-1-1 2018-1-1 --only weeks -s short`).to match("104w ago")
     end
