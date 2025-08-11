@@ -128,6 +128,7 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(365), sample_date, style: :array)).to eq(['1 year'])
       expect(timeago(sample_date.prev_day(365), sample_date, "style" => "array")).to eq(['1 year'])
       expect(timeago(sample_date.prev_day(160), sample_date, style: :array)).to eq(['5 months', '1 week'])
+      expect(timeago(sample_date.prev_day(160), sample_date, style: :array, locale: :es)).to eq(['5 meses', '1 semana'])
     end
   end
 
