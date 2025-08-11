@@ -9,7 +9,7 @@ show_version = false
 start_console = false
 
 parser = OptionParser.new do |opts|
-  opts.banner = <<~BANNER
+  opts.banner = <<~HELP_MESSAGE
     Usage:
 
         timeago <from_date> [to_date]
@@ -18,7 +18,7 @@ parser = OptionParser.new do |opts|
         [to_date] Optional, defaults to current date
 
     Options:
-  BANNER
+  HELP_MESSAGE
 
   opts.on("-h", "--help", "Prints this message") do
     show_help = true
