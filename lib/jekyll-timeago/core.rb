@@ -81,10 +81,8 @@ module Jekyll
         past_or_future = @from < @to ? :past : :future
         slots = build_time_ago_slots(days_passed.abs)
 
-        if @style == "array"
+        if @style == "array" || @style == "hash"
           slots
-        elsif @style == "hash"
-          build_time_ago_slots(days_passed.abs, format_as_hash: true)
         else
           t(past_or_future, date_range: to_sentence(slots))
         end
@@ -112,9 +110,9 @@ module Jekyll
       end
 
       # Builds time ranges with natural unit conversions: ['1 month', '5 days'] or {:months => 1, :days => 5}
-      def build_time_ago_slots(days_passed, format_as_hash: false)
+      def build_time_ago_slots(days_passed)
         # If "only" option is specified, calculate total time in that unit
-        return build_only_slots(days_passed, format_as_hash: format_as_hash) if @only
+        return build_only_slots(days_passed) if @only
         
         # Calculate components with natural unit conversions
         components = calculate_natural_components(days_passed)
@@ -122,8 +120,8 @@ module Jekyll
         # Select components based on depth and threshold  
         selected = select_components(components, days_passed)
         
-        # Format output based on requested format
-        if format_as_hash
+        # Format output based on current style
+        if @style == "hash"
           result = {}
           selected.each { |unit, count| result[localized_unit_name(unit)] = count }
           result
@@ -134,11 +132,11 @@ module Jekyll
       end
 
       # Build time slots when "only" option is specified
-      def build_only_slots(days_passed, format_as_hash: false)
+      def build_only_slots(days_passed)
         unit = @only.to_sym
         count = calculate_total_in_unit(days_passed, unit)
         
-        if format_as_hash
+        if @style == "hash"
           { localized_unit_name(unit) => count }
         else
           [translate_unit(unit, count)]
