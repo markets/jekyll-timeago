@@ -15,7 +15,7 @@ module Jekyll
       DEFAULT_THRESHOLD = 0
 
       # Available styles
-      STYLES = %w(default short array)
+      STYLES = %w(short array)
 
       # Available "only" options
       ONLY_OPTIONS = %w(years months weeks days)
@@ -58,7 +58,6 @@ module Jekyll
       end
 
       def validate_only(only)
-        return nil if only.nil?
         only = only.to_s
         ONLY_OPTIONS.include?(only) ? only : nil
       end

@@ -8,13 +8,13 @@
 
 Main features:
 
-- Compute distance of dates, in words, ie: `1 week and 2 days ago`, `5 months ago`, `in 1 year`
-- Future times
+- Compute distance of dates, in words: `1 week and 2 days ago`, `5 months ago`
+- Future times: `in 1 year`
 - Alternative formats: short (`2y and 1mo ago`) and array (`['2 years', '1 month']`)
 - Out of the box support for `Jekyll` projects, available as a Liquid Filter and as a Liquid Tag
-- Localization
+- Localization: `hace 3 semanas`
 - Level of detail customization
-- Command line utility
+- CLI
 - Approximate distance, with customizable threshold, ie: `366 days` becomes `1 year ago` instead of `1 year and 1 day ago`
 
 In fact, `jekyll-timeago` started as an extension for the [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll backed sites. But actually, you can use it easily on any Ruby project and even as a tool from the [terminal](#cli)!
@@ -74,7 +74,7 @@ Examples:
 => "in 2 years and 8 months"
 ```
 
-**NOTE** If you have the gem installed in your system globally, and you're not using Bundler (probably because you're are writing a basic script), don't forget to require the library first:
+**NOTE** If you have the gem installed in your system globally, and you're not using Bundler (probably because you're are writing a small script), don't forget to require the library first:
 
 ```ruby
 require 'jekyll-timeago'
