@@ -36,6 +36,11 @@ describe Jekyll::Timeago do
     let (:sample_date) { Date.new(2014, 7, 30) }
     let (:today) { Date.today }
 
+    before(:all) do
+      # Reset original translations
+      MiniI18n.configure { |config| config.load_translations(Pathname(__dir__).join("../lib/locales/*.yml")) }
+    end
+
     it 'yesterday, today and tomorrow' do
       expect(timeago(today.prev_day)).to eq("yesterday")
       expect(timeago(today)).to eq("today")
