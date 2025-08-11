@@ -10,6 +10,7 @@ Main features:
 
 - Compute distance of dates, in words, ie: `1 week and 2 days ago`, `5 months ago`, `in 1 year`
 - Future times
+- Alternative formats: short (`2y and 1mo ago`) and array (`['2 years', '1 month']`)
 - Out of the box support for `Jekyll` projects, available as a Liquid Filter and as a Liquid Tag
 - Localization
 - Level of detail customization
@@ -128,6 +129,15 @@ Use `:short` style for abbreviated time formats:
 => "1mo ago"
 >> timeago(Date.today.prev_day(7), style: :short)
 => "1w ago"
+```
+
+Use `:array` style for structured data:
+
+```ruby
+>> timeago(Date.today.prev_day(365), style: :array)
+=> ["1 year"]
+>> timeago(Date.today.prev_day(160), style: :array)
+=> ["5 months", "1 week"]
 ```
 
 ## Localization
