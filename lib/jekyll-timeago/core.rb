@@ -47,7 +47,6 @@ module Jekyll
       def time_ago_to_now(from, to, depth, threshold)
         days_passed = (to - from).to_i
 
-        # Special cases for today, yesterday, and tomorrow (preserved for all styles)
         return t(:today)     if days_passed == 0
         return t(:yesterday) if days_passed == 1
         return t(:tomorrow)  if days_passed == -1

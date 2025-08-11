@@ -130,15 +130,6 @@ Use `:short` style for abbreviated time formats:
 => "1w ago"
 ```
 
-Short style works with all other options:
-
-```ruby
->> timeago(Date.today.prev_day(400), style: :short, depth: 2)
-=> "1y and 1mo ago"
->> timeago(Date.today.prev_day(365), locale: :fr, style: :short)
-=> "il y a environ 1a"
-```
-
 ## Localization
 
 By default, `jekyll-timego` already provides translations for some languages. You can check the list [here](lib/locales/). However, you are able to provide your own translations, or even override the originals, easily.
@@ -164,28 +155,8 @@ You can also use `jekyll-timeago` from the command line:
 2 years and 6 months ago
 > timeago 2016-1-1 --locale fr
 il y a environ 2 années et 6 mois
-```
-
-### Style Option
-
-You can use the `--style` (or `-s`) option to get abbreviated time formats:
-
-```
-> timeago 2016-1-1 2018-1-1
-2 years ago
 > timeago 2016-1-1 2018-1-1 --style short
 2y ago
-> timeago 2016-1-1 2016-2-1 --style short
-1mo ago
-```
-
-You can combine style with locale options:
-
-```
-> timeago 2016-1-1 2018-1-1 --locale fr --style short
-il y a environ 2a
-> timeago 2016-1-1 2018-1-1 --locale ru --style short
-2г назад
 ```
 
 ### Console
