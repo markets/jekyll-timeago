@@ -153,11 +153,6 @@ Use the `only` option to accumulate all time into a single unit. Supported value
 => "14 weeks ago"
 >> timeago(Date.today.prev_day(500), only: :days)
 => "500 days ago"
-```
-
-The `only` option can be combined with other options like `style` and `locale`:
-
-```ruby
 >> timeago(Date.today.prev_day(365), only: :weeks, style: :short)
 => "52w ago"
 >> timeago(Date.today.prev_day(365), only: :months, locale: :es)

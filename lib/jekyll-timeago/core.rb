@@ -66,13 +66,9 @@ module Jekyll
       def time_ago_to_now
         days_passed = (@to - @from).to_i
 
-        # Handle special cases only if "only" option is not specified
-        # or if days_passed is 0 (today should be "today" regardless of only option)
-        if !@only || days_passed == 0
-          return t(:today)     if days_passed == 0
-          return t(:yesterday) if days_passed == 1 && !@only
-          return t(:tomorrow)  if days_passed == -1 && !@only
-        end
+        return t(:today)     if days_passed == 0
+        return t(:yesterday) if days_passed == 1
+        return t(:tomorrow)  if days_passed == -1
 
         past_or_future = @from < @to ? :past : :future
         slots = build_time_ago_slots(days_passed.abs)
@@ -100,9 +96,7 @@ module Jekyll
       # Builds time ranges with natural unit conversions: ['1 month', '5 days']
       def build_time_ago_slots(days_passed)
         # If "only" option is specified, calculate total time in that unit
-        if @only
-          return build_only_slots(days_passed)
-        end
+        return build_only_slots(days_passed) if @only
         
         # Calculate components with natural unit conversions
         components = calculate_natural_components(days_passed)

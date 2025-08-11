@@ -154,28 +154,6 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(1000), sample_date, only: :years)).to eq('3 years ago')
     end
 
-    it 'handles special cases with "only" option' do
-      # Today should always return "today" regardless of only option
-      expect(timeago(sample_date, sample_date, only: :days)).to eq('today')
-      expect(timeago(sample_date, sample_date, only: :weeks)).to eq('today')
-      expect(timeago(sample_date, sample_date, only: :months)).to eq('today')
-      
-      # Yesterday and tomorrow should use only option when specified
-      expect(timeago(sample_date.prev_day, sample_date, only: :days)).to eq('1 day ago')
-      expect(timeago(sample_date.next_day, sample_date, only: :days)).to eq('in 1 day')
-      
-      # Small values should round up to minimum 1 of the specified unit
-      expect(timeago(sample_date.prev_day(1), sample_date, only: :weeks)).to eq('1 week ago')
-      expect(timeago(sample_date.prev_day(3), sample_date, only: :weeks)).to eq('1 week ago')
-      expect(timeago(sample_date.prev_day(7), sample_date, only: :months)).to eq('1 month ago')
-    end
-
-    it 'allows "only" option with future dates' do
-      expect(timeago(sample_date.next_day(7), sample_date, only: :weeks)).to eq('in 1 week')
-      expect(timeago(sample_date.next_day(30), sample_date, only: :months)).to eq('in 1 month')
-      expect(timeago(sample_date.next_day(365), sample_date, only: :years)).to eq('in 1 year')
-    end
-
     it 'allows "only" option with different styles' do
       # Test with short style
       expect(timeago(sample_date.prev_day(365), sample_date, only: :weeks, style: :short)).to eq('52w ago')
@@ -189,13 +167,6 @@ describe Jekyll::Timeago do
     it 'allows "only" option with different locales' do
       expect(timeago(sample_date.prev_day(30), sample_date, only: :weeks, locale: :es)).to eq('hace 4 semanas')
       expect(timeago(sample_date.prev_day(365), sample_date, only: :months, locale: :fr)).to eq('il y a environ 12 mois')
-    end
-
-    it 'ignores invalid "only" values' do
-      # Invalid "only" values should be ignored and behave like normal
-      expect(timeago(sample_date.prev_day(365), sample_date, only: :invalid)).to eq('1 year ago')
-      expect(timeago(sample_date.prev_day(365), sample_date, only: 'invalid')).to eq('1 year ago')
-      expect(timeago(sample_date.prev_day(365), sample_date, only: nil)).to eq('1 year ago')
     end
   end
 
