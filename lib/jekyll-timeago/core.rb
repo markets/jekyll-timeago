@@ -65,13 +65,14 @@ module Jekyll
       def time_ago_to_now
         days_passed = (@to - @from).to_i
 
-        # Handle special cases for array and hash styles
-        if @style == "array" || @style == "hash"
-          case days_passed
-          when 0 then return handle_special_case(:today)
-          when 1 then return handle_special_case(:yesterday) 
-          when -1 then return handle_special_case(:tomorrow)
-          end
+        if @style == "hash"
+          return { localized_unit_name(:days) => 0 }  if days_passed == 0
+          return { localized_unit_name(:days) => 1 }  if days_passed == 1
+          return { localized_unit_name(:days) => -1 } if days_passed == -1
+        elsif @style == "array"
+          return [t(:today)]     if days_passed == 0
+          return [t(:yesterday)] if days_passed == 1
+          return [t(:tomorrow)]  if days_passed == -1
         else
           return t(:today)     if days_passed == 0
           return t(:yesterday) if days_passed == 1
@@ -107,19 +108,6 @@ module Jekyll
         translated = t(unit, count: 2)
         # Remove any count prefix (e.g. "2 años" -> "años")
         translated.gsub(/^\d+\s+/, '').to_sym
-      end
-
-      # Handle special cases (today, yesterday, tomorrow) for array and hash styles
-      def handle_special_case(key)
-        case @style
-        when "array"
-          [t(key)]
-        when "hash"
-          case key
-          when :today then { localized_unit_name(:days) => 0 }
-          when :yesterday, :tomorrow then { localized_unit_name(:days) => 1 }
-          end
-        end
       end
 
       # Builds time ranges with natural unit conversions: ['1 month', '5 days'] or {:months => 1, :days => 5}

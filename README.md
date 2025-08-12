@@ -15,7 +15,7 @@ Main features:
 - Localization: `hace 3 semanas`
 - Level of detail customization
 - CLI
-- Approximate distance, with customizable threshold, ie: `366 days` becomes `1 year ago` instead of `1 year and 1 day ago`
+- Approximate distance, with customizable threshold: `366 days` becomes `1 year ago` instead of `1 year and 1 day ago`
 
 In fact, `jekyll-timeago` started as an extension for the [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll backed sites. But actually, you can use it easily on any Ruby project and even as a tool from the [terminal](#cli)!
 
@@ -138,6 +138,8 @@ Use `:array` style for structured data:
 => ["1 year"]
 >> timeago(Date.today.prev_day(160), style: :array)
 => ["5 months", "1 week"]
+>> timeago(Date.today.prev_day(160), style: :array, locale: :es)
+=> ["5 meses", "1 semana"]
 ```
 
 Use `:hash` style for structured hash data:
@@ -146,18 +148,9 @@ Use `:hash` style for structured hash data:
 >> timeago(Date.today.prev_day(365), style: :hash)
 => {:years=>1}
 >> timeago(Date.today.prev_day(160), style: :hash)
-=> {:years=>0, :months=>5, :weeks=>1}
->> timeago(Date.today.prev_day(500), style: :hash)
-=> {:years=>1, :months=>4}
-```
-
-Hash keys are automatically localized based on the locale:
-
-```ruby
->> timeago(Date.today.prev_day(500), style: :hash, locale: :es)
-=> {:años=>1, :meses=>4}
->> timeago(Date.today.prev_day(160), style: :hash, locale: :fr)
-=> {:années=>0, :mois=>5, :semaines=>1}
+=> {:months=>5, :weeks=>1}
+>> timeago(Date.today.prev_day(160), style: :hash, locale: :es)
+=> {:meses=>5, :semanas=>1}
 ```
 
 #### `only`
@@ -177,15 +170,8 @@ Use the `only` option to accumulate all time into a single unit. Supported value
 => "52w ago"
 >> timeago(Date.today.prev_day(365), only: :months, locale: :es)
 => "hace 12 meses"
-```
-
-The `only` option also works with hash style and provides localized keys:
-
-```ruby
 >> timeago(Date.today.prev_day(365), only: :months, style: :hash)
 => {:months=>12}
->> timeago(Date.today.prev_day(365), only: :months, style: :hash, locale: :es)
-=> {:meses=>12}
 ```
 
 ## Localization
@@ -219,8 +205,6 @@ il y a environ 2 années et 6 mois
 hace 2a y 1d
 > timeago 2016-1-1 2018-1-1 --style hash
 {:years=>2, :days=>1}
-> timeago 2016-1-1 2018-1-1 --style hash --locale es
-{:años=>2, :días=>1}
 > timeago 2016-1-1 2018-1-1 --only weeks
 104 weeks ago
 > timeago 2016-1-1 2018-1-1 --only months -s short
