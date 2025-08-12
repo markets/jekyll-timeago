@@ -15,7 +15,7 @@ module Jekyll
       DEFAULT_THRESHOLD = 0
 
       # Available styles
-      STYLES = %w(short array)
+      STYLES = %w(short array hash)
 
       # Available "only" options
       ONLY_OPTIONS = %w(years months weeks days)
@@ -65,14 +65,24 @@ module Jekyll
       def time_ago_to_now
         days_passed = (@to - @from).to_i
 
-        return t(:today)     if days_passed == 0
-        return t(:yesterday) if days_passed == 1
-        return t(:tomorrow)  if days_passed == -1
+        if @style == "hash"
+          return { localized_unit_name(:days) => 0 }  if days_passed == 0
+          return { localized_unit_name(:days) => 1 }  if days_passed == 1
+          return { localized_unit_name(:days) => -1 } if days_passed == -1
+        elsif @style == "array"
+          return [t(:today)]     if days_passed == 0
+          return [t(:yesterday)] if days_passed == 1
+          return [t(:tomorrow)]  if days_passed == -1
+        else
+          return t(:today)     if days_passed == 0
+          return t(:yesterday) if days_passed == 1
+          return t(:tomorrow)  if days_passed == -1
+        end
 
         past_or_future = @from < @to ? :past : :future
         slots = build_time_ago_slots(days_passed.abs)
 
-        if @style == "array"
+        if @style == "array" || @style == "hash"
           slots
         else
           t(past_or_future, date_range: to_sentence(slots))
@@ -92,7 +102,15 @@ module Jekyll
         end
       end
 
-      # Builds time ranges with natural unit conversions: ['1 month', '5 days']
+      # Get localized unit name for hash keys (always plural form)
+      def localized_unit_name(unit)
+        # Extract the unit name from the plural form translation
+        translated = t(unit, count: 2)
+        # Remove any count prefix (e.g. "2 años" -> "años")
+        translated.gsub(/^\d+\s+/, '').to_sym
+      end
+
+      # Builds time ranges with natural unit conversions: ['1 month', '5 days'] or {:months => 1, :days => 5}
       def build_time_ago_slots(days_passed)
         # If "only" option is specified, calculate total time in that unit
         return build_only_slots(days_passed) if @only
@@ -103,15 +121,26 @@ module Jekyll
         # Select components based on depth and threshold  
         selected = select_components(components, days_passed)
         
-        # Convert to translated strings
-        selected.map { |unit, count| translate_unit(unit, count) }
+        # Format output based on current style
+        if @style == "hash"
+          result = {}
+          selected.each { |unit, count| result[localized_unit_name(unit)] = count }
+          result
+        else
+          selected.map { |unit, count| translate_unit(unit, count) }
+        end
       end
 
       # Build time slots when "only" option is specified
       def build_only_slots(days_passed)
         unit = @only.to_sym
         count = calculate_total_in_unit(days_passed, unit)
-        [translate_unit(unit, count)]
+        
+        if @style == "hash"
+          { localized_unit_name(unit) => count }
+        else
+          [translate_unit(unit, count)]
+        end
       end
 
       # Calculate total time in specified unit

@@ -97,6 +97,8 @@ describe Jekyll::Timeago do
     it 'allows localization' do
       expect(timeago(sample_date.prev_day(100), sample_date, locale: :fr)).to eq('il y a environ 3 mois et 1 semaine')
       expect(timeago(sample_date.prev_day(100), sample_date, locale: :ru)).to eq('3 месяца и неделю назад')
+      expect(timeago(sample_date.prev_day(100), sample_date, locale: :it)).to eq('3 mesi e 1 settimana fa')
+      expect(timeago(sample_date.prev_day(100), sample_date, locale: :pt)).to eq('3 meses e 1 semana atrás')
     end
 
     it 'allows short style formatting' do
@@ -116,6 +118,8 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(365), sample_date, locale: :ru, style: :short)).to eq('1г назад')
       expect(timeago(sample_date.prev_day(365), sample_date, locale: :es, style: :short)).to eq('hace 1a')
       expect(timeago(sample_date.prev_day(30), sample_date, locale: :de, style: :short)).to eq('vor 1mo')
+      expect(timeago(sample_date.prev_day(120), sample_date, locale: :ca, style: :short)).to eq('fa 4m')
+      expect(timeago(sample_date.prev_day(120), sample_date, locale: :ja, style: :short)).to eq('4月前')
     end
 
     it 'allows complex combinations with short style' do
@@ -125,10 +129,24 @@ describe Jekyll::Timeago do
     end
 
     it 'allows array style formatting' do
+      expect(timeago(sample_date, sample_date, style: :array)).to eq(['today'])
       expect(timeago(sample_date.prev_day(365), sample_date, style: :array)).to eq(['1 year'])
       expect(timeago(sample_date.prev_day(365), sample_date, "style" => "array")).to eq(['1 year'])
       expect(timeago(sample_date.prev_day(160), sample_date, style: :array)).to eq(['5 months', '1 week'])
       expect(timeago(sample_date.prev_day(160), sample_date, style: :array, locale: :es)).to eq(['5 meses', '1 semana'])
+    end
+
+    it 'allows hash style formatting' do
+      expect(timeago(sample_date, sample_date, style: :hash)).to eq({days: 0})
+      expect(timeago(sample_date, sample_date, style: :hash, locale: :es)).to eq({días: 0})
+      expect(timeago(sample_date.prev_day(365), sample_date, style: :hash)).to eq({years: 1})
+      expect(timeago(sample_date.prev_day(365), sample_date, "style" => "hash")).to eq({years: 1})
+      expect(timeago(sample_date.prev_day(160), sample_date, style: :hash)).to eq({months: 5, weeks: 1})
+      expect(timeago(sample_date.prev_day(500), sample_date, style: :hash)).to eq({years: 1, months: 4})
+      expect(timeago(sample_date.prev_day(10), sample_date, style: :hash)).to eq({weeks: 1, days: 3})
+      expect(timeago(sample_date.prev_day(160), sample_date, style: :hash, locale: :es)).to eq({meses: 5, semanas: 1})
+      expect(timeago(sample_date.prev_day(500), sample_date, style: :hash, locale: :fr)).to eq({années: 1, mois: 4})
+      expect(timeago(sample_date.prev_day(500), sample_date, style: :hash, depth: 4)).to eq({years: 1, months: 4, weeks: 2, days: 1})
     end
 
     it 'allows "only" option to accumulate time into single unit' do
@@ -162,6 +180,13 @@ describe Jekyll::Timeago do
       # Test with array style
       expect(timeago(sample_date.prev_day(365), sample_date, only: :weeks, style: :array)).to eq(['52 weeks'])
       expect(timeago(sample_date.prev_day(30), sample_date, only: :months, style: :array)).to eq(['1 month'])
+      
+      # Test with hash style
+      expect(timeago(sample_date.prev_day(365), sample_date, only: :weeks, style: :hash)).to eq({weeks: 52})
+      expect(timeago(sample_date.prev_day(30), sample_date, only: :months, style: :hash)).to eq({months: 1})
+      expect(timeago(sample_date.prev_day(365), sample_date, only: :days, style: :hash)).to eq({days: 365})
+      expect(timeago(sample_date.prev_day(365), sample_date, only: :years, style: :hash)).to eq({years: 1})
+      expect(timeago(sample_date.prev_day(365), sample_date, only: :weeks, style: :hash, locale: :es)).to eq({semanas: 52})
     end
 
     it 'allows "only" option with different locales' do
@@ -203,12 +228,19 @@ describe Jekyll::Timeago do
       expect(`bin/timeago 2016-1-1 2018-1-1 --locale ru --style short`).to match("2г и 1д назад")
     end
 
+    it 'with hash style' do
+      expect(`bin/timeago 2016-1-1 2018-1-1 --style hash`).to match("{:years=>2, :days=>1}")
+      expect(`bin/timeago 2016-1-1 2018-1-1 -s hash`).to match("{:years=>2, :days=>1}")
+      expect(`bin/timeago 2016-1-1 2016-2-1 --style hash`).to match("{:months=>1, :days=>1}")
+    end
+
     it 'with only option' do
       expect(`bin/timeago 2016-1-1 2018-1-1 --only weeks`).to match("104 weeks ago")
       expect(`bin/timeago 2016-1-1 2018-1-1 -o months`).to match("24 months ago")
       expect(`bin/timeago 2016-1-1 2016-2-1 --only days`).to match("31 days ago")
       expect(`bin/timeago 2016-1-1 2018-1-1 -l fr --only months`).to match("il y a environ 24 mois")
       expect(`bin/timeago 2016-1-1 2018-1-1 --only weeks -s short`).to match("104w ago")
+      expect(`bin/timeago 2016-1-1 2018-1-1 --only weeks --style hash`).to match("{:weeks=>104}")
     end
   end
 end

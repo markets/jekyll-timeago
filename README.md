@@ -10,12 +10,12 @@ Main features:
 
 - Compute distance of dates, in words: `1 week and 2 days ago`, `5 months ago`
 - Future times: `in 1 year`
-- Alternative formats: short (`2y and 1mo ago`) and array (`['2 years', '1 month']`)
+- Alternative formats: short (`2y and 1mo ago`), array (`['2 years', '1 month']`), and hash (`{years: 2, months: 1}`)
 - Out of the box support for `Jekyll` projects, available as a Liquid Filter and as a Liquid Tag
-- Localization: `hace 3 semanas`
+- Localization: `hace 3 semanas`, `3週間前`, `il y a environ 3 semaines`
 - Level of detail customization
 - CLI
-- Approximate distance, with customizable threshold, ie: `366 days` becomes `1 year ago` instead of `1 year and 1 day ago`
+- Approximate distance, with customizable threshold: `366 days` becomes `1 year ago` instead of `1 year and 1 day ago`
 
 In fact, `jekyll-timeago` started as an extension for the [Liquid](https://github.com/Shopify/liquid) template engine, to be used in Jekyll backed sites. But actually, you can use it easily on any Ruby project and even as a tool from the [terminal](#cli)!
 
@@ -138,6 +138,19 @@ Use `:array` style for structured data:
 => ["1 year"]
 >> timeago(Date.today.prev_day(160), style: :array)
 => ["5 months", "1 week"]
+>> timeago(Date.today.prev_day(160), style: :array, locale: :es)
+=> ["5 meses", "1 semana"]
+```
+
+Use `:hash` style for structured hash data:
+
+```ruby
+>> timeago(Date.today.prev_day(365), style: :hash)
+=> {:years=>1}
+>> timeago(Date.today.prev_day(160), style: :hash)
+=> {:months=>5, :weeks=>1}
+>> timeago(Date.today.prev_day(160), style: :hash, locale: :es)
+=> {:meses=>5, :semanas=>1}
 ```
 
 #### `only`
@@ -157,6 +170,8 @@ Use the `only` option to accumulate all time into a single unit. Supported value
 => "52w ago"
 >> timeago(Date.today.prev_day(365), only: :months, locale: :es)
 => "hace 12 meses"
+>> timeago(Date.today.prev_day(365), only: :months, style: :hash)
+=> {:months=>12}
 ```
 
 ## Localization
@@ -188,6 +203,8 @@ il y a environ 2 années et 6 mois
 2y ago
 > timeago 2016-1-1 2018-1-1 -l es -s short
 hace 2a y 1d
+> timeago 2016-1-1 2018-1-1 --style hash
+{:years=>2, :days=>1}
 > timeago 2016-1-1 2018-1-1 --only weeks
 104 weeks ago
 > timeago 2016-1-1 2018-1-1 --only months -s short
