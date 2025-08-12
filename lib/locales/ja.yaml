@@ -12,7 +12,7 @@ ja:
   years_short: '%{count}年'
   months:
     one: '1ヶ月'
-    other: '%{count}个月'
+    other: '%{count}ヵ月'
   months_short: '%{count}月'
   weeks:
     one: '1週間'
