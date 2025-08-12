@@ -12,7 +12,7 @@ Main features:
 - Future times: `in 1 year`
 - Alternative formats: short (`2y and 1mo ago`), array (`['2 years', '1 month']`), and hash (`{years: 2, months: 1}`)
 - Out of the box support for `Jekyll` projects, available as a Liquid Filter and as a Liquid Tag
-- Localization: `hace 3 semanas`
+- Localization: `hace 3 semanas`, `3週間前`, `il y a environ 3 semaines`
 - Level of detail customization
 - CLI
 - Approximate distance, with customizable threshold: `366 days` becomes `1 year ago` instead of `1 year and 1 day ago`

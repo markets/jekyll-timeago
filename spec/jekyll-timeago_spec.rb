@@ -97,6 +97,8 @@ describe Jekyll::Timeago do
     it 'allows localization' do
       expect(timeago(sample_date.prev_day(100), sample_date, locale: :fr)).to eq('il y a environ 3 mois et 1 semaine')
       expect(timeago(sample_date.prev_day(100), sample_date, locale: :ru)).to eq('3 месяца и неделю назад')
+      expect(timeago(sample_date.prev_day(100), sample_date, locale: :it)).to eq('3 mesi e 1 settimana fa')
+      expect(timeago(sample_date.prev_day(100), sample_date, locale: :pt)).to eq('3 meses e 1 semana atrás')
     end
 
     it 'allows short style formatting' do
@@ -116,6 +118,8 @@ describe Jekyll::Timeago do
       expect(timeago(sample_date.prev_day(365), sample_date, locale: :ru, style: :short)).to eq('1г назад')
       expect(timeago(sample_date.prev_day(365), sample_date, locale: :es, style: :short)).to eq('hace 1a')
       expect(timeago(sample_date.prev_day(30), sample_date, locale: :de, style: :short)).to eq('vor 1mo')
+      expect(timeago(sample_date.prev_day(120), sample_date, locale: :ca, style: :short)).to eq('fa 4m')
+      expect(timeago(sample_date.prev_day(120), sample_date, locale: :ja, style: :short)).to eq('4月前')
     end
 
     it 'allows complex combinations with short style' do

@@ -127,7 +127,6 @@ module Jekyll
           selected.each { |unit, count| result[localized_unit_name(unit)] = count }
           result
         else
-          # Convert to translated strings
           selected.map { |unit, count| translate_unit(unit, count) }
         end
       end
